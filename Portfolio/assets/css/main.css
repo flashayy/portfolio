@@ -42,14 +42,13 @@ body {
 .nav-blur   {   
     width: 651px;
     height: 256px;
-    transform: rotate(-15.121deg);
+    transform: rotate(-15.121deg) translate(55vw);
     flex-shrink: 0;
     border-radius: 200px;
     background: linear-gradient(170deg, rgba(92, 69, 253, 0.27) 7.53%, rgba(168, 155, 255, 0.05) 97.39%);
     filter: blur(20px);
     position: absolute;
-    top: -6rem;
-    right: -150px;
+    
 }
 
   .nav-text {   
