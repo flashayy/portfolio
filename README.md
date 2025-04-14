@@ -18,6 +18,3 @@ Projects – A showcase of my selected works with descriptions and visuals
 Skills – The tools and technologies I use
 
 Contact – How to get in touch with me
-
-## 🌐 Live Demo
-Check out the live website here: your-live-site-link.com
