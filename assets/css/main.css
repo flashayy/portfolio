@@ -11,12 +11,14 @@
 
 body {  
     background-color: var(--pozadie);
+    width: 1440px;
+    height: 1024px;
 }
 
   .logo-blur {
     position: absolute;
-    top: -7rem;
-    left: -28rem;
+    top: 5%;
+    left: -60%;
     width: 47.8125rem;
     height: 16.3125rem;
     background-color: var(--fialova-svetlejsia);
@@ -43,15 +45,15 @@ body {
     width: 651px;
     height: 256px;
     transform: rotate(-15.121deg) translate(55vw);
-    flex-shrink: 0;
     border-radius: 200px;
     background: linear-gradient(170deg, rgba(92, 69, 253, 0.27) 7.53%, rgba(168, 155, 255, 0.05) 97.39%);
     filter: blur(20px);
     position: absolute;
-    
+    top: 20%;
+    right: 10%;
 }
 
-  .nav-text {   
+  .nav-text {
     color: var(--white);
     text-align: center;
     font-family: Poppins;
