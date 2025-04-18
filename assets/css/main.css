@@ -4,4 +4,16 @@
 * {
     margin: 0;
     padding: 0;
+    background-color: #1d1d1d;
+}
+
+header  {   
+    display: flex;
+}
+.header-blur {
+    align-self: center;
+    width: 1000px;
+    height: 1000px;
+    flex-shrink: 0;
+    fill: radial-gradient(46.11% 46.11% at 48.9% 46.6%, #FFF 0%, #1D1D1D 100%);
 }
