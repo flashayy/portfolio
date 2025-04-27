@@ -4,4 +4,27 @@
 :root   {
     --background: #19191B;
     --main-clr: #5A54D4;
+    --text-main: #fff;
+}
+
+*   {   
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body    {   
+    background-color: var(--background);
+    color: var(--text-main);
+    font-family: "Nunito Sans", sans-serif;
+}
+
+nav {   
+    display: flex;
+    width: 367px;
+    height: 25px;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 35px;
+    flex-shrink: 0;
 }
