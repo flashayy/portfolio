@@ -7,24 +7,77 @@
     --text-main: #fff;
 }
 
-*   {   
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
-
-body    {   
+  }
+  
+  body {
     background-color: var(--background);
-    color: var(--text-main);
+    color: white;
     font-family: "Nunito Sans", sans-serif;
-}
-
-nav {   
+    height: 100vh;
+  }
+  
+  .navbar {
     display: flex;
-    width: 367px;
-    height: 25px;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 35px;
-    flex-shrink: 0;
-}
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background-color: transparent;
+  }
+  
+  .logo {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+  }
+  
+  .nav-links a {
+    text-decoration: none;
+    color: white;
+    font-size: 14px;
+    transition: color 0.3s;
+  }
+  
+  .nav-links a:hover {
+    color: var(--main-clr);
+  }
+  
+  .contact-button {
+    padding: 10px 20px;
+    border: 1px solid white;
+    background: transparent;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .contact-button:hover {
+    background-color: white;
+    color: black;
+  }
+  
+  .hero-section {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    height: 80vh;
+    padding: 0 50px;
+    background: radial-gradient(circle at 15% 30%, rgba(123, 97, 255, 0.5) 0%, transparent 40%);
+  }
+  
+  .hero-text h1 {
+    font-size: 40px;
+    font-weight: 900;
+    line-height: 1.4;
+    letter-spacing: -0.8px;
+    line-height: normal;
+  }
