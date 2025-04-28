@@ -61,8 +61,8 @@
   }
   
   .contact-button:hover {
-    background-color: var(--main-clr);
-    color: white;
+    background-color: var(--text-main);
+    color: black;
   }
   
   .hero-section {
