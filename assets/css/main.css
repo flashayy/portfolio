@@ -1,84 +1,95 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
 
-:root   {
-    --background: #19191B;
-    --main-clr: #5A54D4;
-    --text-main: #fff;
+:root {
+  --background: #19191B;
+  --main-clr: #5A54D4;
+  --text-main: #fff;
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    background-color: var(--background);
-    color: white;
-    font-family: "Nunito Sans", sans-serif;
-    height: 100vh;
-  }
-  
-  .nav-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 50px;
-    background-color: transparent;
-  }
-  
-  .logo {
-    font-size: 24px;
-    font-weight: bold;
-    font-family: con;
-  }
-  
-  .nav-links {
-    list-style: none;
-    display: flex;
-    gap: 30px;
-  }
-  
-  .nav-links a {
-    text-decoration: none;
-    color: white;
-    font-size: 14px;
-    transition: color 0.3s;
-  }
-  
-  .nav-links a:hover {
-    color: var(--main-clr);
-  }
-  
-  .contact-button {
-    padding: 10px 20px;
-    border: 1px solid white;
-    background: transparent;
-    color: white;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-  }
-  
-  .contact-button:hover {
-    background-color: var(--text-main);
-    color: black;
-  }
-  
-  .hero-section {
-    display: flex;
-    align-items: center;
-    justify-content: start;
-    height: 80vh;
-    padding: 0 50px;
-    background: radial-gradient(circle at 15% 30%, rgba(123, 97, 255, 0.5) 0%, transparent 40%);
-  }
-  
-  .hero-text h1 {
-    font-size: 40px;
-    font-weight: 900;
-    line-height: 1.4;
-    letter-spacing: -0.8px;
-    line-height: normal;
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--background);
+  color: white;
+  font-family: "Nunito Sans", sans-serif;
+  height: 100vh;
+}
+
+.nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 50px;
+  background-color: transparent;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  font-family: con;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  font-size: 14px;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: var(--main-clr);
+}
+
+.contact-button {
+  padding: 10px 20px;
+  border: 1px solid white;
+  background: transparent;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.contact-button:hover {
+  background-color: var(--text-main);
+  color: black;
+}
+
+.hero-section {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  height: 80vh;
+  padding: 0 50px;
+}
+
+.main-blur {
+  width: 305px;
+  height: 305px;
+  flex-shrink: 0;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(90, 84, 212, 0.50) 0%, rgba(0, 0, 255, 0.50) 100%);
+  filter: blur(100px);
+  position: absolute;
+  top: 296px;
+  z-index: 0;
+}
+
+.hero-text h1 {
+  font-size: 40px;
+  font-weight: 900;
+  line-height: 1.4;
+  letter-spacing: -0.8px;
+  line-height: normal;
+  z-index: 10;
+}
