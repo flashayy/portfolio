@@ -1,30 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sk">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Samuel Michalik | Portfolio</title>
-  <link rel="stylesheet" href="assets/css/main.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samuel Michalik</title>
+    <link rel="stylesheet" href="assets/css/main.css">
 </head>
-<body>
-  <div class="container">
-    <header>
-      <div class="logo">&lt;samuel/&gt;</div>
-      <nav>
-        <a href="#" class="active">Home</a>
-        <a href="#">Services</a>
-        <a href="#">Projects</a>
-        <a href="#">About me</a>
-      </nav>
-      <button class="contact-btn">Contact Me</button>
+<body class="body">
+    <header class="header">
+        <div class="header__container">
+            <a href="#" class="header__logo">&lt;samuel1/&gt;</a>
+            <nav class="nav">
+                <ul class="nav__list">
+                    <li class="nav__item"><a href="#" class="nav__link nav__link--active">Home</a></li>
+                    <li class="nav__item"><a href="#" class="nav__link">Services</a></li>
+                    <li class="nav__item"><a href="#" class="nav__link">Projects</a></li>
+                    <li class="nav__item"><a href="#" class="nav__link">About me</a></li>
+                </ul>
+            </nav>
+            <button class="button">Contact Me</button>
+        </div>
     </header>
 
-    <section class="hero">
-      <h1>Hello, my name is<br />
-        <span>Samuel Michalik</span>
-      </h1>
-      <p>I specialize in crafting intuitive and visually appealing websites that focus on UX and modern design principles.</p>
-    </section>
-  </div>
+    <main class="main">
+        <section class="hero">
+            <div class="hero__container">
+                <h1 class="hero__title">Hello, my name is <span class="hero__name">Samuel Michalik</span></h1>
+                <p class="hero__description">I specialize in crafting intuitive and visually appealing websites that focus on <span class="hero__highlight">UX</span> and <span class="hero__highlight">modern design</span> principles.</p>
+            </div>
+        </section>
+    </main>
 </body>
 </html>

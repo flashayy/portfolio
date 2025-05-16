@@ -7,105 +7,219 @@
   --text-main: #fff;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+:root {
+  --background: #19191B;
+  --main-clr: #5A54D4;
+  --text-main: #fff;
 }
 
-body {
-  font-family: "Nunito Sans", sans-serif;
+.body {
+  font-family: sans-serif;
   background-color: var(--background);
   color: var(--text-main);
-  overflow-x: hidden;
-  position: relative;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-.container {
-  margin: 0 auto;
-  padding: 3rem 2rem;
-  position: relative;
-  z-index: 1;
+.header {
+  background-color: var(--background);
+  padding: 20px; /* Zmenšujem padding na bokoch pre desktop */
 }
 
-header {
+.header__container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 8rem;
+  max-width: none; /* Odstraňujem maximálnu šírku, aby sa roztiahol */
+  width: 100%; /* Zabezpečujem, aby zaberal celú šírku parent elementu */
+  padding: 0 40px; /* Pridávam padding pre okraje na desktope */
+  margin: 0 auto; /* Pre prípadné centrovanie obsahu, ak by bol menší ako obrazovka */
 }
 
-.logo {
-  font-size: 1.6rem;
-  font-weight: bold;
-}
-
-nav {
-  display: flex;
-  gap: 2.2rem;
-  font-size: 1rem;
-}
-
-nav a {
+.header__logo {
+  font-size: 1.5rem;
   color: var(--text-main);
   text-decoration: none;
-  transition: color 0.3s ease;
 }
 
-nav a:hover,
-nav a.active {
+.nav {
+  display: flex;
+  align-items: center;
+}
+
+.nav__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.nav__item {
+  margin-left: 20px;
+}
+
+.nav__link {
+  text-decoration: none;
+  color: #bdbdbd;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+  padding: 5px 0;
+}
+
+.nav__link:hover {
   color: var(--main-clr);
 }
 
-.contact-btn {
-  padding: 0.5rem 1rem;
-  border: 1px solid #ffffff66;
-  border-radius: 8px;
-  background: transparent;
-  color: white;
+.nav__link--active {
+  color: var(--main-clr);
+  font-weight: bold;
+}
+
+.button {
+  background-color: transparent;
+  color: var(--main-clr);
+  border: 2px solid var(--main-clr);
+  padding: 10px 20px;
+  border-radius: 5px;
   cursor: pointer;
-  font-size: 0.9rem;
-  transition: background 0.3s ease;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin-left: 30px;
 }
 
-.contact-btn:hover {
-  background: #1f1f2a;
+.button:hover {
+  background-color: var(--main-clr);
+  color: var(--text-main);
 }
 
-.hero {
-  max-width: 640px;
+.main {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.hero__container {
+  text-align: left;
+  max-width: 1200px; /* Zväčšujem max-width pre desktop */
+  width: 90%; /* Pridávam šírku v percentách pre lepšiu responzivitu aj na stredných obrazovkách */
+  margin: 0 auto; /* Centrujem obsah hlavnej sekcie */
+}
+
+.hero__title {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  color: var(--text-main);
+}
+
+.hero__name {
+  color: var(--main-clr);
+}
+
+.hero__description {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: #bdbdbd;
+}
+
+.hero__highlight {
+  color: var(--main-clr);
+  font-weight: bold;
+}
+
+/* Animácie */
+.nav__link {
   position: relative;
-  z-index: 2;
-  margin-left: 6.25rem;
-  margin-top: 12.5rem;
 }
 
-.hero h1 {
-  font-size: 3.2rem;
-  font-weight: 700;
-  line-height: 1.3;
-  margin-bottom: 2rem;
-}
-
-.hero h1 span {
-  color: var(--text-main);
-  display: block;
-}
-
-.hero p {
-  font-size: 1.05rem;
-  color: var(--text-main);
-  line-height: 1.8;
-}
-
-body::before {
+.nav__link::after {
   content: '';
   position: absolute;
-  top: 120px;
+  bottom: 0;
   left: 0;
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(82,66,255,0.6) 0%, rgba(0,0,0,0) 70%);
-  z-index: 0;
-  filter: blur(100px);
+  width: 0%;
+  height: 2px;
+  background-color: var(--main-clr);
+  transition: width 0.3s ease-in-out;
+}
+
+.nav__link:hover::after,
+.nav__link--active::after {
+  width: 100%;
+}
+
+.button {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(var(--main-clr-rgb, 89, 84, 212), 0.3);
+  transition: left 0.4s ease-in-out;
+  z-index: -1;
+}
+
+.button:hover::before {
+  left: 0;
+}
+
+/* Responzívny dizajn pre mobilné zariadenia */
+@media (max-width: 768px) {
+  .header {
+      padding: 15px;
+  }
+
+  .header__container {
+      flex-direction: column; /* Usporiada položky pod seba */
+      align-items: flex-start; /* Zarovnáva položky na ľavý okraj */
+      padding: 10px 20px;
+  }
+
+  .nav {
+      margin-top: 20px;
+      width: 100%;
+  }
+
+  .nav__list {
+      flex-direction: column; /* Usporiada položky navigácie pod seba */
+      width: 100%;
+  }
+
+  .nav__item {
+      margin-left: 0;
+      margin-bottom: 10px;
+  }
+
+  .button {
+      margin-left: 0;
+      width: 100%;
+  }
+
+  .main {
+      padding: 20px;
+  }
+
+  .hero__container {
+      text-align: center; /* Centruje text na mobile */
+      width: 100%;
+  }
+
+  .hero__title {
+      font-size: 2rem;
+  }
+
+  .hero__description {
+      font-size: 1rem;
+  }
 }
