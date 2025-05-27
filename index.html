@@ -2,46 +2,95 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home Page</title>
-    <link rel="stylesheet" href="assets/css/main.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Samuel Michalik Portfolio</title>
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" href="assets/css/normalize.css">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 
-<body class="page">
-    <header class="header">
-        <div class="header__logo">&lt;samuel/&gt;</div>
-        <nav class="nav">
-            <ul class="nav__list">
-                <li class="nav__item"><a href="index.html" class="nav__link nav__link--active">Home</a></li>
-                <li class="nav__item"><a href="services.html" class="nav__link">Services</a></li>
-                <li class="nav__item"><a href="#" class="nav__link">Projects</a></li>
-                <li class="nav__item"><a href="#" class="nav__link">About me</a></li>
-            </ul>
-        </nav>
-        <button class="button button--outline">Contact Me</button>
-    </header>
+<body>
+  <header class="header">
+    <div class="header__logo">&lt;samuel/&gt;</div>
+    <nav class="nav">
+      <ul class="nav__list">
+        <li class="nav__item"><a href="#home" class="nav__link nav__link--active">Home</a></li>
+        <li class="nav__item"><a href="#services" class="nav__link">Services</a></li>
+        <li class="nav__item"><a href="#projects" class="nav__link">Projects</a></li>
+        <li class="nav__item"><a href="#about" class="nav__link">About Me</a></li>
+      </ul>
+    </nav>
+    <button class="button button--outline">Contact Me</button>
+  </header>
 
-    <main class="hero">
-        <h1 class="hero__title">Hello, my name is</h1>
-        <h2 class="hero__name">Samuel Michalik</h2>
-        <p class="hero__description">
-            I specialize in crafting intuitive and 
-            visually appealing websites <br>that focus
-            on <span class="hero__highlight">UX</span> and <span class="hero__highlight">modern design</span>
-            principles.
+  <main id="home" class="hero">
+    <h1 class="hero__title">Hello, my name is</h1>
+    <h2 class="hero__name">Samuel Michalik</h2>
+    <p class="hero__description">
+      I specialize in crafting intuitive and visually appealing websites <br>
+      that focus on <span class="hero__highlight">UX</span> and <span class="hero__highlight">modern design</span>
+      principles.
+    </p>
+  </main>
+
+  <section id="services" class="services">
+    <h2 class="services__title">Services</h2>
+    <div class="services__cards">
+      <div class="services__card">
+        <i class="services__icon fas fa-code"></i>
+        <h3 class="services__card-title">Web Development</h3>
+        <p class="services__card-description">
+          Tvorba moderných, responzívnych web stránok pomocou HTML, CSS, JavaScript, React a ďalších technológií.
         </p>
-    </main>
+      </div>
+      <div class="services__card">
+        <i class="services__icon fas fa-pencil-ruler"></i>
+        <h3 class="services__card-title">UI/UX Design</h3>
+        <p class="services__card-description">
+          Návrh používateľsky prívetivých a estetických rozhraní pomocou nástroja Figma.
+        </p>
+      </div>
+      <div class="services__card">
+        <i class="services__icon fas fa-cube"></i>
+        <h3 class="services__card-title">3D Design</h3>
+        <p class="services__card-description">
+          Tvorba 3D modelov, vizualizácií a animácií v softvéri Blender.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" class="section-placeholder">
+    <h2>Projects</h2>
+  </section>
+
+  <section id="about" class="section-placeholder">
+    <h2>About Me</h2>
+  </section>
+
+  <script>
+    const sections = document.querySelectorAll("section, main");
+    const navLinks = document.querySelectorAll(".nav__link");
+
+    window.addEventListener("scroll", () => {
+      let current = "";
+
+      sections.forEach((section) => {
+        const sectionTop = section.offsetTop - 120;
+        if (scrollY >= sectionTop) {
+          current = section.getAttribute("id");
+        }
+      });
+
+      navLinks.forEach((link) => {
+        link.classList.remove("nav__link--active");
+        if (link.getAttribute("href") === `#${current}`) {
+          link.classList.add("nav__link--active");
+        }
+      });
+    });
+  </script>
 </body>
 
 </html>
-<script>
-    const links = document.querySelectorAll('.nav__link');
-
-    links.forEach(link => {
-        link.addEventListener('click', () => {
-            links.forEach(l => l.classList.remove('nav__link--active'));
-            link.classList.add('nav__link--active');
-        });
-    });
-</script>

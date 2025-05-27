@@ -17,17 +17,25 @@ html {
   scroll-behavior: smooth;
 }
 
-.page {
+body {
   background-color: var(--background);
   color: var(--text-main);
   font-family: 'Nunito Sans', sans-serif;
-  padding: 2rem 4rem;
+  padding-top: 100px;
 }
 
 .header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--background);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 1.5rem 4rem;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .header__logo {
@@ -92,6 +100,7 @@ html {
 
 .hero {
   margin-top: 25vh;
+  text-align: center;
 }
 
 .hero__title {
@@ -109,10 +118,89 @@ html {
   margin-top: 1.5rem;
   line-height: 1.8;
   font-weight: 300;
-  color: var(--text-main) ;
   font-size: 1.2rem;
 }
 
 .hero__highlight {
   color: var(--main-clr);
+}
+
+.services {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.services__title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 50px;
+  font-family: 'Source Code Pro', monospace;
+}
+
+.services__cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+.services__card {
+  background: linear-gradient(160deg, #19191B 40%, #5A54D4 100%);
+  border: 2px solid var(--main-clr);
+  border-radius: 16px;
+  padding: 30px 20px;
+  width: 300px;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.services__card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(90, 84, 212, 0.4);
+}
+
+.services__icon {
+  font-size: 2.5rem;
+  color: var(--main-clr);
+  margin-bottom: 20px;
+}
+
+.services__card-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.services__card-description {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-main);
+  font-family: 'Nunito Sans', sans-serif;
+  font-weight: 200;
+}
+
+.section-placeholder {
+  padding: 100px 20px;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+@media screen and (max-width: 768px) {
+  .services__cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .services__card {
+    width: 90%;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem 2rem;
+  }
 }
