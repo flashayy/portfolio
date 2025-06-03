@@ -1,96 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Samuel Michalik Portfolio</title>
+  <link rel="stylesheet" href="assets/css/normalize.css" />
   <link rel="stylesheet" href="assets/css/main.css" />
-  <link rel="stylesheet" href="assets/css/normalize.css">
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
 </head>
-
 <body>
   <header class="header">
     <div class="header__logo">&lt;samuel/&gt;</div>
-    <nav class="nav">
+    <nav class="header__nav">
       <ul class="nav__list">
-        <li class="nav__item"><a href="#home" class="nav__link nav__link--active">Home</a></li>
-        <li class="nav__item"><a href="#services" class="nav__link">Services</a></li>
-        <li class="nav__item"><a href="#projects" class="nav__link">Projects</a></li>
-        <li class="nav__item"><a href="#about" class="nav__link">About Me</a></li>
+        <li><a href="#home" class="nav__link active">Home</a></li>
+        <li><a href="#services" class="nav__link">Services</a></li>
+        <li><a href="#projects" class="nav__link">Projects</a></li>
+        <li><a href="#about" class="nav__link">About me</a></li>
       </ul>
     </nav>
-    <button class="button button--outline">Contact Me</button>
+    <a href="#contact" class="header__contact">Contact Me</a>
   </header>
 
-  <main id="home" class="hero">
-    <h1 class="hero__title">Hello, my name is</h1>
-    <h2 class="hero__name">Samuel Michalik</h2>
-    <p class="hero__description">
-      I specialize in crafting intuitive and visually appealing websites <br>
-      that focus on <span class="hero__highlight">UX</span> and <span class="hero__highlight">modern design</span>
-      principles.
-    </p>
-  </main>
+  <section id="home" class="section home">
+    <div>
+      <h1 class="home__title">Hello, my name is <span class="highlight">Samuel Michalik</span></h1>
+      <p class="home__desc">I’m a multimedia student with a passion for <span class="highlight">web development</span>, photography, <span class="highlight">3D design</span> and clean UIs.</p>
+    </div>
+  </section>
 
-  <section id="services" class="services">
-    <h2 class="services__title">Services</h2>
+  <section id="services" class="section">
+    <h2>Services</h2>
     <div class="services__cards">
-      <div class="services__card">
-        <i class="services__icon fas fa-code"></i>
-        <h3 class="services__card-title">Web Development</h3>
-        <p class="services__card-description">
-          Tvorba moderných, responzívnych web stránok pomocou HTML, CSS, JavaScript, React a ďalších technológií.
-        </p>
+      <div class="card">
+        <h3>Web Dev</h3>
+        <p>Tvorba moderných, responzívnych web stránok pomocou HTML, CSS, JavaScript a ďalších technológií.</p>
+        <span class="card__icon">+</span>
       </div>
-      <div class="services__card">
-        <i class="services__icon fas fa-pencil-ruler"></i>
-        <h3 class="services__card-title">UI/UX Design</h3>
-        <p class="services__card-description">
-          Návrh používateľsky prívetivých a estetických rozhraní pomocou nástroja Figma.
-        </p>
+      <div class="card">
+        <h3>Photo</h3>
+        <p>Profesionálne zábery produktov, portrétov a udalostí.</p>
+        <span class="card__icon">+</span>
       </div>
-      <div class="services__card">
-        <i class="services__icon fas fa-cube"></i>
-        <h3 class="services__card-title">3D Design</h3>
-        <p class="services__card-description">
-          Tvorba 3D modelov, vizualizácií a animácií v softvéri Blender.
-        </p>
+      <div class="card">
+        <h3>3D</h3>
+        <p>Tvorba 3D modelov, vizualizácií a animácií v softvéri Blender.</p>
+        <span class="card__icon">+</span>
       </div>
     </div>
   </section>
 
-  <section id="projects" class="section-placeholder">
+  <section id="projects" class="section">
     <h2>Projects</h2>
+    <div class="projects__grid">
+      <div class="project">
+        <h3>Web design</h3>
+        <button class="project__btn">Show more</button>
+      </div>
+      <div class="project">
+        <h3>Photographic design</h3>
+        <button class="project__btn">Show more</button>
+      </div>
+      <div class="project">
+        <h3>3D modeling</h3>
+        <button class="project__btn">Show more</button>
+      </div>
+    </div>
   </section>
 
-  <section id="about" class="section-placeholder">
-    <h2>About Me</h2>
+  <section id="about" class="section">
+    <div>
+      <h2>About Me</h2>
+      <p>I specialize in crafting intuitive and visually appealing websites with a focus on UX. I work with tools like VS Code, Blender, and Adobe Suite.</p>
+    </div>
   </section>
 
-  <script>
-    const sections = document.querySelectorAll("section, main");
-    const navLinks = document.querySelectorAll(".nav__link");
-
-    window.addEventListener("scroll", () => {
-      let current = "";
-
-      sections.forEach((section) => {
-        const sectionTop = section.offsetTop - 120;
-        if (scrollY >= sectionTop) {
-          current = section.getAttribute("id");
-        }
-      });
-
-      navLinks.forEach((link) => {
-        link.classList.remove("nav__link--active");
-        if (link.getAttribute("href") === `#${current}`) {
-          link.classList.add("nav__link--active");
-        }
-      });
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
-
 </html>
