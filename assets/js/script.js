@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const header = document.querySelector('.header');
     const menuToggle = document.querySelector('.menu-toggle');
     const mainMenu = document.getElementById('mainMenu');
+    const contactButton = document.querySelector('.header .button--contact'); // Select the contact button in the header
+    const themeToggle = document.getElementById('themeToggle');
 
     const getHeaderHeight = () => header.offsetHeight;
 
@@ -36,6 +38,36 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+
+    contactButton.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = '#contact';
+        const targetElement = document.querySelector(targetId);
+
+        if (mainMenu.classList.contains('is-open')) {
+            mainMenu.classList.remove('is-open');
+            menuToggle.classList.remove('is-active');
+            document.body.style.overflowY = 'auto';
+        }
+
+        if (targetElement) {
+            const headerHeight = getHeaderHeight();
+            const elementPosition = targetElement.getBoundingClientRect().top;
+            const offsetPosition = elementPosition - headerHeight - 10;
+
+            window.scrollBy({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+
+
+            navLinks.forEach(nav => nav.classList.remove('main-nav__link--active'));
+
+        }
+    });
+
+
+
     const highlightActiveLink = () => {
         let currentActiveSectionId = 'home';
         const headerHeight = getHeaderHeight();
@@ -59,6 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
+
         if (window.scrollY < headerHeight + 50) {
             const homeLink = document.querySelector('.main-nav__link[href="#home"]');
             if (homeLink) {
@@ -67,6 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     };
+
 
     menuToggle.addEventListener('click', () => {
         mainMenu.classList.toggle('is-open');
@@ -78,7 +112,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Theme toggle functionality
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('light-mode');
+        const isLightMode = document.body.classList.contains('light-mode');
+        themeToggle.querySelector('.theme-toggle__icon').textContent = isLightMode ? '☀️' : '🌙';
+        localStorage.setItem('theme', isLightMode ? 'light' : 'dark');
+    });
+
+
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+        document.body.classList.add('light-mode');
+        themeToggle.querySelector('.theme-toggle__icon').textContent = '☀️';
+    } else {
+        document.body.classList.remove('light-mode');
+        themeToggle.querySelector('.theme-toggle__icon').textContent = '🌙';
+    }
+
+
+
     window.addEventListener('scroll', highlightActiveLink);
+
 
     window.addEventListener('load', highlightActiveLink);
     highlightActiveLink();
