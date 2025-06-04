@@ -2,123 +2,487 @@
 @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
 
 :root {
-  --background: #19191B;
-  --main-clr: #5A54D4;
-  --text-main: #fff;
-  --accent-clr: #202024;
-  --font-main: "Nunito Sans", sans-serif;
-  --font-sec: "Source Code Pro", monospace;
-
+    --background: #19191B;
+    --main-clr: #5A54D4;
+    --text-main: #fff;
+    --accent-clr: #202024;
+    --font-main: "Nunito Sans", sans-serif;
+    --font-sec: "Source Code Pro", monospace;
+    --header-padding-x: 50px; /* CSS premenná pre horizontálny padding hlavičky */
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
+/* Základné nastavenia a reset */
 body {
-  margin: 0;
-  font-family: var(--font-main);
-  color: var(--text-main);
-  background-color: var(--background);
-  scroll-behavior: smooth;
+    margin: 0;
+    font-family: var(--font-main);
+    color: var(--text-main);
+    line-height: 1.6;
+    background-color: var(--background);
 }
 
-.section {
-  height: 100vh;
-  padding: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  flex-direction: column;
-}
-
+/* --- Block: Header --- */
 .header {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 2rem;
-  z-index: 999;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between; /* Rozloží prvky na kraje */
+    align-items: center;
+    padding: 20px var(--header-padding-x); /* Používame premennú pre padding */
+    background-color: var(--accent-clr);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    box-sizing: border-box;
 }
 
+/* Aby obsah stránky nebol zakrytý fixnou hlavičkou */
+main {
+    padding-top: 80px;
+}
+
+/* --- Element: Header Logo --- */
 .header__logo {
-  font-weight: bold;
-  font-size: 1.5rem;
+    font-family: var(--font-sec);
+    font-weight: 700;
+    font-size: 36px;
+    letter-spacing: -0.02em;
+    color: var(--text-main);
+    flex-shrink: 0; /* Zabraňuje scvrkávaniu loga */
+    position: relative; /* Pridané pre z-index */
+    z-index: 2; /* Zabezpečí, že logo je nad menu pri menších obrazovkách */
 }
 
-.header__nav .nav__list {
-  display: flex;
-  list-style: none;
-  gap: 2rem;
+/* --- Element: Header Logo Symbol --- */
+.header__logo-symbol {
+    color: var(--main-clr);
 }
 
-.nav__link {
-  text-decoration: none;
-  color: var(--text-main);
-  font-weight: 500;
+/* --- Main Menu Container (pre desktop) --- */
+.main-menu {
+    display: flex;
+    align-items: center;
+    gap: 50px; /* Medzera medzi nav listom a buttonom */
+    flex-grow: 1; /* Umožní tomuto kontajneru zabrať čo najviac miesta */
+    justify-content: center; /* Vycentruje obsah vo vnútri main-menu */
+    position: static; /* Reset pre desktop */
+    transform: none; /* Reset pre desktop */
+    visibility: visible; /* Reset pre desktop */
+    opacity: 1; /* Reset pre desktop */
+    transition: none; /* Reset transition pre desktop */
+    width: auto; /* Reset šírky na desktop */
+    right: auto; /* Reset pozície na desktop */
+    box-shadow: none; /* Reset shadow */
 }
 
-.nav__link:hover,
-.nav__link.active {
-  color: var(--main-clr);
+
+/* --- Element: Main Navigation List --- */
+.main-nav__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 30px;
 }
 
-.header__contact {
-  padding: 0.5rem 1rem;
-  background-color: var(--text-main);
-  color: #000;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: bold;
+/* --- Element: Main Navigation Link --- */
+.main-nav__link {
+    text-decoration: none;
+    font-family: var(--font-main);
+    font-weight: 400;
+    font-size: 18px;
+    color: var(--text-main);
+    transition: color 0.3s ease;
+    position: relative;
+    display: inline-block;
 }
 
-.home__title {
-  font-size: 2.5rem;
+/* Pseudo-element pre podčiarknutie */
+.main-nav__link::after {
+    content: '';
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    background-color: var(--main-clr);
+    bottom: -5px;
+    left: 0;
+    transition: width 0.3s ease-out;
 }
 
-.highlight {
-  color: var(--accent-color);
+/* Stav pri nabehnutí myšou */
+.main-nav__link:hover {
+    color: var(--main-clr);
+}
+
+/* Animácia podčiarknutia pri nabehnutí myšou */
+.main-nav__link:hover::after {
+    width: 100%;
+}
+
+/* --- Modifier: Main Navigation Link Active --- */
+.main-nav__link--active {
+    font-weight: 700;
+    color: var(--main-clr);
+}
+
+.main-nav__link--active::after {
+    width: 100%;
+    background-color: var(--main-clr);
+}
+
+/* --- Block: Button --- */
+.button {
+    width: 190px;
+    height: 50px;
+    border-radius: 15px;
+    font-family: var(--font-main);
+    font-weight: 700;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* --- Modifier: Contact Button --- */
+.button--contact {
+    border: 1px solid var(--main-clr);
+    background-color: var(--main-clr);
+    color: var(--text-main);
+    flex-shrink: 0;
+}
+
+
+/* --- Hamburger Menu Toggle Button --- */
+.menu-toggle {
+    display: none; /* Na desktope je skrytý */
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    /* KĽÚČOVÁ ZMENA: Zvýšený z-index */
+    z-index: 1002; /* Dáme mu vyšší z-index ako menu (999) */
+    position: relative; /* Potrebné pre správny z-index, ak sú rodičia static */
+}
+
+.hamburger {
+    display: block;
+    width: 30px;
+    height: 3px;
+    background-color: var(--text-main);
+    margin: 6px 0;
+    transition: all 0.3s ease;
+}
+
+/* Animácia hamburgeru na "X" */
+.menu-toggle.is-active .hamburger:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+}
+.menu-toggle.is-active .hamburger:nth-child(2) {
+    opacity: 0;
+}
+.menu-toggle.is-active .hamburger:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+}
+
+/* --- Block: Hero Section --- */
+.hero {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: calc(100vh - 80px);
+    text-align: left;
+    padding-left: 5%;
+    box-sizing: border-box;
+}
+
+/* --- Element: Hero Content Container --- */
+.hero__content {
+    max-width: 600px;
+}
+
+/* --- Element: Hero Greeting --- */
+.hero__greeting {
+    font-family: var(--font-main);
+    font-weight: 400;
+    font-size: 24px;
+    margin-bottom: 0;
+    color: var(--text-main);
+}
+
+/* --- Element: Hero Name (Heading) --- */
+.hero__name {
+    font-family: var(--font-main);
+    font-weight: 900;
+    font-size: 64px;
+    letter-spacing: -0.02em;
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: var(--text-main);
+}
+
+/* --- Element: Hero Description --- */
+.hero__description {
+    font-family: var(--font-main);
+    font-weight: 200;
+    font-size: 24px;
+    letter-spacing: 0.02em;
+    line-height: 1.5;
+    color: var(--text-main);
+}
+
+/* --- Utility Class: Text Highlight --- */
+.text--highlight {
+    color: var(--main-clr);
+}
+
+/* --- Services Section --- */
+.services {
+    padding: 80px var(--header-padding-x);
+    text-align: center;
+}
+
+.services__title {
+    font-family: var(--font-main);
+    font-weight: 900;
+    font-size: 64px;
+    letter-spacing: -0.02em;
+    color: var(--text-main);
+    margin-bottom: 60px;
 }
 
 .services__cards {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 40px;
 }
 
+/* --- Card Block --- */
 .card {
-  background-color: var(--font-sec);
-  padding: 1.5rem;
-  border-radius: 12px;
-  width: 250px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    width: 327px;
+    height: 366px;
+    border-radius: 20px;
+    border: 5px solid var(--main-clr);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 20px;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    background: linear-gradient(33deg, var(--main-clr) 0%, var(--background) 33%);
+    transition: transform 0.3s ease-out;
 }
 
-.card__icon {
-  font-size: 2rem;
-  color: var(--accent-color);
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
 }
 
-.projects__grid {
-  display: flex;
-  gap: 2rem;
-  margin-top: 2rem;
+.card__title {
+    font-family: var(--font-main);
+    font-weight: 900;
+    font-size: 32px;
+    letter-spacing: -0.02em;
+    color: var(--text-main);
+    margin-top: 0;
+    margin-bottom: 20px;
 }
 
-.project {
-  background: #f2f2f2;
-  padding: 1.5rem;
-  border-radius: 12px;
-  width: 250px;
+.card__description {
+    font-family: var(--font-main);
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 1.4;
+    color: var(--text-main);
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
-.project__btn {
-  margin-top: 1rem;
-  padding: 0.5rem 1rem;
-  background: var(--accent-color);
-  border: none;
-  cursor: pointer;
-  border-radius: 6px;
+.card__contact-link {
+    font-family: var(--font-main);
+    font-weight: 700;
+    font-size: 36px;
+    color: var(--main-clr);
+    text-decoration: none;
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    background-color: var(--accent-clr);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+.card__contact-link:hover {
+    background-color: #4A46B5;
+    color: var(--text-main);
+}
+
+/* --- Media Queries for Responsiveness --- */
+
+/* Tablet a menšie zariadenia (napr. do 1024px) */
+@media (max-width: 1024px) {
+    :root {
+        --header-padding-x: 30px;
+    }
+
+    .header {
+        justify-content: space-between;
+    }
+
+    .header__logo {
+        margin-right: auto;
+    }
+
+    .menu-toggle {
+        display: block;
+        /* KĽÚČOVÁ ZMENA: Z-index pre mobil */
+        z-index: 1002; /* Vyšší z-index ako menu (999) */
+        position: relative; /* Potrebné pre správny z-index */
+    }
+
+    .main-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 100%;
+        max-width: 320px;
+        height: 100%;
+        background-color: var(--accent-clr);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+        transition: right 0.3s ease-out, visibility 0s linear 0.3s, opacity 0.3s ease-out;
+        box-shadow: -2px 0 10px rgba(0,0,0,0.3);
+        padding-top: 80px;
+        box-sizing: border-box;
+        /* KĽÚČOVÁ ZMENA: Z-index pre mobil */
+        z-index: 999; /* Menu má nižší z-index ako tlačidlo */
+        margin-left: 0;
+        margin-right: 0;
+        transform: none;
+        visibility: hidden;
+        opacity: 0;
+    }
+
+    .main-menu.is-open {
+        right: 0;
+        visibility: visible;
+        opacity: 1;
+        transition: right 0.3s ease-out, visibility 0s linear 0s, opacity 0.3s ease-out;
+    }
+
+    .main-nav__list {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+        margin: 0;
+        padding: 0;
+    }
+
+    .main-nav__link {
+        font-size: 28px;
+        padding: 10px 0;
+    }
+
+    .button--contact {
+        width: 220px;
+        margin-right: 0;
+    }
+
+    .hero__name {
+        font-size: 54px;
+    }
+
+    .hero__description {
+        font-size: 20px;
+    }
+
+    .services__title {
+        font-size: 54px;
+    }
+
+    .services__cards {
+        gap: 30px;
+    }
+}
+
+/* Mobilné zariadenia (napr. do 768px) */
+@media (max-width: 768px) {
+    :root {
+        --header-padding-x: 20px;
+    }
+
+    .header__logo {
+        font-size: 32px;
+    }
+
+    .hero {
+        padding-left: 30px;
+        min-height: calc(100vh - 60px);
+    }
+
+    .main-menu.is-open {
+        right: 0;
+    }
+
+    .hero__name {
+        font-size: 44px;
+    }
+
+    .hero__greeting {
+        font-size: 20px;
+    }
+
+    .hero__description {
+        font-size: 18px;
+    }
+
+    .services {
+        padding: 60px var(--header-padding-x);
+    }
+
+    .services__title {
+        font-size: 44px;
+        margin-bottom: 40px;
+    }
+
+    .services__cards {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card {
+        width: 90%;
+        max-width: 327px;
+        height: auto;
+        padding: 25px 15px;
+    }
+
+    .card__title {
+        font-size: 28px;
+    }
+
+    .card__description {
+        font-size: 20px;
+    }
+
+    .card__contact-link {
+        font-size: 30px;
+        width: 35px;
+        height: 35px;
+        bottom: 10px;
+        left: 10px;
+    }
 }

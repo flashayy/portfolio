@@ -1,84 +1,86 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sk">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Samuel Michalik Portfolio</title>
-  <link rel="stylesheet" href="assets/css/normalize.css" />
-  <link rel="stylesheet" href="assets/css/main.css" />
-  <style>
-    html {
-      scroll-behavior: smooth;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samuel - Moje portfólio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/normalize.css">
+    <link rel="stylesheet" href="assets/css/main.css">
 </head>
 <body>
-  <header class="header">
-    <div class="header__logo">&lt;samuel/&gt;</div>
-    <nav class="header__nav">
-      <ul class="nav__list">
-        <li><a href="#home" class="nav__link active">Home</a></li>
-        <li><a href="#services" class="nav__link">Services</a></li>
-        <li><a href="#projects" class="nav__link">Projects</a></li>
-        <li><a href="#about" class="nav__link">About me</a></li>
-      </ul>
-    </nav>
-    <a href="#contact" class="header__contact">Contact Me</a>
-  </header>
 
-  <section id="home" class="section home">
-    <div>
-      <h1 class="home__title">Hello, my name is <span class="highlight">Samuel Michalik</span></h1>
-      <p class="home__desc">I’m a multimedia student with a passion for <span class="highlight">web development</span>, photography, <span class="highlight">3D design</span> and clean UIs.</p>
-    </div>
-  </section>
+    <header class="header">
+        <div class="header__logo">
+            <span class="header__logo-symbol">&lt;</span>samuel<span class="header__logo-symbol">/&gt;</span>
+        </div>
 
-  <section id="services" class="section">
-    <h2>Services</h2>
-    <div class="services__cards">
-      <div class="card">
-        <h3>Web Dev</h3>
-        <p>Tvorba moderných, responzívnych web stránok pomocou HTML, CSS, JavaScript a ďalších technológií.</p>
-        <span class="card__icon">+</span>
-      </div>
-      <div class="card">
-        <h3>Photo</h3>
-        <p>Profesionálne zábery produktov, portrétov a udalostí.</p>
-        <span class="card__icon">+</span>
-      </div>
-      <div class="card">
-        <h3>3D</h3>
-        <p>Tvorba 3D modelov, vizualizácií a animácií v softvéri Blender.</p>
-        <span class="card__icon">+</span>
-      </div>
-    </div>
-  </section>
+        <button class="menu-toggle" aria-label="Toggle navigation">
+            <span class="hamburger"></span>
+            <span class="hamburger"></span>
+            <span class="hamburger"></span>
+        </button>
 
-  <section id="projects" class="section">
-    <h2>Projects</h2>
-    <div class="projects__grid">
-      <div class="project">
-        <h3>Web design</h3>
-        <button class="project__btn">Show more</button>
-      </div>
-      <div class="project">
-        <h3>Photographic design</h3>
-        <button class="project__btn">Show more</button>
-      </div>
-      <div class="project">
-        <h3>3D modeling</h3>
-        <button class="project__btn">Show more</button>
-      </div>
-    </div>
-  </section>
+        <div class="main-menu" id="mainMenu">
+            <nav class="main-nav">
+                <ul class="main-nav__list">
+                    <li class="main-nav__item"><a href="#home" class="main-nav__link">Home</a></li>
+                    <li class="main-nav__item"><a href="#services" class="main-nav__link">Services</a></li>
+                    <li class="main-nav__item"><a href="#projects" class="main-nav__link">Projects</a></li>
+                    <li class="main-nav__item"><a href="#about-me" class="main-nav__link">About me</a></li>
+                </ul>
+            </nav>
+            <button class="button button--contact">Contact Me</button>
+        </div>
+    </header>
 
-  <section id="about" class="section">
-    <div>
-      <h2>About Me</h2>
-      <p>I specialize in crafting intuitive and visually appealing websites with a focus on UX. I work with tools like VS Code, Blender, and Adobe Suite.</p>
-    </div>
-  </section>
+    <main>
+        <section class="hero" id="home">
+            <div class="hero__content">
+                <p class="hero__greeting">Hello, my name is</p>
+                <h1 class="hero__name"><span class="text--highlight">Samuel Michalik</span></h1>
+                <p class="hero__description">I'm a multimedia student with a passion for web development, photography, 3D design and clean UIs.</p>
+            </div>
+        </section>
 
-  <script src="script.js"></script>
+        <section class="services" id="services">
+            <h2 class="services__title">Services</h2>
+            <div class="services__cards">
+                <div class="card">
+                    <h3 class="card__title">Web Dev</h3>
+                    <p class="card__description">Creating modern, responsive websites using HTML, CSS, JavaScript and other technologies.</p>
+                    <a href="#contact" class="card__contact-link">+</a>
+                </div>
+                <div class="card">
+                    <h3 class="card__title">Photo</h3>
+                    <p class="card__description">Professional shots of products, portraits and events.</p>
+                    <a href="#contact" class="card__contact-link">+</a>
+                </div>
+                <div class="card">
+                    <h3 class="card__title">3D</h3>
+                    <p class="card__description">Creation of 3D models, visualizations and animations in Blender software.</p>
+                    <a href="#contact" class="card__contact-link">+</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" style="height: 500px; background-color: var(--accent-clr); display: flex; align-items: center; justify-content: center; padding: 50px;">
+            <h2 style="color: var(--text-main); font-size: 40px;">Projects Section</h2>
+        </section>
+
+        <section id="about-me" style="height: 500px; background-color: var(--background); display: flex; align-items: center; justify-content: center; padding: 50px;">
+            <h2 style="color: var(--text-main); font-size: 40px;">About Me Section</h2>
+        </section>
+
+        <section id="contact" style="height: 500px; background-color: var(--accent-clr); display: flex; align-items: center; justify-content: center; padding: 50px;">
+            <h2 style="color: var(--text-main); font-size: 40px;">Contact Section</h2>
+        </section>
+
+    </main>
+
+    <script src="assets/js/script.js"></script>
 </body>
 </html>
