@@ -38,8 +38,8 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px var(--header-padding-x);
     background-color: var(--accent-clr);
+    padding: 20px var(--header-padding-x);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     box-sizing: border-box;
 }
