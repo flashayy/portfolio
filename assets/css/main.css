@@ -34,7 +34,7 @@ body {
     align-items: center;
     padding: 20px var(--header-padding-x);
     background-color: var(--accent-clr);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     box-sizing: border-box;
 }
 
@@ -161,9 +161,11 @@ main {
 .menu-toggle.is-active .hamburger:nth-child(1) {
     transform: translateY(9px) rotate(45deg);
 }
+
 .menu-toggle.is-active .hamburger:nth-child(2) {
     opacity: 0;
 }
+
 .menu-toggle.is-active .hamburger:nth-child(3) {
     transform: translateY(-9px) rotate(-45deg);
 }
@@ -333,7 +335,7 @@ main {
         align-items: center;
         gap: 30px;
         transition: right 0.3s ease-out, visibility 0s linear 0.3s, opacity 0.3s ease-out;
-        box-shadow: -2px 0 10px rgba(0,0,0,0.3);
+        box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3);
         padding-top: 80px;
         box-sizing: border-box;
         z-index: 999;
