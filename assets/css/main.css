@@ -14,7 +14,7 @@
     --accent-clr: #202024;
     --font-main: "Nunito Sans", sans-serif;
     --font-sec: "Source Code Pro", monospace;
-    --header-padding-x: 50px;
+    --header-padding-x: 3.125rem;
     --light-background: #f0f0f0;
     --light-main-clr: #5A54D4;
     --light-text-main: #333;
@@ -24,12 +24,17 @@
     --light-input-bg: #fff;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     margin: 0;
     font-family: var(--font-main);
     color: var(--text-main);
     line-height: 1.6;
     background-color: var(--background);
+    transition: background-color 0.3s ease;
 }
 
 body.light-mode {
@@ -115,11 +120,6 @@ body.light-mode .contact__textarea:focus {
     box-shadow: 0 0 0 3px rgba(90, 84, 212, 0.3);
 }
 
-
-html {
-    scroll-behavior: smooth;
-}
-
 .header {
     position: fixed;
     top: 0;
@@ -137,7 +137,7 @@ html {
 }
 
 main {
-    padding-top: 80px;
+    padding-top: 5rem;
 }
 
 .header__logo {
@@ -244,8 +244,32 @@ main {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+.button--small {
+    padding: 10px 20px;
+    font-size: 16px;
+    height: auto;
+    width: auto;
+    align-self: flex-start;
+}
+
+.button--primary {
+    /* Zabezpečí, že small button má rovnaké farby ako contact button */
+    border: 1px solid var(--main-clr);
+    background-color: var(--main-clr);
+    color: var(--text-main);
+}
+
+.button--primary:hover {
+    background-color: #4A46B5;
+    /* Tmavší odtieň hlavnej farby pri hover */
+    border-color: #4A46B5;
+}
+
+
+/* --- Hamburger a Theme Toggle (Mobilné zobrazenie) --- */
 .menu-toggle {
     display: none;
+    /* Skryté na desktope */
     background: none;
     border: none;
     cursor: pointer;
@@ -281,6 +305,7 @@ main {
     cursor: pointer;
     font-size: 24px;
     margin-left: 20px;
+    /* Medzera od loga na desktope */
     z-index: 1001;
     color: var(--text-main);
     transition: transform 0.2s ease, color 0.3s ease;
@@ -290,6 +315,7 @@ main {
     transform: scale(1.1);
 }
 
+/* --- Hero Sekcia --- */
 .hero {
     display: flex;
     justify-content: flex-start;
@@ -327,7 +353,7 @@ main {
 .hero__description {
     font-family: var(--font-main);
     font-weight: 200;
-    font-size: 24px;
+    font-size: 20px;
     letter-spacing: 0.02em;
     line-height: 1.5;
     color: var(--text-main);
@@ -346,6 +372,7 @@ main {
     transition: text-decoration-color 0.3s ease;
 }
 
+/* --- Services Sekcia --- */
 .services {
     padding: 80px var(--header-padding-x);
     text-align: center;
@@ -437,6 +464,120 @@ main {
     color: var(--text-main);
 }
 
+.projects {
+    padding: 80px var(--header-padding-x);
+    text-align: center;
+    background-color: var(--background);
+    transition: background-color 0.3s ease;
+}
+
+.projects__title {
+    font-family: var(--font-main);
+    font-weight: 900;
+    font-size: 64px;
+    letter-spacing: -0.02em;
+    color: var(--text-main);
+    margin-bottom: 60px;
+    transition: color 0.3s ease;
+}
+
+.projects__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.project-card {
+    background-color: var(--accent-clr);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.project-card__image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 3px solid var(--main-clr);
+}
+
+.project-card__content {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.project-card__title {
+    font-family: var(--font-main);
+    font-weight: 700;
+    font-size: 28px;
+    color: var(--text-main);
+    margin-top: 0;
+    margin-bottom: 10px;
+    transition: color 0.3s ease;
+}
+
+.project-card__description {
+    font-family: var(--font-main);
+    font-weight: 400;
+    font-size: 18px;
+    color: var(--text-main);
+    line-height: 1.5;
+    margin-bottom: 20px;
+    flex-grow: 1;
+    transition: color 0.3s ease;
+}
+
+.project-card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.tag {
+    background-color: var(--main-clr);
+    color: var(--text-main);
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.light-mode .projects__title,
+body.light-mode .project-card__title,
+body.light-mode .project-card__description {
+    color: var(--light-text-main);
+}
+
+body.light-mode .project-card {
+    background-color: var(--light-accent-clr);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+body.light-mode .project-card__image {
+    border-color: var(--light-main-clr);
+}
+
+body.light-mode .tag {
+    background-color: var(--light-main-clr);
+    color: #fff;
+}
+
 .about-me {
     background-color: var(--background);
     padding: 80px var(--header-padding-x);
@@ -521,6 +662,7 @@ main {
     transform: scale(1.1);
 }
 
+
 .contact {
     background-color: var(--accent-clr);
     padding: 80px var(--header-padding-x);
@@ -587,18 +729,39 @@ main {
     margin-top: 10px;
 }
 
+/* --- Responsiveness --- */
 @media (max-width: 1024px) {
     :root {
         --header-padding-x: 30px;
     }
 
     .header {
+        display: flex;
         justify-content: space-between;
+        align-items: center;
         padding: 20px var(--header-padding-x);
     }
 
     .header__logo {
         font-size: 30px;
+        order: 1;
+        /* Logo prvé */
+    }
+
+    .theme-toggle {
+        display: block;
+        order: 2;
+        /* Theme toggle druhé */
+        margin-left: auto;
+        margin-right: 10px;
+        /* Medzera medzi tlačidlami */
+    }
+
+    .menu-toggle {
+        display: block;
+        order: 3;
+        /* Hamburger menu tretie */
+        margin-left: 0;
     }
 
     .main-menu {
@@ -642,14 +805,28 @@ main {
         margin-top: 20px;
     }
 
-    .menu-toggle {
-        display: block;
-        order: 2;
+    /* Responsiveness pre projekty na tabletoch */
+    .projects__title {
+        font-size: 54px;
+        margin-bottom: 40px;
     }
 
-    .theme-toggle {
-        order: 3;
-        margin-left: auto;
+    .project-card__title {
+        font-size: 24px;
+    }
+
+    .project-card__description {
+        font-size: 16px;
+    }
+
+    .tag {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+
+    .button--small {
+        font-size: 14px;
+        padding: 8px 16px;
     }
 
     .about-me {
@@ -691,6 +868,27 @@ main {
 
     .header__logo {
         font-size: 28px;
+    }
+
+    /* Responsiveness pre projekty na menších mobiloch */
+    .projects {
+        padding: 60px var(--header-padding-x);
+    }
+
+    .projects__title {
+        font-size: 44px;
+    }
+
+    .projects__grid {
+        gap: 30px;
+    }
+
+    .project-card__image {
+        height: 180px;
+    }
+
+    .project-card__content {
+        padding: 20px;
     }
 
     .about-me {

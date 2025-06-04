@@ -112,7 +112,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Theme toggle functionality
     themeToggle.addEventListener('click', () => {
         document.body.classList.toggle('light-mode');
         const isLightMode = document.body.classList.contains('light-mode');

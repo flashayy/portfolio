@@ -23,6 +23,10 @@
             <span class="header__logo-symbol">&lt;</span>samuel<span class="header__logo-symbol">/&gt;</span>
         </div>
 
+        <button id="themeToggle" class="theme-toggle" aria-label="Toggle light and dark theme">
+            <span class="theme-toggle__icon">🌙</span>
+        </button>
+
         <button class="menu-toggle" aria-label="Toggle navigation">
             <span class="hamburger"></span>
             <span class="hamburger"></span>
@@ -40,10 +44,6 @@
             </nav>
             <button class="button button--contact">Contact Me</button>
         </div>
-
-        <button id="themeToggle" class="theme-toggle" aria-label="Toggle light and dark theme">
-            <span class="theme-toggle__icon">🌙</span>
-        </button>
     </header>
 
     <main>
@@ -51,8 +51,8 @@
             <div class="hero__content">
                 <p class="hero__greeting">Hello, my name is</p>
                 <h1 class="hero__name"><span class="text--highlight">Samuel Michalik</span></h1>
-                <p class="hero__description">I'm a multimedia student with a passion for web development, photography,
-                    3D design and clean UIs.</p>
+                <p class="hero__description">I'm a multimedia student with a passion for web development, photography,3D
+                    design and clean UIs.</p>
             </div>
         </section>
 
@@ -104,9 +104,54 @@
             </div>
         </section>
 
-        <section id="projects"
-            style="height: 500px; background-color: var(--accent-clr); display: flex; align-items: center; justify-content: center; padding: 50px;">
-            <h2 style="color: var(--text-main); font-size: 40px;">Projects Section</h2>
+        <section class="projects" id="projects">
+            <h2 class="projects__title">Projects</h2>
+            <div class="projects__grid">
+                <div class="project-card">
+                    <img src="assets/images/project-placeholder-1.jpg" alt="Projekt 1" class="project-card__image">
+                    <div class="project-card__content">
+                        <h3 class="project-card__title">Project Alpha</h3>
+                        <p class="project-card__description">Krátky popis projektu, jeho ciele a použité technológie.
+                            Napríklad: "Responzívny e-commerce web s moderným UI."</p>
+                        <div class="project-card__tags">
+                            <span class="tag">HTML</span>
+                            <span class="tag">CSS</span>
+                            <span class="tag">JavaScript</span>
+                        </div>
+                        <a href="#" class="button button--small button--primary">View Project</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <img src="assets/images/project-placeholder-2.jpg" alt="Projekt 2" class="project-card__image">
+                    <div class="project-card__content">
+                        <h3 class="project-card__title">Website Redesign</h3>
+                        <p class="project-card__description">Štúdia pre redesign existujúcej webovej stránky s dôrazom
+                            na UX/UI vylepšenia.</p>
+                        <div class="project-card__tags">
+                            <span class="tag">Figma</span>
+                            <span class="tag">UX/UI</span>
+                            <span class="tag">Research</span>
+                        </div>
+                        <a href="#" class="button button--small button--primary">View Project</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <img src="assets/images/bedroom.png" alt="Projekt 3" class="project-card__image">
+                    <div class="project-card__content">
+                        <h3 class="project-card__title">3D Model Portfolio</h3>
+                        <p class="project-card__description">A gallery of 3D models created in Blender, demonstrating
+                            modeling and texturing capabilities.</p>
+                        <div class="project-card__tags">
+                            <span class="tag">Blender</span>
+                            <span class="tag">3D Design</span>
+                            <span class="tag">Rendering</span>
+                        </div>
+                        <a href="#" class="button button--small button--primary">View Project</a>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <section class="contact" id="contact">
