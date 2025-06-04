@@ -4,8 +4,40 @@ document.addEventListener('DOMContentLoaded', () => {
     const header = document.querySelector('.header');
     const menuToggle = document.querySelector('.menu-toggle');
     const mainMenu = document.getElementById('mainMenu');
+    const modeToggle = document.getElementById('modeToggle');
 
     const getHeaderHeight = () => header.offsetHeight;
+
+    const applyTheme = (theme) => {
+        if (theme === 'light') {
+            document.body.classList.add('light-mode');
+            modeToggle.textContent = '☀️';
+            modeToggle.setAttribute('aria-label', 'Prepnúť na tmavý režim');
+        } else {
+            document.body.classList.remove('light-mode');
+            modeToggle.textContent = '🌙';
+            modeToggle.setAttribute('aria-label', 'Prepnúť na svetlý režim');
+        }
+    };
+
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        applyTheme(savedTheme);
+    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+        applyTheme('light');
+    } else {
+        applyTheme('dark');
+    }
+
+    modeToggle.addEventListener('click', () => {
+        if (document.body.classList.contains('light-mode')) {
+            applyTheme('dark');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            applyTheme('light');
+            localStorage.setItem('theme', 'light');
+        }
+    });
 
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
