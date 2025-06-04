@@ -1,92 +1,84 @@
 document.addEventListener('DOMContentLoaded', () => {
     const navLinks = document.querySelectorAll('.main-nav__list .main-nav__link');
+    // Vyberie všetky sekcie, ktoré majú ID a nachádzajú sa priamo v <main>
     const sections = document.querySelectorAll('main section[id]');
     const header = document.querySelector('.header');
     const menuToggle = document.querySelector('.menu-toggle');
     const mainMenu = document.getElementById('mainMenu');
-    const modeToggle = document.getElementById('modeToggle');
 
+    // Dynamicky získa výšku hlavičky
     const getHeaderHeight = () => header.offsetHeight;
-
-    const applyTheme = (theme) => {
-        if (theme === 'light') {
-            document.body.classList.add('light-mode');
-            modeToggle.textContent = '☀️';
-            modeToggle.setAttribute('aria-label', 'Prepnúť na tmavý režim');
-        } else {
-            document.body.classList.remove('light-mode');
-            modeToggle.textContent = '🌙';
-            modeToggle.setAttribute('aria-label', 'Prepnúť na svetlý režim');
-        }
-    };
-
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-        applyTheme(savedTheme);
-    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-        applyTheme('light');
-    } else {
-        applyTheme('dark');
-    }
-
-    modeToggle.addEventListener('click', () => {
-        if (document.body.classList.contains('light-mode')) {
-            applyTheme('dark');
-            localStorage.setItem('theme', 'dark');
-        } else {
-            applyTheme('light');
-            localStorage.setItem('theme', 'light');
-        }
-    });
 
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
 
-            const targetId = this.getAttribute('href');
+            const targetId = this.getAttribute('href'); // Získa #home, #services atď.
             const targetElement = document.querySelector(targetId);
 
+            // Ak je menu otvorené, zatvor ho po kliknutí na link
             if (mainMenu.classList.contains('is-open')) {
                 mainMenu.classList.remove('is-open');
                 menuToggle.classList.remove('is-active');
-                document.body.style.overflowY = 'auto';
+                document.body.style.overflowY = 'auto'; // Uvoľni scroll
             }
 
             if (targetElement) {
-                const offsetTop = targetElement.offsetTop - getHeaderHeight() - 10;
+                // Posun o výšku hlavičky plus malý offset, aby sekcia nebola presne pod hlavičkou
+                // Používame scrollBy pre relatívny scroll od aktuálnej pozície
+                const headerHeight = getHeaderHeight();
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition - headerHeight - 10; // -10 pre malý priestor navrchu
 
-                window.scrollTo({
-                    top: offsetTop,
+                window.scrollBy({
+                    top: offsetPosition,
                     behavior: 'smooth'
                 });
 
+                // Odstráni aktívnu triedu zo všetkých linkov a pridá ju na kliknutý link
                 navLinks.forEach(nav => nav.classList.remove('main-nav__link--active'));
                 this.classList.add('main-nav__link--active');
             }
         });
     });
 
+    // Funkcia na zvýraznenie aktívneho navigačného linku
     const highlightActiveLink = () => {
-        let currentActiveSectionId = 'home';
+        let currentActiveSectionId = 'home'; // Predvolená aktívna sekcia je 'home'
+        const headerHeight = getHeaderHeight(); // Získame výšku hlavičky
 
+        // Prejde cez všetky sekcie a zistí, ktorá je aktuálne vo viewport-e
         sections.forEach(section => {
-            const sectionTop = section.offsetTop - getHeaderHeight() - 50;
-            const sectionBottom = sectionTop + section.offsetHeight;
+            const rect = section.getBoundingClientRect(); // Získa pozíciu sekcie vzhľadom na viewport
 
-            if (window.scrollY >= sectionTop && window.scrollY < sectionBottom) {
+            // Kontrolujeme, či je aspoň časť sekcie viditeľná a nad hranicou hlavičky
+            // Zohľadňujeme, že ak je sekcia celá nad hlavičkou, ale jej spodná časť je stále
+            // blízko vrchu viewportu, môže byť považovaná za aktívnu.
+            // Používame prahovú hodnotu napr. 200px od vrchu, aby sa detekovala aktívna sekcia.
+            // Ak je vrchná časť sekcie nad nulou (mimo obrazovky hore) A jej spodná časť je pod nulou (stále viditeľná dole)
+            // Alebo, ak je vrchná časť sekcie blízko vrchu viewportu
+            const topThreshold = headerHeight + 50; // Sekcia je aktívna, ak jej vrchná časť prejde túto hranicu
+            const bottomThreshold = headerHeight + 100; // Prah pre prechod na ďalšiu sekciu
+
+            if (rect.top <= topThreshold && rect.bottom >= bottomThreshold) {
+                 // Ak je sekcia dostatočne vysoko vo viewport-e a jej spodná časť je pod prahom, je aktívna
                 currentActiveSectionId = section.getAttribute('id');
             }
         });
 
+        // Prejde cez všetky navigačné linky a aktualizuje ich aktívny stav
         navLinks.forEach(link => {
-            link.classList.remove('main-nav__link--active');
+            link.classList.remove('main-nav__link--active'); // Najprv odstráni aktívnu triedu zo všetkých
 
+            // Ak sa href linku zhoduje s ID aktuálnej sekcie, pridá triedu
             if (link.getAttribute('href').substring(1) === currentActiveSectionId) {
                 link.classList.add('main-nav__link--active');
             }
         });
 
-        if (window.scrollY === 0) {
+        // Špeciálny prípad: Ak je stránka úplne hore, uisti sa, že Home link je aktívny
+        // Táto podmienka by mala byť robustnejšia s getBoundingClientRect(), ale ako poistka je stále dobrá.
+        if (window.scrollY < headerHeight + 50) { // Ak je scroll pozícia blízko vrchu stránky
             const homeLink = document.querySelector('.main-nav__link[href="#home"]');
             if (homeLink) {
                 navLinks.forEach(link => link.classList.remove('main-nav__link--active'));
@@ -95,6 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // Event listener pre hamburger tlačidlo
     menuToggle.addEventListener('click', () => {
         mainMenu.classList.toggle('is-open');
         menuToggle.classList.toggle('is-active');
@@ -105,7 +98,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Spusti funkciu pri scrollovaní
     window.addEventListener('scroll', highlightActiveLink);
 
-    highlightActiveLink();
+    // KĽÚČOVÉ: Spusti funkciu hneď po načítaní stránky
+    // Spusti ju aj po tom, ako sa načíta všetok obsah (napr. obrázky), aby bol offsetHeight správny
+    window.addEventListener('load', highlightActiveLink);
+    highlightActiveLink(); // Spusti aj pri DOMContentLoaded, pre prípad, že 'load' je príliš neskoro na prvotné nastavenie
 });

@@ -1,31 +1,22 @@
 <!DOCTYPE html>
 <html lang="sk">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Samuel - Moje portfólio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap"
-        rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/normalize.css">
     <link rel="stylesheet" href="assets/css/main.css">
 </head>
-
 <body>
 
     <header class="header">
         <div class="header__logo">
             <span class="header__logo-symbol">&lt;</span>samuel<span class="header__logo-symbol">/&gt;</span>
         </div>
-
-        <button id="modeToggle" class="mode-toggle" aria-label="Toggle dark/light mode">
-            🌙
-        </button>
 
         <button class="menu-toggle" aria-label="Toggle navigation">
             <span class="hamburger"></span>
@@ -40,7 +31,7 @@
                     <li class="main-nav__item"><a href="#services" class="main-nav__link">Services</a></li>
                     <li class="main-nav__item"><a href="#projects" class="main-nav__link">Projects</a></li>
                     <li class="main-nav__item"><a href="#about-me" class="main-nav__link">About me</a></li>
-                </ul>
+                    <li class="main-nav__item"><a href="#contact" class="main-nav__link">Contact</a></li> </ul>
             </nav>
             <button class="button button--contact">Contact Me</button>
         </div>
@@ -51,8 +42,7 @@
             <div class="hero__content">
                 <p class="hero__greeting">Hello, my name is</p>
                 <h1 class="hero__name"><span class="text--highlight">Samuel Michalik</span></h1>
-                <p class="hero__description">I'm a multimedia student with a passion for web development, photography,
-                    3D design and clean UIs.</p>
+                <p class="hero__description">I'm a multimedia student with a passion for web development, photography, 3D design and clean UIs.</p>
             </div>
         </section>
 
@@ -61,8 +51,7 @@
             <div class="services__cards">
                 <div class="card">
                     <h3 class="card__title">Web Dev</h3>
-                    <p class="card__description">Creating modern, responsive websites using HTML, CSS, JavaScript and
-                        other technologies.</p>
+                    <p class="card__description">Creating modern, responsive websites using HTML, CSS, JavaScript and other technologies.</p>
                     <a href="#contact" class="card__contact-link">+</a>
                 </div>
                 <div class="card">
@@ -72,31 +61,46 @@
                 </div>
                 <div class="card">
                     <h3 class="card__title">3D</h3>
-                    <p class="card__description">Creation of 3D models, visualizations and animations in Blender
-                        software.</p>
+                    <p class="card__description">Creation of 3D models, visualizations and animations in Blender software.</p>
                     <a href="#contact" class="card__contact-link">+</a>
                 </div>
             </div>
         </section>
 
-        <section id="projects"
-            style="height: 500px; background-color: var(--accent-clr); display: flex; align-items: center; justify-content: center; padding: 50px;">
+        <section class="about-me" id="about-me">
+            <h2 class="about-me__title">Who am I?</h2>
+            <div class="about-me__content">
+                <p class="about-me__description">
+                    I'm <span class="text--highlight text--underline">Samuel Michalik</span>, a multimedia student with a passion for <span class="text--highlight text--underline">web development</span>, <span class="text--highlight text--underline">3D design</span> and <span class="text--highlight text--underline">clean UI</span>. I specialize in crafting intuitive and visually appealing websites that focus on <span class="text--highlight text--underline">UX</span> and <span class="text--highlight text--underline">modern design principles</span>.
+                </p>
+                <div class="about-me__programs">
+                    <p class="about-me__programs-title">Programs I work in:</p>
+                    <div class="about-me__program-icons">
+                        <img src="assets/images/figma-logo.png" alt="Figma logo" class="about-me__icon">
+                        <img src="assets/images/blender-logo.png" alt="Blender logo" class="about-me__icon">
+                        <img src="assets/images/vscode-logo.png" alt="VS Code logo" class="about-me__icon">
+                        <img src="assets/images/photoshop-logo.png" alt="Photoshop logo" class="about-me__icon">
+                        <img src="assets/images/illustrator-logo.png" alt="Adobe Illustrator logo" class="about-me__icon">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" style="height: 500px; background-color: var(--accent-clr); display: flex; align-items: center; justify-content: center; padding: 50px;">
             <h2 style="color: var(--text-main); font-size: 40px;">Projects Section</h2>
         </section>
 
-        <section id="about-me"
-            style="height: 500px; background-color: var(--background); display: flex; align-items: center; justify-content: center; padding: 50px;">
-            <h2 style="color: var(--text-main); font-size: 40px;">About Me Section</h2>
+        <section class="contact" id="contact">
+            <h2 class="contact__title">Contact</h2>
+            <form class="contact__form">
+                <input type="text" id="name" name="name" placeholder="Name" class="contact__input" required>
+                <input type="email" id="email" name="email" placeholder="Email" class="contact__input" required>
+                <textarea id="message" name="message" placeholder="Text" class="contact__textarea" rows="6" required></textarea>
+                <button type="submit" class="button button--contact">Send</button>
+            </form>
         </section>
-
-        <section id="contact"
-            style="height: 500px; background-color: var(--accent-clr); display: flex; align-items: center; justify-content: center; padding: 50px;">
-            <h2 style="color: var(--text-main); font-size: 40px;">Contact Section</h2>
-        </section>
-
-    </main>
+        </main>
 
     <script src="assets/js/script.js"></script>
 </body>
-
 </html>

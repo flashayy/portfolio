@@ -1,51 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
 
+/* Základný reset pre box model */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 :root {
     --background: #19191B;
     --main-clr: #5A54D4;
     --text-main: #fff;
     --accent-clr: #202024;
-
-    --light-background: #F8F8F8;
-    --light-main-clr: #5A54D4;
-    --light-text-main: #333;
-    --light-accent-clr: #E0E0E0;
-
     --font-main: "Nunito Sans", sans-serif;
     --font-sec: "Source Code Pro", monospace;
-    --header-padding-x: 50px;
+    --header-padding-x: 50px; /* CSS premenná pre horizontálny padding hlavičky */
 }
-
-body.light-mode {
-    --background: var(--light-background);
-    --main-clr: var(--light-main-clr);
-    --text-main: var(--light-text-main);
-    --accent-clr: var(--light-accent-clr);
-}
-
-body,
-.header,
-.card,
-.card__contact-link,
-.main-menu,
-.main-nav__link,
-.hero__greeting,
-.hero__name,
-.hero__description,
-.services__title,
-.card__title,
-.card__description,
-.button--contact,
-.hamburger {
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-}
-
 
 html {
     scroll-behavior: smooth;
 }
 
+/* Základné nastavenia a reset */
 body {
     margin: 0;
     font-family: var(--font-main);
@@ -54,6 +29,7 @@ body {
     background-color: var(--background);
 }
 
+/* --- Block: Header --- */
 .header {
     position: fixed;
     top: 0;
@@ -61,68 +37,55 @@ body {
     width: 100%;
     z-index: 1000;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Rozloží prvky na kraje */
     align-items: center;
-    padding: 20px var(--header-padding-x);
+    padding: 20px var(--header-padding-x); /* Používame premennú pre padding */
     background-color: var(--accent-clr);
     box-shadow: 0 2px 5px rgba(0,0,0,0.3);
     box-sizing: border-box;
 }
 
+/* Aby obsah stránky nebol zakrytý fixnou hlavičkou */
 main {
-    padding-top: 80px;
+    padding-top: 80px; /* Prispôsobí sa výške hlavičky */
 }
 
+/* --- Element: Header Logo --- */
 .header__logo {
     font-family: var(--font-sec);
     font-weight: 700;
     font-size: 36px;
     letter-spacing: -0.02em;
     color: var(--text-main);
-    flex-shrink: 0;
-    position: relative;
-    z-index: 2;
-    margin-right: auto;
+    flex-shrink: 0; /* Zabraňuje scvrkávaniu loga */
+    position: relative; /* Pridané pre z-index */
+    z-index: 2; /* Zabezpečí, že logo je nad menu pri menších obrazovkách */
 }
 
+/* --- Element: Header Logo Symbol --- */
 .header__logo-symbol {
     color: var(--main-clr);
 }
 
-.mode-toggle {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: var(--text-main);
-    padding: 10px;
-    margin-left: auto;
-    margin-right: 15px;
-    transition: color 0.3s ease, transform 0.3s ease;
-    flex-shrink: 0;
-}
-
-.mode-toggle:hover {
-    transform: scale(1.1);
-}
-
-
+/* --- Main Menu Container (pre desktop) --- */
 .main-menu {
     display: flex;
     align-items: center;
-    gap: 50px;
-    flex-grow: 1;
-    justify-content: center;
-    position: static;
-    transform: none;
-    visibility: visible;
-    opacity: 1;
-    transition: none;
-    width: auto;
-    right: auto;
-    box-shadow: none;
+    gap: 50px; /* Medzera medzi nav listom a buttonom */
+    flex-grow: 1; /* Umožní tomuto kontajneru zabrať čo najviac miesta */
+    justify-content: center; /* Vycentruje obsah vo vnútri main-menu */
+    position: static; /* Reset pre desktop */
+    transform: none; /* Reset pre desktop */
+    visibility: visible; /* Reset pre desktop */
+    opacity: 1; /* Reset pre desktop */
+    transition: none; /* Reset transition pre desktop */
+    width: auto; /* Reset šírky na desktop */
+    right: auto; /* Reset pozície na desktop */
+    box-shadow: none; /* Reset shadow */
 }
 
+
+/* --- Element: Main Navigation List --- */
 .main-nav__list {
     list-style: none;
     margin: 0;
@@ -131,6 +94,7 @@ main {
     gap: 30px;
 }
 
+/* --- Element: Main Navigation Link --- */
 .main-nav__link {
     text-decoration: none;
     font-family: var(--font-main);
@@ -142,6 +106,7 @@ main {
     display: inline-block;
 }
 
+/* Pseudo-element pre podčiarknutie */
 .main-nav__link::after {
     content: '';
     position: absolute;
@@ -153,14 +118,17 @@ main {
     transition: width 0.3s ease-out;
 }
 
+/* Stav pri nabehnutí myšou */
 .main-nav__link:hover {
     color: var(--main-clr);
 }
 
+/* Animácia podčiarknutia pri nabehnutí myšou */
 .main-nav__link:hover::after {
     width: 100%;
 }
 
+/* --- Modifier: Main Navigation Link Active --- */
 .main-nav__link--active {
     font-weight: 700;
     color: var(--main-clr);
@@ -171,6 +139,7 @@ main {
     background-color: var(--main-clr);
 }
 
+/* --- Block: Button --- */
 .button {
     width: 190px;
     height: 50px;
@@ -182,6 +151,7 @@ main {
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
+/* --- Modifier: Contact Button --- */
 .button--contact {
     border: 1px solid var(--main-clr);
     background-color: var(--main-clr);
@@ -189,13 +159,15 @@ main {
     flex-shrink: 0;
 }
 
+
+/* --- Hamburger Menu Toggle Button --- */
 .menu-toggle {
-    display: none;
+    display: none; /* Na desktope je skrytý */
     background: none;
     border: none;
     cursor: pointer;
     padding: 10px;
-    z-index: 1002;
+    z-index: 1002; /* Dáme mu vyšší z-index ako menu */
     position: relative;
 }
 
@@ -208,6 +180,7 @@ main {
     transition: all 0.3s ease;
 }
 
+/* Animácia hamburgeru na "X" */
 .menu-toggle.is-active .hamburger:nth-child(1) {
     transform: translateY(9px) rotate(45deg);
 }
@@ -218,6 +191,7 @@ main {
     transform: translateY(-9px) rotate(-45deg);
 }
 
+/* --- Block: Hero Section --- */
 .hero {
     display: flex;
     justify-content: flex-start;
@@ -228,10 +202,12 @@ main {
     box-sizing: border-box;
 }
 
+/* --- Element: Hero Content Container --- */
 .hero__content {
     max-width: 600px;
 }
 
+/* --- Element: Hero Greeting --- */
 .hero__greeting {
     font-family: var(--font-main);
     font-weight: 400;
@@ -240,6 +216,7 @@ main {
     color: var(--text-main);
 }
 
+/* --- Element: Hero Name (Heading) --- */
 .hero__name {
     font-family: var(--font-main);
     font-weight: 900;
@@ -250,6 +227,7 @@ main {
     color: var(--text-main);
 }
 
+/* --- Element: Hero Description --- */
 .hero__description {
     font-family: var(--font-main);
     font-weight: 200;
@@ -259,10 +237,20 @@ main {
     color: var(--text-main);
 }
 
+/* --- Utility Class: Text Highlight (existing) --- */
 .text--highlight {
     color: var(--main-clr);
 }
 
+/* NOVÁ UTILITY TRIEDA: Pre podčiarknutie textu */
+.text--underline {
+    text-decoration: underline;
+    text-decoration-color: var(--main-clr); /* Farba podčiarknutia rovnaká ako highlight */
+    text-underline-offset: 4px; /* Odsadenie podčiarknutia od textu */
+}
+
+
+/* --- Services Section --- */
 .services {
     padding: 80px var(--header-padding-x);
     text-align: center;
@@ -284,6 +272,7 @@ main {
     gap: 40px;
 }
 
+/* --- Card Block --- */
 .card {
     width: 327px;
     height: 366px;
@@ -351,174 +340,311 @@ main {
     color: var(--text-main);
 }
 
+/* --- About Me Section --- */
+.about-me {
+    background-color: var(--background);
+    padding: 80px var(--header-padding-x);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    min-height: calc(100vh - 80px); /* Minimálna výška viewportu mínus výška hlavičky */
+    justify-content: center; /* Vycentruje obsah vertikálne */
+    box-sizing: border-box; /* Zabezpečí, že padding je zahrnutý do výšky */
+}
+
+.about-me__title {
+    font-family: var(--font-main);
+    font-weight: 900;
+    font-size: 64px;
+    letter-spacing: -0.02em;
+    color: var(--text-main);
+    margin-bottom: 0;
+}
+
+.about-me__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    max-width: 900px;
+    width: 100%;
+}
+
+.about-me__description {
+    font-family: var(--font-main);
+    font-weight: 400;
+    font-size: 24px;
+    letter-spacing: 0.02em;
+    line-height: 1.5;
+    color: var(--text-main);
+    text-align: left;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.about-me__programs {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.about-me__programs-title {
+    font-family: var(--font-main);
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--text-main);
+    margin: 0;
+}
+
+.about-me__program-icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.about-me__icon {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    transition: transform 0.2s ease-out;
+}
+
+.about-me__icon:hover {
+    transform: scale(1.1);
+}
+
+/* --- Contact Section --- */
+.contact {
+    background-color: var(--accent-clr);
+    padding: 80px var(--header-padding-x);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+}
+
+.contact__title {
+    font-family: var(--font-main);
+    font-weight: 900;
+    font-size: 64px;
+    letter-spacing: -0.02em;
+    color: var(--text-main);
+    margin-bottom: 0;
+}
+
+.contact__form {
+    background-color: var(--background);
+    border-radius: 15px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+    box-sizing: border-box;
+}
+
+.contact__input,
+.contact__textarea {
+    width: 100%;
+    padding: 15px 20px;
+    border: 1px solid var(--main-clr);
+    border-radius: 10px;
+    background-color: #2E2E33;
+    color: var(--text-main);
+    font-family: var(--font-main);
+    font-size: 18px;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact__input:focus,
+.contact__textarea:focus {
+    border-color: #6C66E6;
+    box-shadow: 0 0 0 3px rgba(90, 84, 212, 0.5);
+}
+
+.contact__textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* Špecifické štýly pre tlačidlo "Send" v kontaktnej sekcii */
+.contact__form .button--contact {
+    align-self: center;
+    margin-top: 10px;
+}
+
+
+/* --- Media Queries pre Responzívnosť --- */
+
+/* Tablet a menšie zariadenia (napr. do 1024px) */
 @media (max-width: 1024px) {
     :root {
         --header-padding-x: 30px;
     }
 
-    .header {
-        justify-content: space-between;
-    }
-
     .header__logo {
-        margin-right: auto;
+        font-size: 30px; /* Zmenší logo na tabletoch */
     }
 
-    .mode-toggle {
-        order: 2;
-        margin-left: auto;
-        margin-right: 15px;
-    }
-
-    .menu-toggle {
-        display: block;
-        z-index: 1002;
-        position: relative;
-        order: 3;
-    }
-
+    /* Skryje desktopové navigačné menu a pripraví ho na mobilné zobrazenie */
     .main-menu {
         position: fixed;
-        top: 0;
-        right: -100%;
+        top: 0; /* Bude upravené pomocou JS pre výšku hlavičky */
+        right: -100%; /* Začína mimo obrazovky */
         width: 100%;
-        max-width: 320px;
-        height: 100%;
-        background-color: var(--accent-clr);
+        height: 100vh; /* Celá výška viewportu */
+        background-color: var(--accent-clr); /* Farba pozadia pre mobilné menu */
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        gap: 30px;
-        transition: right 0.3s ease-out, visibility 0s linear 0.3s, opacity 0.3s ease-out;
-        box-shadow: -2px 0 10px rgba(0,0,0,0.3);
-        padding-top: 80px;
-        box-sizing: border-box;
-        z-index: 999;
-        margin-left: 0;
-        margin-right: 0;
-        transform: none;
-        visibility: hidden;
+        transition: right 0.3s ease-in-out, opacity 0.3s ease-in-out;
         opacity: 0;
+        visibility: hidden;
+        gap: 30px;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.5); /* Tieň na pravej strane menu */
     }
 
+    /* Zobrazí hlavné menu, keď je aktívna trieda 'is-open' */
     .main-menu.is-open {
         right: 0;
-        visibility: visible;
         opacity: 1;
-        transition: right 0.3s ease-out, visibility 0s linear 0s, opacity 0.3s ease-out;
+        visibility: visible;
     }
 
     .main-nav__list {
         flex-direction: column;
         text-align: center;
         gap: 20px;
-        margin: 0;
-        padding: 0;
     }
 
     .main-nav__link {
-        font-size: 28px;
+        font-size: 24px;
         padding: 10px 0;
     }
 
     .button--contact {
-        width: 220px;
-        margin-right: 0;
-    }
-
-    .hero__name {
-        font-size: 54px;
-    }
-
-    .hero__description {
+        width: 250px; /* Uprav veľkosť tlačidla pre mobilné menu */
+        height: 60px;
         font-size: 20px;
+        margin-top: 20px;
     }
 
-    .services__title {
+    /* --- Hamburger Menu Toggle Button (ZOBRAZENIE) --- */
+    .menu-toggle {
+        display: block; /* TOTO HO ZOBRAZÍ na tabletoch a mobiloch */
+    }
+
+    .about-me {
+        min-height: calc(100vh - 60px); /* Upravené pre menšiu výšku hlavičky na tabletoch */
+    }
+
+    .about-me__title {
         font-size: 54px;
     }
 
-    .services__cards {
-        gap: 30px;
+    .about-me__description {
+        font-size: 20px;
+        padding: 0 15px; /* Menší padding pre tablety */
+    }
+
+    .about-me__programs {
+        padding: 0 15px;
+    }
+
+    .contact__title {
+        font-size: 54px;
+    }
+
+    .contact__form {
+        padding: 30px;
+        gap: 15px;
+    }
+
+    .contact__input,
+    .contact__textarea {
+        font-size: 16px;
     }
 }
 
+/* Mobilné zariadenia (napr. do 768px) */
 @media (max-width: 768px) {
     :root {
         --header-padding-x: 20px;
     }
 
     .header__logo {
-        font-size: 32px;
-    }
-
-    .header__logo {
-        order: 1;
-        margin-right: auto;
-    }
-    .mode-toggle {
-        order: 2;
-        margin-right: 10px;
-    }
-    .menu-toggle {
-        order: 3;
-    }
-
-    .hero {
-        padding-left: 30px;
-        min-height: calc(100vh - 60px);
-    }
-
-    .main-menu.is-open {
-        right: 0;
-    }
-
-    .hero__name {
-        font-size: 44px;
-    }
-
-    .hero__greeting {
-        font-size: 20px;
-    }
-
-    .hero__description {
-        font-size: 18px;
-    }
-
-    .services {
-        padding: 60px var(--header-padding-x);
-    }
-
-    .services__title {
-        font-size: 44px;
-        margin-bottom: 40px;
-    }
-
-    .services__cards {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .card {
-        width: 90%;
-        max-width: 327px;
-        height: auto;
-        padding: 25px 15px;
-    }
-
-    .card__title {
         font-size: 28px;
     }
 
-    .card__description {
-        font-size: 20px;
+    /* Tu už nemusíš display: block; pre menu-toggle opakovať, lebo je to dedené z 1024px media query */
+
+    .about-me {
+        padding: 60px var(--header-padding-x);
+        min-height: calc(100vh - 60px); /* Upravené pre menšiu výšku hlavičky na mobiloch */
     }
 
-    .card__contact-link {
-        font-size: 30px;
-        width: 35px;
-        height: 35px;
-        bottom: 10px;
-        left: 10px;
+    .about-me__title {
+        font-size: 44px;
+    }
+
+    .about-me__description {
+        font-size: 18px;
+        padding: 0 10px; /* Ešte menší padding pre mobily */
+    }
+
+    .about-me__programs {
+        padding: 0 10px;
+    }
+
+    .about-me__program-icons {
+        justify-content: center; /* Na mobiloch vycentruj ikony, ak je ich málo */
+        gap: 15px;
+    }
+
+    .about-me__icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .contact {
+        padding: 60px var(--header-padding-x);
+    }
+
+    .contact__title {
+        font-size: 44px;
+    }
+
+    .contact__form {
+        padding: 25px;
+        gap: 12px;
+    }
+
+    .contact__input,
+    .contact__textarea {
+        font-size: 14px;
+        padding: 12px 15px;
+    }
+
+    .contact__textarea {
+        min-height: 100px;
+    }
+
+    .contact__form .button--contact {
+        width: 100%;
+        max-width: 200px;
+        align-self: center;
     }
 }
