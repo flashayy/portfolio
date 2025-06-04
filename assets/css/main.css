@@ -8,14 +8,13 @@
     --accent-clr: #202024;
     --font-main: "Nunito Sans", sans-serif;
     --font-sec: "Source Code Pro", monospace;
-    --header-padding-x: 50px; /* CSS premenná pre horizontálny padding hlavičky */
+    --header-padding-x: 50px;
 }
 
 html {
     scroll-behavior: smooth;
 }
 
-/* Základné nastavenia a reset */
 body {
     margin: 0;
     font-family: var(--font-main);
@@ -24,7 +23,6 @@ body {
     background-color: var(--background);
 }
 
-/* --- Block: Header --- */
 .header {
     position: fixed;
     top: 0;
@@ -32,55 +30,49 @@ body {
     width: 100%;
     z-index: 1000;
     display: flex;
-    justify-content: space-between; /* Rozloží prvky na kraje */
+    justify-content: space-between;
     align-items: center;
-    padding: 20px var(--header-padding-x); /* Používame premennú pre padding */
+    padding: 20px var(--header-padding-x);
     background-color: var(--accent-clr);
     box-shadow: 0 2px 5px rgba(0,0,0,0.3);
     box-sizing: border-box;
 }
 
-/* Aby obsah stránky nebol zakrytý fixnou hlavičkou */
 main {
     padding-top: 80px;
 }
 
-/* --- Element: Header Logo --- */
 .header__logo {
     font-family: var(--font-sec);
     font-weight: 700;
     font-size: 36px;
     letter-spacing: -0.02em;
     color: var(--text-main);
-    flex-shrink: 0; /* Zabraňuje scvrkávaniu loga */
-    position: relative; /* Pridané pre z-index */
-    z-index: 2; /* Zabezpečí, že logo je nad menu pri menších obrazovkách */
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
 }
 
-/* --- Element: Header Logo Symbol --- */
 .header__logo-symbol {
     color: var(--main-clr);
 }
 
-/* --- Main Menu Container (pre desktop) --- */
 .main-menu {
     display: flex;
     align-items: center;
-    gap: 50px; /* Medzera medzi nav listom a buttonom */
-    flex-grow: 1; /* Umožní tomuto kontajneru zabrať čo najviac miesta */
-    justify-content: center; /* Vycentruje obsah vo vnútri main-menu */
-    position: static; /* Reset pre desktop */
-    transform: none; /* Reset pre desktop */
-    visibility: visible; /* Reset pre desktop */
-    opacity: 1; /* Reset pre desktop */
-    transition: none; /* Reset transition pre desktop */
-    width: auto; /* Reset šírky na desktop */
-    right: auto; /* Reset pozície na desktop */
-    box-shadow: none; /* Reset shadow */
+    gap: 50px;
+    flex-grow: 1;
+    justify-content: center;
+    position: static;
+    transform: none;
+    visibility: visible;
+    opacity: 1;
+    transition: none;
+    width: auto;
+    right: auto;
+    box-shadow: none;
 }
 
-
-/* --- Element: Main Navigation List --- */
 .main-nav__list {
     list-style: none;
     margin: 0;
@@ -89,7 +81,6 @@ main {
     gap: 30px;
 }
 
-/* --- Element: Main Navigation Link --- */
 .main-nav__link {
     text-decoration: none;
     font-family: var(--font-main);
@@ -101,7 +92,6 @@ main {
     display: inline-block;
 }
 
-/* Pseudo-element pre podčiarknutie */
 .main-nav__link::after {
     content: '';
     position: absolute;
@@ -113,17 +103,14 @@ main {
     transition: width 0.3s ease-out;
 }
 
-/* Stav pri nabehnutí myšou */
 .main-nav__link:hover {
     color: var(--main-clr);
 }
 
-/* Animácia podčiarknutia pri nabehnutí myšou */
 .main-nav__link:hover::after {
     width: 100%;
 }
 
-/* --- Modifier: Main Navigation Link Active --- */
 .main-nav__link--active {
     font-weight: 700;
     color: var(--main-clr);
@@ -134,7 +121,6 @@ main {
     background-color: var(--main-clr);
 }
 
-/* --- Block: Button --- */
 .button {
     width: 190px;
     height: 50px;
@@ -146,7 +132,6 @@ main {
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
-/* --- Modifier: Contact Button --- */
 .button--contact {
     border: 1px solid var(--main-clr);
     background-color: var(--main-clr);
@@ -154,17 +139,14 @@ main {
     flex-shrink: 0;
 }
 
-
-/* --- Hamburger Menu Toggle Button --- */
 .menu-toggle {
-    display: none; /* Na desktope je skrytý */
+    display: none;
     background: none;
     border: none;
     cursor: pointer;
     padding: 10px;
-    /* KĽÚČOVÁ ZMENA: Zvýšený z-index */
-    z-index: 1002; /* Dáme mu vyšší z-index ako menu (999) */
-    position: relative; /* Potrebné pre správny z-index, ak sú rodičia static */
+    z-index: 1002;
+    position: relative;
 }
 
 .hamburger {
@@ -176,7 +158,6 @@ main {
     transition: all 0.3s ease;
 }
 
-/* Animácia hamburgeru na "X" */
 .menu-toggle.is-active .hamburger:nth-child(1) {
     transform: translateY(9px) rotate(45deg);
 }
@@ -187,7 +168,6 @@ main {
     transform: translateY(-9px) rotate(-45deg);
 }
 
-/* --- Block: Hero Section --- */
 .hero {
     display: flex;
     justify-content: flex-start;
@@ -198,12 +178,10 @@ main {
     box-sizing: border-box;
 }
 
-/* --- Element: Hero Content Container --- */
 .hero__content {
     max-width: 600px;
 }
 
-/* --- Element: Hero Greeting --- */
 .hero__greeting {
     font-family: var(--font-main);
     font-weight: 400;
@@ -212,7 +190,6 @@ main {
     color: var(--text-main);
 }
 
-/* --- Element: Hero Name (Heading) --- */
 .hero__name {
     font-family: var(--font-main);
     font-weight: 900;
@@ -223,7 +200,6 @@ main {
     color: var(--text-main);
 }
 
-/* --- Element: Hero Description --- */
 .hero__description {
     font-family: var(--font-main);
     font-weight: 200;
@@ -233,12 +209,10 @@ main {
     color: var(--text-main);
 }
 
-/* --- Utility Class: Text Highlight --- */
 .text--highlight {
     color: var(--main-clr);
 }
 
-/* --- Services Section --- */
 .services {
     padding: 80px var(--header-padding-x);
     text-align: center;
@@ -260,7 +234,6 @@ main {
     gap: 40px;
 }
 
-/* --- Card Block --- */
 .card {
     width: 327px;
     height: 366px;
@@ -328,9 +301,6 @@ main {
     color: var(--text-main);
 }
 
-/* --- Media Queries for Responsiveness --- */
-
-/* Tablet a menšie zariadenia (napr. do 1024px) */
 @media (max-width: 1024px) {
     :root {
         --header-padding-x: 30px;
@@ -346,9 +316,8 @@ main {
 
     .menu-toggle {
         display: block;
-        /* KĽÚČOVÁ ZMENA: Z-index pre mobil */
-        z-index: 1002; /* Vyšší z-index ako menu (999) */
-        position: relative; /* Potrebné pre správny z-index */
+        z-index: 1002;
+        position: relative;
     }
 
     .main-menu {
@@ -367,8 +336,7 @@ main {
         box-shadow: -2px 0 10px rgba(0,0,0,0.3);
         padding-top: 80px;
         box-sizing: border-box;
-        /* KĽÚČOVÁ ZMENA: Z-index pre mobil */
-        z-index: 999; /* Menu má nižší z-index ako tlačidlo */
+        z-index: 999;
         margin-left: 0;
         margin-right: 0;
         transform: none;
@@ -418,7 +386,6 @@ main {
     }
 }
 
-/* Mobilné zariadenia (napr. do 768px) */
 @media (max-width: 768px) {
     :root {
         --header-padding-x: 20px;
