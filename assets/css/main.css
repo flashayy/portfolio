@@ -1,8 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
 
-/* Základný reset pre box model */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
 }
 
@@ -13,14 +14,13 @@
     --accent-clr: #202024;
     --font-main: "Nunito Sans", sans-serif;
     --font-sec: "Source Code Pro", monospace;
-    --header-padding-x: 50px; /* CSS premenná pre horizontálny padding hlavičky */
+    --header-padding-x: 50px;
 }
 
 html {
     scroll-behavior: smooth;
 }
 
-/* Základné nastavenia a reset */
 body {
     margin: 0;
     font-family: var(--font-main);
@@ -29,7 +29,6 @@ body {
     background-color: var(--background);
 }
 
-/* --- Block: Header --- */
 .header {
     position: fixed;
     top: 0;
@@ -37,55 +36,49 @@ body {
     width: 100%;
     z-index: 1000;
     display: flex;
-    justify-content: space-between; /* Rozloží prvky na kraje */
+    justify-content: space-between;
     align-items: center;
-    padding: 20px var(--header-padding-x); /* Používame premennú pre padding */
+    padding: 20px var(--header-padding-x);
     background-color: var(--accent-clr);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     box-sizing: border-box;
 }
 
-/* Aby obsah stránky nebol zakrytý fixnou hlavičkou */
 main {
-    padding-top: 80px; /* Prispôsobí sa výške hlavičky */
+    padding-top: 80px;
 }
 
-/* --- Element: Header Logo --- */
 .header__logo {
     font-family: var(--font-sec);
     font-weight: 700;
     font-size: 36px;
     letter-spacing: -0.02em;
     color: var(--text-main);
-    flex-shrink: 0; /* Zabraňuje scvrkávaniu loga */
-    position: relative; /* Pridané pre z-index */
-    z-index: 2; /* Zabezpečí, že logo je nad menu pri menších obrazovkách */
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
 }
 
-/* --- Element: Header Logo Symbol --- */
 .header__logo-symbol {
     color: var(--main-clr);
 }
 
-/* --- Main Menu Container (pre desktop) --- */
 .main-menu {
     display: flex;
     align-items: center;
-    gap: 50px; /* Medzera medzi nav listom a buttonom */
-    flex-grow: 1; /* Umožní tomuto kontajneru zabrať čo najviac miesta */
-    justify-content: center; /* Vycentruje obsah vo vnútri main-menu */
-    position: static; /* Reset pre desktop */
-    transform: none; /* Reset pre desktop */
-    visibility: visible; /* Reset pre desktop */
-    opacity: 1; /* Reset pre desktop */
-    transition: none; /* Reset transition pre desktop */
-    width: auto; /* Reset šírky na desktop */
-    right: auto; /* Reset pozície na desktop */
-    box-shadow: none; /* Reset shadow */
+    gap: 50px;
+    flex-grow: 1;
+    justify-content: center;
+    position: static;
+    transform: none;
+    visibility: visible;
+    opacity: 1;
+    transition: none;
+    width: auto;
+    right: auto;
+    box-shadow: none;
 }
 
-
-/* --- Element: Main Navigation List --- */
 .main-nav__list {
     list-style: none;
     margin: 0;
@@ -94,7 +87,6 @@ main {
     gap: 30px;
 }
 
-/* --- Element: Main Navigation Link --- */
 .main-nav__link {
     text-decoration: none;
     font-family: var(--font-main);
@@ -106,7 +98,6 @@ main {
     display: inline-block;
 }
 
-/* Pseudo-element pre podčiarknutie */
 .main-nav__link::after {
     content: '';
     position: absolute;
@@ -118,17 +109,14 @@ main {
     transition: width 0.3s ease-out;
 }
 
-/* Stav pri nabehnutí myšou */
 .main-nav__link:hover {
     color: var(--main-clr);
 }
 
-/* Animácia podčiarknutia pri nabehnutí myšou */
 .main-nav__link:hover::after {
     width: 100%;
 }
 
-/* --- Modifier: Main Navigation Link Active --- */
 .main-nav__link--active {
     font-weight: 700;
     color: var(--main-clr);
@@ -139,7 +127,6 @@ main {
     background-color: var(--main-clr);
 }
 
-/* --- Block: Button --- */
 .button {
     width: 190px;
     height: 50px;
@@ -151,7 +138,6 @@ main {
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
-/* --- Modifier: Contact Button --- */
 .button--contact {
     border: 1px solid var(--main-clr);
     background-color: var(--main-clr);
@@ -159,15 +145,13 @@ main {
     flex-shrink: 0;
 }
 
-
-/* --- Hamburger Menu Toggle Button --- */
 .menu-toggle {
-    display: none; /* Na desktope je skrytý */
+    display: none;
     background: none;
     border: none;
     cursor: pointer;
     padding: 10px;
-    z-index: 1002; /* Dáme mu vyšší z-index ako menu */
+    z-index: 1002;
     position: relative;
 }
 
@@ -180,18 +164,18 @@ main {
     transition: all 0.3s ease;
 }
 
-/* Animácia hamburgeru na "X" */
 .menu-toggle.is-active .hamburger:nth-child(1) {
     transform: translateY(9px) rotate(45deg);
 }
+
 .menu-toggle.is-active .hamburger:nth-child(2) {
     opacity: 0;
 }
+
 .menu-toggle.is-active .hamburger:nth-child(3) {
     transform: translateY(-9px) rotate(-45deg);
 }
 
-/* --- Block: Hero Section --- */
 .hero {
     display: flex;
     justify-content: flex-start;
@@ -202,12 +186,10 @@ main {
     box-sizing: border-box;
 }
 
-/* --- Element: Hero Content Container --- */
 .hero__content {
     max-width: 600px;
 }
 
-/* --- Element: Hero Greeting --- */
 .hero__greeting {
     font-family: var(--font-main);
     font-weight: 400;
@@ -216,7 +198,6 @@ main {
     color: var(--text-main);
 }
 
-/* --- Element: Hero Name (Heading) --- */
 .hero__name {
     font-family: var(--font-main);
     font-weight: 900;
@@ -227,7 +208,6 @@ main {
     color: var(--text-main);
 }
 
-/* --- Element: Hero Description --- */
 .hero__description {
     font-family: var(--font-main);
     font-weight: 200;
@@ -237,20 +217,16 @@ main {
     color: var(--text-main);
 }
 
-/* --- Utility Class: Text Highlight (existing) --- */
 .text--highlight {
     color: var(--main-clr);
 }
 
-/* NOVÁ UTILITY TRIEDA: Pre podčiarknutie textu */
 .text--underline {
     text-decoration: underline;
-    text-decoration-color: var(--main-clr); /* Farba podčiarknutia rovnaká ako highlight */
-    text-underline-offset: 4px; /* Odsadenie podčiarknutia od textu */
+    text-decoration-color: var(--main-clr);
+    text-underline-offset: 4px;
 }
 
-
-/* --- Services Section --- */
 .services {
     padding: 80px var(--header-padding-x);
     text-align: center;
@@ -272,7 +248,6 @@ main {
     gap: 40px;
 }
 
-/* --- Card Block --- */
 .card {
     width: 327px;
     height: 366px;
@@ -340,7 +315,6 @@ main {
     color: var(--text-main);
 }
 
-/* --- About Me Section --- */
 .about-me {
     background-color: var(--background);
     padding: 80px var(--header-padding-x);
@@ -349,9 +323,9 @@ main {
     flex-direction: column;
     align-items: center;
     gap: 40px;
-    min-height: calc(100vh - 80px); /* Minimálna výška viewportu mínus výška hlavičky */
-    justify-content: center; /* Vycentruje obsah vertikálne */
-    box-sizing: border-box; /* Zabezpečí, že padding je zahrnutý do výšky */
+    min-height: calc(100vh - 80px);
+    justify-content: center;
+    box-sizing: border-box;
 }
 
 .about-me__title {
@@ -421,7 +395,6 @@ main {
     transform: scale(1.1);
 }
 
-/* --- Contact Section --- */
 .contact {
     background-color: var(--accent-clr);
     padding: 80px var(--header-padding-x);
@@ -450,7 +423,7 @@ main {
     gap: 20px;
     max-width: 600px;
     width: 100%;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
     box-sizing: border-box;
 }
 
@@ -480,33 +453,27 @@ main {
     min-height: 120px;
 }
 
-/* Špecifické štýly pre tlačidlo "Send" v kontaktnej sekcii */
 .contact__form .button--contact {
     align-self: center;
     margin-top: 10px;
 }
 
-
-/* --- Media Queries pre Responzívnosť --- */
-
-/* Tablet a menšie zariadenia (napr. do 1024px) */
 @media (max-width: 1024px) {
     :root {
         --header-padding-x: 30px;
     }
 
     .header__logo {
-        font-size: 30px; /* Zmenší logo na tabletoch */
+        font-size: 30px;
     }
 
-    /* Skryje desktopové navigačné menu a pripraví ho na mobilné zobrazenie */
     .main-menu {
         position: fixed;
-        top: 0; /* Bude upravené pomocou JS pre výšku hlavičky */
-        right: -100%; /* Začína mimo obrazovky */
+        top: 0;
+        right: -100%;
         width: 100%;
-        height: 100vh; /* Celá výška viewportu */
-        background-color: var(--accent-clr); /* Farba pozadia pre mobilné menu */
+        height: 100vh;
+        background-color: var(--accent-clr);
         flex-direction: column;
         justify-content: center;
         align-items: center;
@@ -514,10 +481,9 @@ main {
         opacity: 0;
         visibility: hidden;
         gap: 30px;
-        box-shadow: -5px 0 15px rgba(0,0,0,0.5); /* Tieň na pravej strane menu */
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
     }
 
-    /* Zobrazí hlavné menu, keď je aktívna trieda 'is-open' */
     .main-menu.is-open {
         right: 0;
         opacity: 1;
@@ -536,19 +502,18 @@ main {
     }
 
     .button--contact {
-        width: 250px; /* Uprav veľkosť tlačidla pre mobilné menu */
+        width: 250px;
         height: 60px;
         font-size: 20px;
         margin-top: 20px;
     }
 
-    /* --- Hamburger Menu Toggle Button (ZOBRAZENIE) --- */
     .menu-toggle {
-        display: block; /* TOTO HO ZOBRAZÍ na tabletoch a mobiloch */
+        display: block;
     }
 
     .about-me {
-        min-height: calc(100vh - 60px); /* Upravené pre menšiu výšku hlavičky na tabletoch */
+        min-height: calc(100vh - 60px);
     }
 
     .about-me__title {
@@ -557,7 +522,7 @@ main {
 
     .about-me__description {
         font-size: 20px;
-        padding: 0 15px; /* Menší padding pre tablety */
+        padding: 0 15px;
     }
 
     .about-me__programs {
@@ -579,7 +544,6 @@ main {
     }
 }
 
-/* Mobilné zariadenia (napr. do 768px) */
 @media (max-width: 768px) {
     :root {
         --header-padding-x: 20px;
@@ -589,11 +553,9 @@ main {
         font-size: 28px;
     }
 
-    /* Tu už nemusíš display: block; pre menu-toggle opakovať, lebo je to dedené z 1024px media query */
-
     .about-me {
         padding: 60px var(--header-padding-x);
-        min-height: calc(100vh - 60px); /* Upravené pre menšiu výšku hlavičky na mobiloch */
+        min-height: calc(100vh - 60px);
     }
 
     .about-me__title {
@@ -602,7 +564,7 @@ main {
 
     .about-me__description {
         font-size: 18px;
-        padding: 0 10px; /* Ešte menší padding pre mobily */
+        padding: 0 10px;
     }
 
     .about-me__programs {
@@ -610,7 +572,7 @@ main {
     }
 
     .about-me__program-icons {
-        justify-content: center; /* Na mobiloch vycentruj ikony, ak je ich málo */
+        justify-content: center;
         gap: 15px;
     }
 
