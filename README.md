@@ -15,6 +15,6 @@ About Me – Who I am and what I specialize in
 
 Projects – A showcase of my selected works with descriptions and visuals
 
-Skills – The tools and technologies I use
+Services - Services that I can provide for you
 
 Contact – How to get in touch with me
