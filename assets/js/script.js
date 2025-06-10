@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const header = document.querySelector('.header');
     const menuToggle = document.querySelector('.menu-toggle');
     const mainMenu = document.getElementById('mainMenu');
-    const contactButton = document.querySelector('.header .button--contact'); // Select the contact button in the header
+    const contactButton = document.querySelector('.header .button--contact');
     const themeToggle = document.getElementById('themeToggle');
 
     const getHeaderHeight = () => header.offsetHeight;
