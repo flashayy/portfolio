@@ -6,13 +6,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const mainMenu = document.getElementById('mainMenu');
     const contactButton = document.querySelector('.header .button--contact');
     const themeToggle = document.getElementById('themeToggle');
+    const contactForm = document.getElementById('contactForm');
 
     const getHeaderHeight = () => header.offsetHeight;
 
     navLinks.forEach(link => {
         link.addEventListener('click', function (e) {
             e.preventDefault();
-
             const targetId = this.getAttribute('href');
             const targetElement = document.querySelector(targetId);
 
@@ -38,7 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-
     contactButton.addEventListener('click', function (e) {
         e.preventDefault();
         const targetId = '#contact';
@@ -60,13 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 behavior: 'smooth'
             });
 
-
             navLinks.forEach(nav => nav.classList.remove('main-nav__link--active'));
-
         }
     });
-
-
 
     const highlightActiveLink = () => {
         let currentActiveSectionId = 'home';
@@ -74,7 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         sections.forEach(section => {
             const rect = section.getBoundingClientRect();
-
             const topThreshold = headerHeight + 50;
             const bottomThreshold = headerHeight + 100;
 
@@ -85,12 +79,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         navLinks.forEach(link => {
             link.classList.remove('main-nav__link--active');
-
             if (link.getAttribute('href').substring(1) === currentActiveSectionId) {
                 link.classList.add('main-nav__link--active');
             }
         });
-
 
         if (window.scrollY < headerHeight + 50) {
             const homeLink = document.querySelector('.main-nav__link[href="#home"]');
@@ -100,7 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     };
-
 
     menuToggle.addEventListener('click', () => {
         mainMenu.classList.toggle('is-open');
@@ -119,7 +110,6 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('theme', isLightMode ? 'light' : 'dark');
     });
 
-
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'light') {
         document.body.classList.add('light-mode');
@@ -129,11 +119,23 @@ document.addEventListener('DOMContentLoaded', () => {
         themeToggle.querySelector('.theme-toggle__icon').textContent = '🌙';
     }
 
-
-
     window.addEventListener('scroll', highlightActiveLink);
-
-
     window.addEventListener('load', highlightActiveLink);
     highlightActiveLink();
+
+    if (contactForm) {
+        emailjs.init("_cYbP8K99z-13hmhh");
+
+        contactForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            emailjs.sendForm('service_8rzno8w', 'template_grju3ta', this)
+                .then(() => {
+                    alert('Email odoslaný! 📧');
+                    contactForm.reset();
+                }, (error) => {
+                    alert('Chyba pri odosielaní: ' + JSON.stringify(error));
+                });
+        });
+    }
 });
