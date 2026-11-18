@@ -1,0 +1,231 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import { t } from '../data/content';
+import { getProjects } from '../data/projects';
+import { paths, otherLang, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const c = t(lang).work;
+const projects = await getProjects(lang);
+const filters = (['all', 'web', 'graphic'] as const).map((key) => ({
+  key,
+  label: c.filters[key],
+}));
+---
+
+<Base lang={lang} alternate={paths.work(otherLang(lang))} title={c.indexTitle}>
+  <section class="windex container">
+    <header class="windex__head">
+      <h1 class="windex__title display" data-intro-title>
+        {c.indexTitle}
+      </h1>
+      <div class="windex__sub">
+        <p class="muted" data-intro>{c.indexIntro}</p>
+        <div class="windex__filters" role="group" aria-label="Filter" data-intro>
+          {
+            filters.map((f, i) => (
+              <button
+                type="button"
+                class="windex__filter mono"
+                data-filter={f.key}
+                aria-pressed={i === 0 ? 'true' : 'false'}
+              >
+                {f.label}
+              </button>
+            ))
+          }
+        </div>
+      </div>
+    </header>
+
+    {projects.length === 0 && <p class="muted">{c.empty}</p>}
+
+    <ul class="windex__list" data-index-list>
+      {
+        projects.map((p, i) => (
+          <li class="windex__item" data-category={p.data.category} data-reveal>
+            <a
+              href={paths.project(lang, p.slug)}
+              class:list={['windex__row', `windex__row--${p.data.accent}`]}
+              data-preview={i}
+            >
+              <span class="windex__name">{p.data.title}</span>
+              <span class="mono muted windex__cat">{c.categories[p.data.category]}</span>
+              <span class="mono muted windex__role">{p.data.role}</span>
+              <span class="mono windex__year">{p.data.year}</span>
+              <span class="windex__thumb" aria-hidden="true">
+                <Image src={p.data.cover} alt="" widths={[480, 800]} sizes="92vw" />
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <div class="preview" data-preview-box aria-hidden="true">
+    <div class="preview__inner" data-preview-inner>
+      {projects.map((p) => <Image src={p.data.cover} alt="" widths={[480, 800]} sizes="420px" class="preview__img" />)}
+    </div>
+  </div>
+</Base>
+
+<style>
+  .windex {
+    padding-top: calc(var(--header-h) + clamp(3rem, 8vw, 7rem));
+    padding-bottom: clamp(6rem, 12vw, 10rem);
+  }
+  .windex__head {
+    margin-bottom: clamp(3rem, 7vw, 6rem);
+  }
+  .windex__title {
+    font-size: clamp(4rem, 17vw, 18rem);
+    font-variation-settings: 'wdth' 125;
+    line-height: 0.82;
+  }
+  .windex__sub {
+    margin-top: 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .windex__sub p {
+    max-width: 38ch;
+  }
+  .windex__filters {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .windex__filter {
+    padding: 0.7em 1.2em;
+    border-radius: 999px;
+    box-shadow: inset 0 0 0 1px var(--faint);
+    transition:
+      background 0.35s,
+      color 0.35s,
+      box-shadow 0.35s;
+  }
+  .windex__filter:hover {
+    box-shadow: inset 0 0 0 1px var(--fg);
+  }
+  .windex__filter[aria-pressed='true'] {
+    background: var(--fg);
+    color: var(--bg);
+    box-shadow: none;
+  }
+
+  .windex__list {
+    border-top: 1px solid var(--faint);
+  }
+  .windex__item.is-hidden {
+    display: none;
+  }
+  .windex__row {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 9rem 14rem 4rem;
+    align-items: center;
+    gap: 1.5rem;
+    padding-block: clamp(1.4rem, 2.8vw, 2.4rem);
+    border-bottom: 1px solid var(--faint);
+    isolation: isolate;
+  }
+  .windex__row::before {
+    content: '';
+    position: absolute;
+    inset: 0 calc(var(--gutter) * -1);
+    background: var(--surface);
+    z-index: -1;
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.6s var(--ease-out);
+  }
+  .windex__row:hover::before {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  .windex__name {
+    font-size: var(--step-3);
+    font-weight: 750;
+    font-stretch: 110%;
+    letter-spacing: -0.035em;
+    line-height: 1;
+    transition:
+      transform 0.6s var(--ease-out),
+      color 0.3s;
+  }
+  .windex__row:hover .windex__name {
+    transform: translateX(1rem);
+  }
+  .windex__row--primary:hover .windex__name {
+    color: var(--accent-fg);
+  }
+  .windex__row--secondary:hover .windex__name {
+    color: var(--accent-2-fg);
+  }
+  .windex__year {
+    text-align: right;
+  }
+  .windex__thumb {
+    display: none;
+  }
+
+  .preview {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 40;
+    width: clamp(280px, 26vw, 420px);
+    aspect-ratio: 16 / 11;
+    pointer-events: none;
+    translate: -50% -50%;
+  }
+  .preview__inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: calc(var(--radius) * 0.7);
+    overflow: hidden;
+    transform: scale(0);
+  }
+  .preview__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+  }
+
+  @media (max-width: 900px) {
+    .windex__row {
+      grid-template-columns: 1fr auto;
+      gap: 0.75rem 1rem;
+    }
+    .windex__role,
+    .windex__cat {
+      display: none;
+    }
+    .windex__thumb {
+      display: block;
+      grid-column: 1 / -1;
+      border-radius: calc(var(--radius) * 0.7);
+      overflow: hidden;
+      aspect-ratio: 16 / 10;
+    }
+    .windex__thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .preview {
+      display: none;
+    }
+  }
+</style>

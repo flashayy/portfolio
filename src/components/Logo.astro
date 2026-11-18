@@ -1,0 +1,23 @@
+---
+interface Props {
+  class?: string;
+  title?: string;
+  [key: string]: unknown;
+}
+const { class: className, title, ...rest } = Astro.props;
+---
+
+<svg
+  class:list={['logo', className]}
+  viewBox="376 300 364 498"
+  xmlns="http://www.w3.org/2000/svg"
+  fill="currentColor"
+  role={title ? 'img' : undefined}
+  aria-hidden={title ? undefined : 'true'}
+  aria-label={title}
+  {...rest}
+>
+  <path class="logo__m1" d="M386.544,311.105l0.295,263.946l49.84,-46.596l0.295,-97.911l48.955,47.481l33.915,-35.389l-133.3,-131.531Z"></path>
+  <path class="logo__s" d="M386.544,584.488l36.274,-33.325l133.3,133.89l34.21,-33.62l-132.71,-135.07l98.501,-100.86l168.985,167.805l-67.83,0l-101.745,-99.68l-35.684,33.325l138.019,135.66l-101.745,101.45l-169.574,-169.574Z"></path>
+  <path class="logo__m2" d="M595.304,443.078l34.21,33.756l47.481,-45.711l0.59,97.026l50.725,46.903l-0.708,-263.946l-132.298,131.973Z"></path>
+</svg>

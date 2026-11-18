@@ -1,0 +1,249 @@
+---
+import { Image } from 'astro:assets';
+import { t } from '../data/content';
+import type { Project } from '../data/projects';
+import { paths, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  projects: Project[];
+}
+const { lang, projects } = Astro.props;
+const c = t(lang).work;
+---
+
+<section class="work" id="work" data-work>
+  <div class="work__pin" data-work-pin>
+    <div class="work__track" data-work-track>
+      <div class="work__intro">
+        <span class="label mono">{c.label}</span>
+        <h2 class="work__title display" data-split-lines>
+          {c.title}
+        </h2>
+        <a href={paths.work(lang)} class="btn btn--ghost work__all">
+          <span class="roll"><span>{c.all}</span><span aria-hidden="true">{c.all}</span></span>
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      {projects.length === 0 && <p class="work__empty muted">{c.empty}</p>}
+
+      {
+        projects.map((p, i) => (
+          <a
+            href={paths.project(lang, p.slug)}
+            class:list={['pcard', `pcard--${p.data.accent}`]}
+            data-cursor={c.view}
+            data-work-card
+          >
+            <div class="pcard__media">
+              <Image
+                src={p.data.cover}
+                alt={p.data.coverAlt}
+                class="pcard__img"
+                widths={[640, 960, 1400]}
+                sizes="(max-width: 900px) 92vw, 56vw"
+                loading={i < 2 ? 'eager' : 'lazy'}
+                data-work-img
+              />
+            </div>
+            <div class="pcard__info">
+              <h3 class="pcard__title">{p.data.title}</h3>
+              <span class="mono muted pcard__meta">
+                <span>{c.categories[p.data.category]}</span>
+                <span>{p.data.year}</span>
+              </span>
+            </div>
+          </a>
+        ))
+      }
+
+      <a href={paths.work(lang)} class="work__more" data-cursor-stick>
+        <span class="work__more-circle">
+          <span>{c.all}</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" /></svg>
+        </span>
+      </a>
+    </div>
+
+    <div class="work__progress container" aria-hidden="true">
+      <div class="work__bar"><span data-work-progress></span></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .work {
+    position: relative;
+  }
+  .work__pin {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .work__track {
+    display: flex;
+    align-items: center;
+    gap: clamp(2rem, 4vw, 5rem);
+    padding-inline: var(--gutter) 12vw;
+    padding-top: var(--header-h);
+    width: max-content;
+    will-change: transform;
+  }
+  .work__intro {
+    width: clamp(300px, 34vw, 560px);
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: flex-start;
+  }
+  .work__title {
+    font-size: clamp(3rem, 5.6vw, 7rem);
+  }
+  .work__empty {
+    width: 30ch;
+  }
+
+  .pcard {
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  .pcard__media {
+    position: relative;
+    height: min(62vh, 44vw);
+    aspect-ratio: 16 / 11;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--surface);
+  }
+  .pcard__media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px var(--faint);
+    pointer-events: none;
+  }
+  .pcard__img {
+    width: 118%;
+    max-width: none;
+    height: 100%;
+    object-fit: cover;
+    transition: scale 1.2s var(--ease-out);
+  }
+  .pcard:hover .pcard__img {
+    scale: 1.06;
+  }
+  .pcard__info {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    gap: 1rem;
+  }
+  .pcard__meta {
+    display: inline-flex;
+    gap: 1em;
+  }
+  .pcard__title {
+    font-size: var(--step-2);
+    font-weight: 700;
+    font-stretch: 108%;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    transition: color 0.3s;
+  }
+  .pcard--primary:hover .pcard__title {
+    color: var(--accent-fg);
+  }
+  .pcard--secondary:hover .pcard__title {
+    color: var(--accent-2-fg);
+  }
+
+  .work__more {
+    flex: none;
+  }
+  .work__more-circle {
+    width: clamp(200px, 18vw, 300px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    box-shadow: inset 0 0 0 1px var(--faint);
+    font-weight: 600;
+    font-size: var(--step-1);
+    transition:
+      background 0.5s var(--ease-out),
+      color 0.5s,
+      box-shadow 0.5s;
+  }
+  .work__more-circle svg {
+    width: 2rem;
+    transition: transform 0.6s var(--ease-out);
+  }
+  .work__more:hover .work__more-circle {
+    background: var(--brand);
+    color: var(--ink);
+    box-shadow: none;
+  }
+  .work__more:hover svg {
+    transform: translateX(6px);
+  }
+
+  .work__progress {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 2rem;
+  }
+  .work__bar {
+    height: 1px;
+    background: var(--faint);
+  }
+  .work__bar span {
+    display: block;
+    height: 100%;
+    background: var(--fg);
+    transform-origin: left;
+    transform: scaleX(0);
+  }
+
+  /* Mobile / reduced motion: vertical list */
+  @media (max-width: 900px), (prefers-reduced-motion: reduce) {
+    .work__pin {
+      min-height: auto;
+      padding-block: clamp(5rem, 14vw, 8rem);
+    }
+    .work__track {
+      flex-direction: column;
+      align-items: stretch;
+      width: 100%;
+      padding: 0 var(--gutter);
+      gap: 3.5rem;
+    }
+    .work__intro {
+      width: 100%;
+    }
+    .pcard__media {
+      height: auto;
+      width: 100%;
+    }
+    .pcard__img {
+      width: 100%;
+    }
+    .work__more {
+      align-self: center;
+    }
+    .work__progress {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,172 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Preloader from '../components/Preloader.astro';
+import Cursor from '../components/Cursor.astro';
+import Logo from '../components/Logo.astro';
+import { t } from '../data/content';
+import { site, fullName } from '../data/site';
+import { htmlLang, otherLang, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  /** URL tej istej stránky v druhom jazyku */
+  alternate: string;
+  title?: string;
+  description?: string;
+  isHome?: boolean;
+  /** Stránka obsahuje preloader (iba úvod) */
+  preloader?: boolean;
+}
+
+const { lang, alternate, title, description, isHome = false, preloader = false } = Astro.props;
+const c = t(lang);
+const pageTitle = title ? `${title} | ${fullName}` : `${fullName} | ${c.meta.title}`;
+const desc = description ?? c.meta.description;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const themeColor = { orange: '#000000', violet: '#000000', magenta: '#1A1A1A' };
+const altUrl = new URL(alternate, Astro.site);
+---
+
+<!doctype html>
+<html lang={htmlLang[lang]} data-theme="dark" data-palette={site.palette}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={desc} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang={htmlLang[lang]} href={canonical} />
+    <link rel="alternate" hreflang={htmlLang[otherLang(lang)]} href={altUrl} />
+    <link rel="icon" href={`/favicon-${site.palette}.svg`} type="image/svg+xml" />
+    {!site.indexable && <meta name="robots" content="noindex, nofollow" />}
+    <meta name="theme-color" content={themeColor[site.palette]} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={desc} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={lang === 'sk' ? 'sk_SK' : 'en_US'} />
+
+    <script is:inline define:vars={{ preloader }}>
+      (() => {
+        const d = document.documentElement;
+        d.classList.add('js');
+        if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+        try {
+          // Téma: ručná voľba (ak ju používateľ zmenil), inak podľa systému
+          localStorage.removeItem('theme'); // starý kľúč, ukladal sa aj bez voľby
+          const saved = localStorage.getItem('theme-choice');
+          const system = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+          d.dataset.theme = saved === 'light' || saved === 'dark' ? saved : system;
+          if (sessionStorage.getItem('pt')) d.classList.add('is-transitioning');
+          else if (preloader && !sessionStorage.getItem('visited')) d.classList.add('is-first');
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <a href="#main" class="skip mono">Skip to content</a>
+    {preloader && <Preloader />}
+    <div class="curtain" data-curtain aria-hidden="true">
+      <Logo class="curtain__logo" />
+    </div>
+    <Cursor />
+    <div class="grain" aria-hidden="true"></div>
+
+    <Header lang={lang} alternate={alternate} isHome={isHome} />
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <Footer lang={lang} />
+
+    <button type="button" class="to-top" data-to-top data-scroll-top aria-label={c.footer.top}>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6" fill="none" stroke="currentColor" stroke-width="1.8"></path></svg>
+    </button>
+
+    <script>
+      import { boot } from '../scripts/main';
+      boot();
+    </script>
+  </body>
+</html>
+
+<style>
+  .skip {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 300;
+    padding: 0.75rem 1rem;
+    background: var(--brand);
+    color: var(--ink);
+    border-radius: 8px;
+    transform: translateY(-200%);
+  }
+  .skip:focus {
+    transform: none;
+  }
+  .curtain {
+    position: fixed;
+    inset: 0;
+    z-index: 180;
+    background: var(--brand);
+    color: var(--ink);
+    display: grid;
+    place-items: center;
+    transform: translateY(101%);
+    pointer-events: none;
+  }
+  :global(.is-transitioning) .curtain {
+    transform: translateY(0);
+  }
+  /* Tlačidlo späť hore, viditeľné všade po odscrollovaní z hero */
+  .to-top {
+    position: fixed;
+    right: max(1rem, env(safe-area-inset-right));
+    bottom: max(1rem, env(safe-area-inset-bottom));
+    z-index: 60;
+    width: 52px;
+    height: 52px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--fg);
+    color: var(--bg);
+    box-shadow: 0 6px 24px rgb(0 0 0 / 0.25);
+    opacity: 0;
+    transform: translateY(16px) scale(0.9);
+    pointer-events: none;
+    transition:
+      opacity 0.35s var(--ease-out),
+      transform 0.45s var(--ease-out),
+      background-color 0.3s,
+      color 0.3s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .to-top.is-visible {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+  .to-top svg {
+    width: 22px;
+    transition: transform 0.4s var(--ease-out);
+  }
+  .to-top:hover {
+    background: var(--accent);
+    color: var(--ink);
+  }
+  .to-top:hover svg {
+    transform: translateY(-3px);
+  }
+  :global(.menu-open) .to-top {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .curtain__logo {
+    width: clamp(48px, 5vw, 72px);
+  }
+</style>

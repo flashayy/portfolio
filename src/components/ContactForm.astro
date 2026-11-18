@@ -1,0 +1,468 @@
+---
+import { t } from '../data/content';
+import { site } from '../data/site';
+import type { Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const f = t(lang).contact.form;
+const { endpoint, accessKey } = site.contactForm;
+const [greetBefore, greetAfter] = f.greeting.split('{name}');
+---
+
+<div class="contact" data-contact>
+  <form
+    class="cform"
+    action={accessKey ? endpoint : `mailto:${site.email}`}
+    method="POST"
+    novalidate
+    data-contact-form
+    data-endpoint={accessKey ? endpoint : ''}
+    data-email={site.email}
+    data-subject={f.subject}
+    data-msg-sending={f.sending}
+    data-msg-error={f.error}
+    data-msg-mailto={f.mailto}
+    data-err-name={f.errors.name}
+    data-err-email={f.errors.email}
+    data-err-message={f.errors.message}
+  >
+    {accessKey && <input type="hidden" name="access_key" value={accessKey} />}
+    <input type="hidden" name="subject" value={f.subject} />
+    <input type="hidden" name="from_name" value="Portfolio" />
+    <input type="checkbox" name="botcheck" class="cform__trap" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+    <p class="cform__sentence" data-reveal>
+      <span>{greetBefore}<span class="cform__me">{site.firstName}</span>{greetAfter}</span>
+      <span>{f.nameLead}</span>
+      <label class="cform__field">
+        <span class="visually-hidden">{f.nameLabel}</span>
+        <span class="grow" data-grow={f.namePh}>
+          <input name="name" type="text" size="1" required autocomplete="name" placeholder={f.namePh} maxlength="80" />
+        </span>
+      </label>
+      <span>{f.emailLead}</span>
+      <label class="cform__field">
+        <span class="visually-hidden">{f.emailLabel}</span>
+        <span class="grow" data-grow={f.emailPh}>
+          <input name="email" type="email" size="1" required autocomplete="email" inputmode="email" placeholder={f.emailPh} maxlength="120" />
+        </span>
+      </label><span>.</span>
+    </p>
+
+    <fieldset class="cform__group" data-reveal>
+      <legend class="mono">{f.servicesLead}</legend>
+      <div class="cform__chips">
+        {
+          f.services.map((service, i) => (
+            <label class="chip">
+              <input type="checkbox" name="services" value={service} data-service-index={i} />
+              <span>{service}</span>
+            </label>
+          ))
+        }
+      </div>
+    </fieldset>
+
+    <fieldset class="cform__group" data-reveal>
+      <legend class="mono">{f.budgetLead} <span class="cform__opt">({f.optional})</span></legend>
+      <div class="cform__chips">
+        {
+          f.budgets.map((budget) => (
+            <label class="chip chip--radio">
+              <input type="radio" name="budget" value={budget} />
+              <span>{budget}</span>
+            </label>
+          ))
+        }
+      </div>
+    </fieldset>
+
+    <label class="cform__message" data-reveal>
+      <span class="mono">{f.messageLabel}</span>
+      <span class="grow grow--area" data-grow={f.messagePh}>
+        <textarea name="message" rows="3" required placeholder={f.messagePh} maxlength="4000"></textarea>
+      </span>
+    </label>
+
+    <p class="cform__status mono" role="status" aria-live="polite" data-form-status></p>
+
+    <div class="cform__actions" data-reveal>
+      <button type="submit" class="cform__submit" data-submit>
+        <span class="cform__submit-text">
+          <span data-submit-label>{f.submit}</span>
+        </span>
+        <span class="cform__submit-icon" aria-hidden="true">
+          <svg class="cform__arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8"></path></svg>
+          <svg class="cform__spinner" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="36 60" stroke-linecap="round"></circle></svg>
+        </span>
+      </button>
+      <p class="cform__privacy mono">{f.privacy}</p>
+    </div>
+
+  </form>
+
+  <div class="csuccess" data-form-success hidden tabindex="-1">
+    <svg class="csuccess__check" viewBox="0 0 64 64" aria-hidden="true">
+      <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" stroke-width="2"></circle>
+      <path d="M19 33l9 9 18-19" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+    <h3 class="csuccess__title" data-success-title data-template={f.successTitle}>{f.successTitle}</h3>
+    <p class="csuccess__text">{f.successText}</p>
+    <button type="button" class="csuccess__again mono" data-form-reset>
+      <span class="roll"><span>{f.again}</span><span aria-hidden="true">{f.again}</span></span>
+    </button>
+  </div>
+</div>
+
+<style>
+  .contact {
+    position: relative;
+  }
+  .cform {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(2rem, 4vw, 3.25rem);
+  }
+  .cform[hidden] {
+    display: none;
+  }
+  .cform__trap {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+  }
+
+  /* Sentence */
+  .cform__sentence {
+    font-size: clamp(1.75rem, 3.3vw, 3.4rem);
+    font-weight: 650;
+    font-stretch: 104%;
+    letter-spacing: -0.03em;
+    line-height: 1.32;
+    text-wrap: pretty;
+  }
+  .cform__me {
+    background: var(--ink);
+    color: var(--brand);
+    padding: 0 0.14em;
+    margin-inline: 0.04em;
+    border-radius: 0.14em;
+  }
+  .cform__field {
+    display: inline;
+  }
+  .cform__field .grow {
+    margin-left: 0.18em;
+  }
+
+  /* Auto-growing inputs (mirror trick) */
+  .grow {
+    display: inline-grid;
+    vertical-align: baseline;
+    max-width: 100%;
+  }
+  .grow::after,
+  .grow > input,
+  .grow > textarea {
+    grid-area: 1 / 1;
+    font: inherit;
+    letter-spacing: inherit;
+    padding: 0 0.12em 0.04em;
+    margin: 0;
+  }
+  .grow::after {
+    content: attr(data-grow);
+    visibility: hidden;
+    white-space: pre;
+  }
+  .grow > input,
+  .grow > textarea {
+    width: 100%;
+    min-width: 2ch;
+    color: inherit;
+    background: transparent;
+    border: 0;
+    border-bottom: 0.08em solid color-mix(in srgb, var(--ink) 25%, transparent);
+    border-radius: 0;
+    outline: none;
+    transition:
+      border-color 0.3s,
+      background-color 0.3s;
+  }
+  .grow > input::placeholder,
+  .grow > textarea::placeholder {
+    color: color-mix(in srgb, var(--ink) 38%, transparent);
+    opacity: 1;
+  }
+  .grow > input:hover,
+  .grow > textarea:hover {
+    border-bottom-color: color-mix(in srgb, var(--ink) 55%, transparent);
+  }
+  .grow > input:focus,
+  .grow > textarea:focus {
+    border-bottom-color: var(--ink);
+    background: color-mix(in srgb, var(--ink) 6%, transparent);
+  }
+  .grow > [aria-invalid='true'] {
+    border-bottom-style: dashed;
+    border-bottom-color: var(--ink);
+  }
+
+  .grow--area {
+    display: grid;
+    margin-top: 0.75rem;
+  }
+  .grow--area::after {
+    white-space: pre-wrap;
+    min-height: 3lh;
+  }
+  .grow--area > textarea {
+    resize: none;
+    overflow: hidden;
+    min-height: 3lh;
+  }
+
+  /* Chips */
+  .cform__group {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+  }
+  .cform__group legend {
+    padding: 0;
+    margin-bottom: 1rem;
+    color: var(--muted);
+  }
+  .cform__opt {
+    opacity: 0.7;
+  }
+  .cform__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+  .chip {
+    position: relative;
+    cursor: pointer;
+  }
+  .chip input {
+    position: absolute;
+    opacity: 0;
+    inset: 0;
+    margin: 0;
+    cursor: pointer;
+  }
+  .chip span {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.75em 1.25em;
+    border-radius: 999px;
+    box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--ink) 28%, transparent);
+    font-weight: 600;
+    font-size: var(--step-0);
+    transition:
+      background-color 0.35s var(--ease-out),
+      color 0.35s,
+      box-shadow 0.35s,
+      transform 0.35s var(--ease-out);
+  }
+  .chip span::before {
+    content: '✓';
+    display: inline-block;
+    width: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition:
+      width 0.4s var(--ease-out),
+      opacity 0.3s,
+      margin 0.4s var(--ease-out);
+  }
+  .chip:hover span {
+    box-shadow: inset 0 0 0 1.5px var(--ink);
+  }
+  .chip:active span {
+    transform: scale(0.96);
+  }
+  .chip input:checked + span {
+    background: var(--ink);
+    color: var(--brand);
+    box-shadow: none;
+  }
+  .chip input:checked + span::before {
+    width: 1em;
+    opacity: 1;
+    margin-right: 0.35em;
+  }
+  .chip input:focus-visible + span {
+    outline: 2px solid var(--ink);
+    outline-offset: 3px;
+  }
+
+  /* Message */
+  .cform__message {
+    display: flex;
+    flex-direction: column;
+    font-size: var(--step-1);
+    font-weight: 500;
+    line-height: 1.45;
+  }
+  .cform__message > .mono {
+    color: var(--muted);
+    font-size: var(--step--1);
+  }
+
+  /* Submit */
+  .cform__actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.25rem 2rem;
+  }
+  .cform__submit {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 0.5rem 0.5rem 2rem;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--brand);
+    font-size: var(--step-1);
+    font-weight: 650;
+    overflow: hidden;
+    isolation: isolate;
+    transition: color 0.4s;
+  }
+  .cform__submit::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--brand-deep);
+    border-radius: inherit;
+    transform: translateY(101%);
+    transition: transform 0.55s var(--ease-out);
+    z-index: -1;
+  }
+  .cform__submit:hover::before,
+  .cform__submit:focus-visible::before {
+    transform: translateY(0);
+  }
+  .cform__submit:hover,
+  .cform__submit:focus-visible {
+    color: var(--paper);
+  }
+  .cform__submit-icon {
+    position: relative;
+    width: 3.1rem;
+    height: 3.1rem;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--brand);
+    color: var(--ink);
+  }
+  .cform__submit-icon svg {
+    grid-area: 1 / 1;
+    width: 1.4rem;
+    transition:
+      transform 0.6s var(--ease-out),
+      opacity 0.3s;
+  }
+  .cform__submit:hover .cform__arrow {
+    transform: rotate(-45deg);
+  }
+  .cform__spinner {
+    opacity: 0;
+  }
+  .cform[data-state='sending'] .cform__arrow {
+    opacity: 0;
+  }
+  .cform[data-state='sending'] .cform__spinner {
+    opacity: 1;
+    animation: spin 0.8s linear infinite;
+  }
+  .cform[data-state='sending'] .cform__submit {
+    pointer-events: none;
+  }
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  .cform__privacy {
+    color: var(--muted);
+    max-width: 30ch;
+  }
+
+  .cform__status:empty {
+    display: none;
+  }
+  .cform__status {
+    align-self: flex-start;
+    display: inline-flex;
+    gap: 0.6em;
+    align-items: center;
+    padding: 0.7em 1.1em;
+    border-radius: 0.6rem;
+    background: var(--ink);
+    color: var(--brand);
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .cform__status[data-tone='error']::before {
+    content: '!';
+    display: grid;
+    place-items: center;
+    width: 1.4em;
+    height: 1.4em;
+    border-radius: 50%;
+    background: var(--brand-deep);
+    color: var(--paper);
+    font-weight: 700;
+  }
+
+  /* Success */
+  .csuccess {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+    padding-block: clamp(2rem, 6vw, 5rem);
+    outline: none;
+  }
+  .csuccess[hidden] {
+    display: none;
+  }
+  .csuccess__check {
+    width: clamp(64px, 7vw, 96px);
+  }
+  .csuccess__title {
+    font-size: clamp(2.5rem, 6vw, 6rem);
+    font-weight: 800;
+    font-stretch: 115%;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+  }
+  .csuccess__text {
+    font-size: var(--step-1);
+    max-width: 32ch;
+  }
+  .csuccess__again {
+    margin-top: 1rem;
+    padding: 0.8em 1.2em;
+    border-radius: 999px;
+    box-shadow: inset 0 0 0 1px var(--faint);
+    transition:
+      background 0.3s,
+      color 0.3s;
+  }
+  .csuccess__again:hover {
+    background: var(--ink);
+    color: var(--brand);
+  }
+</style>

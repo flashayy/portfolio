@@ -1,0 +1,49 @@
+---
+import Base from '../layouts/Base.astro';
+import { t } from '../data/content';
+import { paths } from '../i18n/utils';
+
+const c = t('sk').notFound;
+const e = t('en').notFound;
+---
+
+<Base lang="sk" alternate={paths.home('en')} title="404">
+  <section class="nf container">
+    <h1 class="nf__code display" data-intro-title>404</h1>
+    <div class="nf__text">
+      <p data-intro><strong>{c.title}.</strong> {c.text}</p>
+      <p class="muted" data-intro lang="en"><strong>{e.title}.</strong> {e.text}</p>
+      <a href={paths.home('sk')} class="btn" data-intro>
+        <span class="roll"><span>{c.home}</span><span aria-hidden="true">{c.home}</span></span>
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf {
+    min-height: 100svh;
+    padding-top: var(--header-h);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2.5rem;
+  }
+  .nf__code {
+    font-size: clamp(8rem, 38vw, 34rem);
+    font-variation-settings: 'wdth' 125;
+    line-height: 0.8;
+    color: var(--accent-fg);
+  }
+  .nf__text {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+    max-width: 46ch;
+  }
+  .nf__text .btn {
+    margin-top: 1rem;
+  }
+</style>

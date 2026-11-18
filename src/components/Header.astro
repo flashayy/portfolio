@@ -1,0 +1,248 @@
+---
+import Logo from './Logo.astro';
+import { t } from '../data/content';
+import { fullName } from '../data/site';
+import { paths, otherLang, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  alternate: string;
+  isHome?: boolean;
+}
+const { lang, alternate, isHome = false } = Astro.props;
+const c = t(lang);
+const home = paths.home(lang);
+const anchor = (id: string) => (isHome ? `#${id}` : `${home}#${id}`);
+// Poradie zodpovedá poradiu sekcií na úvodnej stránke
+const links = [
+  { href: anchor('about'), label: c.nav.about },
+  { href: anchor('work'), label: c.nav.work },
+  { href: anchor('services'), label: c.nav.services },
+  { href: anchor('contact'), label: c.nav.contact },
+];
+const other = otherLang(lang);
+---
+
+<header class="header" data-header>
+  <div class="header__inner container">
+    <a href={home} class="header__brand" aria-label={fullName} data-cursor-stick>
+      <Logo class="header__logo" />
+    </a>
+
+    <nav class="header__nav" aria-label="Main">
+      <ul>
+        {
+          links.map((l) => (
+            <li>
+              <a href={l.href} class="header__link">
+                <span class="roll">
+                  <span>{l.label}</span>
+                  <span aria-hidden="true">{l.label}</span>
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="header__tools">
+      <a href={alternate} class="lang mono" hreflang={other} lang={other} aria-label={c.nav.lang} data-no-transition-hash>
+        <span class:list={{ 'is-active': lang === 'sk' }}>SK</span>
+        <span class="lang__sep">/</span>
+        <span class:list={{ 'is-active': lang === 'en' }}>EN</span>
+      </a>
+      <button class="theme-toggle" type="button" aria-label={c.nav.theme} data-theme-toggle>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"></circle>
+          <path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"></path>
+        </svg>
+      </button>
+      <button class="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label={c.nav.menu} data-menu-toggle>
+        <span class="burger__line" aria-hidden="true"></span>
+        <span class="burger__line" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="menu" id="menu" data-menu hidden>
+  <nav class="menu__nav container" aria-label="Mobile">
+    <ul>
+      {
+        links.map((l) => (
+          <li>
+            <a href={l.href} class="menu__link" data-menu-link>
+              <span class="menu__label">{l.label}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</div>
+
+<style>
+  .header {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 50;
+    height: var(--header-h);
+    display: flex;
+    align-items: center;
+    transition:
+      transform 0.5s var(--ease-out),
+      background-color 0.3s;
+  }
+  .header.is-scrolled {
+    background: color-mix(in srgb, var(--bg) 72%, transparent);
+    backdrop-filter: blur(14px) saturate(1.4);
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  }
+  /* Na mobile bez rozmazania pozadia, je to pri scrolle drahé */
+  @media (hover: none), (pointer: coarse) {
+    .header.is-scrolled {
+      background: color-mix(in srgb, var(--bg) 94%, transparent);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+  }
+  .header.is-hidden {
+    transform: translateY(-100%);
+  }
+  .header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+  .header__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+  }
+  .header__logo {
+    width: 30px;
+    height: auto;
+    transition: transform 0.8s var(--ease-out), color 0.3s;
+  }
+  .header__brand:hover .header__logo {
+    transform: rotate(-12deg) scale(1.08);
+    color: var(--accent-fg);
+  }
+  .header__nav ul {
+    display: flex;
+    gap: clamp(1.25rem, 2.6vw, 2.75rem);
+  }
+  .header__link {
+    display: inline-flex;
+    font-weight: 500;
+  }
+  .header__tools {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+  .lang {
+    display: inline-flex;
+    gap: 0.35em;
+    color: var(--muted);
+  }
+  .lang .is-active {
+    color: var(--fg);
+  }
+  .lang:hover span:not(.is-active):not(.lang__sep) {
+    color: var(--accent-fg);
+  }
+  .theme-toggle {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1px var(--faint);
+    transition: box-shadow 0.3s, transform 0.6s var(--ease-out);
+  }
+  .theme-toggle:hover {
+    box-shadow: inset 0 0 0 1px var(--fg);
+  }
+  .theme-toggle svg {
+    width: 18px;
+    transition: transform 0.7s var(--ease-out);
+  }
+  :global([data-theme='light']) .theme-toggle svg {
+    transform: rotate(180deg);
+  }
+  /* Hamburger: dve čiary, ktoré sa po otvorení zmenia na krížik */
+  .burger {
+    display: none;
+    position: relative;
+    width: 44px;
+    height: 44px;
+    margin-right: -10px;
+    border-radius: 50%;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .burger__line {
+    position: absolute;
+    left: 11px;
+    right: 11px;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+    transition:
+      transform 0.35s var(--ease-out),
+      top 0.35s var(--ease-out);
+  }
+  .burger__line:first-child {
+    top: 17px;
+  }
+  .burger__line:last-child {
+    top: 25px;
+  }
+  :global(.menu-open) .burger__line:first-child {
+    top: 21px;
+    transform: rotate(45deg);
+  }
+  :global(.menu-open) .burger__line:last-child {
+    top: 21px;
+    transform: rotate(-45deg);
+  }
+
+  .menu {
+    position: fixed;
+    inset: 0;
+    z-index: 45;
+    background: var(--bg);
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 12vh;
+  }
+  .menu__nav {
+    width: 100%;
+  }
+  .menu__link {
+    display: flex;
+    padding-block: 0.6rem;
+    border-bottom: 1px solid var(--faint);
+    overflow: hidden;
+  }
+  .menu__label {
+    display: block;
+    font-size: clamp(2.75rem, 12vw, 5rem);
+    font-weight: 800;
+    font-stretch: 115%;
+    text-transform: uppercase;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  @media (max-width: 900px) {
+    .header__nav {
+      display: none;
+    }
+    .burger {
+      display: block;
+    }
+  }
+</style>

@@ -1,0 +1,164 @@
+---
+import { t } from '../data/content';
+import type { Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const c = t(lang).about;
+---
+
+<section class="about section" id="about">
+  <div class="about__glow" aria-hidden="true">
+    <span class="about__blob about__blob--main" data-parallax="-18"></span>
+    <span class="about__blob about__blob--second" data-parallax="-35"></span>
+  </div>
+  <div class="container about__container">
+    <div class="about__grid">
+      <span class="label mono about__label">{c.label}</span>
+      <p class="about__statement" data-scrub-words>{c.statement}</p>
+    </div>
+
+    <div class="about__grid about__lower">
+      <div class="about__body">
+        {c.body.map((p) => <p data-split-lines>{p}</p>)}
+      </div>
+
+      <div class="about__tools">
+        <span class="mono muted">{c.toolsLabel}</span>
+        <div class="about__tool-groups">
+          {
+            c.tools.map((g) => (
+              <div class="about__group">
+                <span class="mono about__group-name">{g.group}</span>
+                <ul data-stagger>
+                  {g.items.map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about {
+    overflow: clip;
+  }
+  /* Farebná žiara vľavo (rovnaké farby ako hero, mäkký okraj cez masku) */
+  .about__glow {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    mix-blend-mode: var(--glow-blend);
+  }
+  .about__blob {
+    position: absolute;
+    border-radius: 50%;
+    -webkit-mask-image: radial-gradient(closest-side, #000 0%, rgb(0 0 0 / 0.55) 45%, transparent 100%);
+    mask-image: radial-gradient(closest-side, #000 0%, rgb(0 0 0 / 0.55) 45%, transparent 100%);
+  }
+  .about__blob--main {
+    width: 56vw;
+    height: 56vw;
+    left: -26vw;
+    top: 4%;
+    background: var(--glow-main);
+    opacity: var(--glow-main-opacity, var(--glow-opacity));
+  }
+  .about__blob--second {
+    width: 34vw;
+    height: 34vw;
+    left: 6vw;
+    top: 48%;
+    background: var(--glow-second);
+    opacity: var(--glow-second-opacity, var(--glow-opacity));
+  }
+  .about__container {
+    position: relative;
+  }
+  @media (max-width: 900px) {
+    .about__blob--main {
+      width: 120vw;
+      height: 120vw;
+      left: -55vw;
+      top: -2%;
+    }
+    .about__blob--second {
+      width: 80vw;
+      height: 80vw;
+      left: -30vw;
+      top: 55%;
+    }
+  }
+  .about__grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: var(--gutter);
+  }
+  .about__label {
+    grid-column: 1 / span 3;
+    align-self: start;
+    padding-top: 0.9em;
+  }
+  .about__statement {
+    grid-column: 4 / -1;
+    font-size: var(--step-3);
+    font-weight: 600;
+    font-stretch: 104%;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    text-wrap: pretty;
+  }
+  .about__lower {
+    margin-top: clamp(4rem, 9vw, 8rem);
+  }
+  .about__body {
+    grid-column: 4 / span 4;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25em;
+    color: var(--muted);
+  }
+  .about__tools {
+    grid-column: 9 / -1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .about__tool-groups {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--gutter);
+  }
+  .about__group-name {
+    display: block;
+    color: var(--accent-fg);
+    padding-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid var(--faint);
+  }
+  .about__group li {
+    padding-block: 0.3rem;
+    font-weight: 500;
+  }
+  @media (max-width: 900px) {
+    .about__grid {
+      grid-template-columns: 1fr;
+    }
+    .about__label,
+    .about__statement,
+    .about__body,
+    .about__tools {
+      grid-column: 1;
+    }
+    .about__label {
+      padding-top: 0;
+    }
+  }
+</style>

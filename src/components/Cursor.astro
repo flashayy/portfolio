@@ -1,0 +1,78 @@
+<!--
+  Kurzor má dve samostatné vrstvy:
+  - bodka invertuje farbu pod sebou (mix-blend-mode na celej vrstve),
+    takže na bielej je čierna a na čiernej biela
+  - štítok (napr. „Pozrieť“) má vlastnú farbu a neinvertuje sa
+-->
+<div class="cursor" data-cursor-el aria-hidden="true">
+  <div class="cursor__dot"></div>
+</div>
+<div class="cursor-label" data-cursor-label-el aria-hidden="true">
+  <span class="cursor-label__text mono" data-cursor-label></span>
+</div>
+
+<style>
+  .cursor,
+  .cursor-label {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 150;
+    pointer-events: none;
+    display: none;
+  }
+  :global(.has-cursor) .cursor,
+  :global(.has-cursor) .cursor-label {
+    display: block;
+  }
+  .cursor {
+    mix-blend-mode: difference;
+  }
+  /* Na plochách vo farbe značky (napr. magenta) by inverzia dala inú farbu,
+     preto tam má bodka farbu pozadia stránky */
+  .cursor.on-brand {
+    mix-blend-mode: normal;
+  }
+  .cursor.on-brand .cursor__dot {
+    background: var(--ink);
+  }
+  .cursor__dot {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    margin: -5px 0 0 -5px;
+    border-radius: 50%;
+    background: #ffffff;
+    transition:
+      transform 0.45s var(--ease-out),
+      opacity 0.3s,
+      background-color 0.25s;
+  }
+  .cursor.is-hover .cursor__dot {
+    transform: scale(4);
+  }
+  .cursor.on-brand.is-hover .cursor__dot {
+    transform: scale(2.2);
+  }
+  .cursor.is-hidden .cursor__dot,
+  .cursor.has-label .cursor__dot {
+    opacity: 0;
+  }
+  .cursor-label__text {
+    position: absolute;
+    left: 0;
+    top: 0;
+    translate: -50% -50%;
+    padding: 0.9em 1.3em;
+    border-radius: 999px;
+    background: var(--brand);
+    color: var(--ink);
+    font-weight: 600;
+    white-space: nowrap;
+    scale: 0;
+    transition: scale 0.45s var(--ease-out);
+  }
+  .cursor-label.has-label .cursor-label__text {
+    scale: 1;
+  }
+</style>

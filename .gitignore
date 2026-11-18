@@ -1,0 +1,17 @@
+# závislosti a build
+node_modules/
+dist/
+.astro/
+
+# nasadenie a lokálne nástroje
+.vercel
+.claude/
+.impeccable/
+
+# súkromné podklady (logá, palety, zdrojové mockupy) a nesúvisiace súbory
+context/
+*.docx
+
+# systém
+.DS_Store
+.env*

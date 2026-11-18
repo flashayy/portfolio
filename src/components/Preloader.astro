@@ -1,0 +1,48 @@
+---
+import Logo from './Logo.astro';
+---
+
+<div class="preloader" data-preloader aria-hidden="true">
+  <div class="preloader__logo">
+    <Logo />
+  </div>
+  <div class="preloader__bar container mono">
+    <span>Portfolio ©{new Date().getFullYear()}</span>
+    <span><span data-preloader-count>0</span>%</span>
+  </div>
+</div>
+
+<style>
+  .preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: var(--ink);
+    color: var(--paper);
+    display: none;
+    place-items: center;
+  }
+  :global(.is-first) .preloader {
+    display: grid;
+  }
+  .preloader__logo {
+    width: clamp(70px, 9vw, 120px);
+  }
+  .preloader__logo :global(path) {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .preloader__bar {
+    position: absolute;
+    inset: auto 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    color: color-mix(in srgb, var(--paper) 60%, transparent);
+  }
+  .preloader__bar [data-preloader-count] {
+    color: var(--brand);
+    display: inline-block;
+    min-width: 3ch;
+    text-align: right;
+  }
+</style>

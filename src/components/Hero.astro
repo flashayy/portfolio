@@ -1,0 +1,154 @@
+---
+import { t } from '../data/content';
+import { site } from '../data/site';
+import type { Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const c = t(lang);
+---
+
+<section class="hero" data-hero>
+  <div class="hero__glow" aria-hidden="true">
+    <span class="hero__blob hero__blob--main" data-blob></span>
+    <span class="hero__blob hero__blob--second" data-blob></span>
+  </div>
+
+  <div class="hero__inner container">
+    <h1 class="hero__name display" data-hero-name>
+      <span class="hero__row hero__row--1" data-hero-row>{site.firstName}</span>
+      <span class="hero__row hero__row--2" data-hero-row>{site.lastName}</span>
+    </h1>
+
+    <div class="hero__bottom">
+      <p class="hero__role" data-intro>
+        <span>{c.hero.role[0]}</span>
+        <span class="accent">{c.hero.role[1]}</span>
+      </p>
+      <p class="hero__tagline muted" data-intro>{c.hero.tagline}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    align-items: stretch;
+    overflow: clip;
+  }
+  .hero__glow {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    mix-blend-mode: var(--glow-blend);
+  }
+  /* Mäkký okraj cez masku namiesto filter: blur(), ktorý je na mobile veľmi náročný */
+  .hero__blob {
+    position: absolute;
+    border-radius: 50%;
+    -webkit-mask-image: radial-gradient(closest-side, #000 0%, rgb(0 0 0 / 0.6) 45%, transparent 100%);
+    mask-image: radial-gradient(closest-side, #000 0%, rgb(0 0 0 / 0.6) 45%, transparent 100%);
+  }
+  .hero__blob--main {
+    width: 60vw;
+    height: 60vw;
+    right: -14vw;
+    top: -4vh;
+    background: var(--glow-main);
+    opacity: var(--glow-main-opacity, var(--glow-opacity));
+    animation: float 14s ease-in-out infinite alternate;
+  }
+  .hero__blob--second {
+    width: 44vw;
+    height: 44vw;
+    left: -16vw;
+    bottom: -14vw;
+    background: var(--glow-second);
+    opacity: var(--glow-second-opacity, var(--glow-opacity));
+    animation: float 18s ease-in-out infinite alternate-reverse;
+  }
+  @keyframes float {
+    to {
+      translate: -6vw 6vh;
+      scale: 1.15;
+    }
+  }
+
+  .hero__inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding-top: calc(var(--header-h) + 2rem);
+    padding-bottom: 2rem;
+  }
+  .hero__name {
+    --stretch: 125;
+    margin-block: auto;
+    display: flex;
+    flex-direction: column;
+    font-size: clamp(3.5rem, 13.6vw, 15.5rem);
+    font-variation-settings: 'wdth' var(--stretch);
+    font-weight: 820;
+    line-height: 0.84;
+    letter-spacing: -0.045em;
+    padding-block: 4vh;
+  }
+  .hero__row {
+    display: block;
+    white-space: nowrap;
+  }
+  .hero__row--2 {
+    align-self: flex-end;
+  }
+
+  .hero__bottom {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: var(--gutter);
+    align-items: end;
+  }
+  .hero__role {
+    grid-column: 1 / span 4;
+    display: flex;
+    flex-direction: column;
+    font-size: var(--step-2);
+    font-weight: 650;
+    font-stretch: 108%;
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+  }
+  .hero__tagline {
+    grid-column: 5 / span 4;
+    max-width: 38ch;
+  }
+  @media (max-width: 900px) {
+    .hero__bottom {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    .hero__role,
+    .hero__tagline {
+      grid-column: 1;
+    }
+    .hero__blob--main {
+      width: 130vw;
+      height: 130vw;
+      right: -45vw;
+      top: -10vh;
+    }
+    .hero__blob--second {
+      width: 100vw;
+      height: 100vw;
+      left: -45vw;
+      bottom: -30vw;
+    }
+    /* Na mobile bez neustáleho pohybu žiary, šetrí batériu aj výkon */
+    .hero__blob {
+      animation: none !important;
+    }
+  }
+</style>

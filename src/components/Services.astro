@@ -1,0 +1,192 @@
+---
+import Logo from './Logo.astro';
+import { t } from '../data/content';
+import type { Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const c = t(lang).services;
+const tones = ['neutral', 'brand', 'gradient'];
+---
+
+<section class="services section" id="services">
+  <div class="container">
+    <div class="section-head">
+      <span class="label mono">{c.label}</span>
+      <h2 class="h2" data-split-lines>{c.title}</h2>
+    </div>
+
+    <div class="services__stack" data-stack>
+      {
+        c.items.map((item, i) => (
+          <article class={`card card--${tones[i % tones.length]}`} data-stack-card style={`--i:${i}`}>
+            <div class="card__inner">
+              <div class="card__body">
+                <h3 class="card__title">{item.title}</h3>
+                <div class="card__content">
+                  <p class="card__text">{item.text}</p>
+                  <ul class="card__list">
+                    {item.list.map((li) => (
+                      <li>{li}</li>
+                    ))}
+                  </ul>
+                  <a href="#contact" class="card__cta" data-prefill-service={i}>
+                    <span class="roll">
+                      <span>{c.cta}</span>
+                      <span aria-hidden="true">{c.cta}</span>
+                    </span>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" fill="none" stroke="currentColor" stroke-width="1.8" /></svg>
+                  </a>
+                </div>
+              </div>
+              <Logo class="card__mark" />
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .services__stack {
+    display: flex;
+    flex-direction: column;
+    gap: 4vh;
+  }
+  .card {
+    position: sticky;
+    top: calc(var(--header-h) + var(--i) * 1.5rem);
+    min-height: min(78vh, 760px);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transform-origin: 50% 0;
+  }
+  .card__inner {
+    position: relative;
+    height: 100%;
+    min-height: inherit;
+    padding: clamp(1.5rem, 3.5vw, 3.5rem);
+    display: flex;
+    flex-direction: column;
+  }
+  .card--neutral {
+    background: var(--neutral);
+    color: var(--paper);
+    --faint: color-mix(in srgb, var(--paper) 18%, transparent);
+    --fg: var(--paper);
+    --bg: var(--neutral);
+  }
+  .card--brand {
+    background: var(--brand);
+    color: var(--ink);
+    --faint: color-mix(in srgb, var(--ink) 22%, transparent);
+  }
+  .card--gradient {
+    background: var(--gradient);
+    background-blend-mode: var(--gradient-blend);
+    color: var(--on-gradient);
+    --fg: var(--on-gradient);
+    --bg: var(--gradient-base);
+    --faint: color-mix(in srgb, var(--on-gradient) 25%, transparent);
+  }
+  .card__body {
+    margin-top: auto;
+    position: relative;
+    z-index: 1;
+    container-type: inline-size;
+  }
+  /* Veľkosť podľa šírky karty, aby sa aj najdlhšie slovo (DEVELOPMENT) vždy zmestilo */
+  .card__title {
+    font-size: min(9rem, 10.5cqi);
+    overflow-wrap: break-word;
+    font-weight: 820;
+    font-stretch: 118%;
+    line-height: 0.88;
+    letter-spacing: -0.045em;
+    text-transform: uppercase;
+    margin-bottom: clamp(1.5rem, 3vw, 3rem);
+  }
+  .card__content {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: var(--gutter);
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--faint);
+  }
+  .card__text {
+    grid-column: 1 / span 5;
+    font-size: var(--step-1);
+    line-height: 1.35;
+    max-width: 34ch;
+  }
+  .card__list {
+    grid-column: 8 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem 1.5rem;
+    font-size: var(--step--1);
+    text-transform: uppercase;
+  }
+  .card__cta {
+    grid-column: 1 / span 5;
+    grid-row: 2;
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 0.5rem;
+    padding: 0.8em 1.3em;
+    border-radius: 999px;
+    font-weight: 600;
+    box-shadow: inset 0 0 0 1px var(--faint);
+    transition:
+      background 0.35s,
+      color 0.35s,
+      box-shadow 0.35s;
+  }
+  .card__cta svg {
+    width: 1em;
+    transition: transform 0.5s var(--ease-out);
+  }
+  .card__cta:hover {
+    background: var(--fg);
+    color: var(--bg);
+    box-shadow: none;
+  }
+  .card--brand .card__cta:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .card__cta:hover svg {
+    transform: rotate(45deg);
+  }
+  .card__list li::before {
+    content: '↳ ';
+    opacity: 0.5;
+  }
+  .card__mark {
+    position: absolute;
+    right: clamp(1.5rem, 3.5vw, 3.5rem);
+    top: 18%;
+    width: clamp(90px, 16vw, 240px);
+    opacity: 0.09;
+  }
+  .card--brand .card__mark,
+  .card--gradient .card__mark {
+    opacity: 0.14;
+  }
+  @media (max-width: 900px) {
+    .card__content {
+      grid-template-columns: 1fr;
+    }
+    .card__text,
+    .card__list,
+    .card__cta {
+      grid-column: 1;
+      grid-row: auto;
+    }
+  }
+</style>

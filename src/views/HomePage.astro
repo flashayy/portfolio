@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Marquee from '../components/Marquee.astro';
+import About from '../components/About.astro';
+import Services from '../components/Services.astro';
+import WorkGallery from '../components/WorkGallery.astro';
+import { getProjects } from '../data/projects';
+import { paths, otherLang, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const projects = (await getProjects(lang)).filter((p) => p.data.featured);
+---
+
+<Base lang={lang} alternate={paths.home(otherLang(lang))} isHome preloader>
+  <Hero lang={lang} />
+  <Marquee lang={lang} />
+  <About lang={lang} />
+  <WorkGallery lang={lang} projects={projects} />
+  <Services lang={lang} />
+</Base>

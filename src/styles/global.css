@@ -1,0 +1,364 @@
+@import '@fontsource-variable/archivo/wdth.css';
+@import './palettes.css';
+
+/* ───────────────────────── Tokens ───────────────────────── */
+/* Farby sú v palettes.css, tu je len rozloženie a typografia. */
+:root {
+  --font-sans: 'Archivo Variable', ui-sans-serif, system-ui, sans-serif;
+
+  --gutter: clamp(1.25rem, 3.2vw, 3rem);
+  --max: 1680px;
+  --radius: clamp(14px, 1.4vw, 22px);
+  --header-h: 76px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+
+  --step--1: clamp(0.8rem, 0.78rem + 0.1vw, 0.875rem);
+  --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  --step-1: clamp(1.2rem, 1.1rem + 0.5vw, 1.5rem);
+  --step-2: clamp(1.5rem, 1.25rem + 1.2vw, 2.25rem);
+  --step-3: clamp(2rem, 1.5rem + 2.5vw, 3.75rem);
+  --step-4: clamp(2.75rem, 1.8rem + 4.8vw, 6.5rem);
+  --step-5: clamp(3.5rem, 2rem + 8vw, 10rem);
+}
+
+:root,
+[data-theme='dark'] {
+  --bg: var(--ink);
+  --fg: var(--paper);
+  --faint: color-mix(in srgb, var(--paper) 14%, transparent);
+  --accent: var(--brand);
+  color-scheme: dark;
+}
+
+[data-theme='light'] {
+  --bg: var(--paper);
+  --fg: var(--ink);
+  --faint: color-mix(in srgb, var(--ink) 13%, transparent);
+  --accent: var(--brand);
+  color-scheme: light;
+}
+
+/* ───────────────────────── Reset ───────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+body {
+  min-height: 100svh;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: var(--step-0);
+  line-height: 1.55;
+  font-stretch: 100%;
+  overflow-x: clip;
+  transition:
+    background-color 0.5s var(--ease-out),
+    color 0.5s var(--ease-out);
+}
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+img {
+  height: auto;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+ul {
+  list-style: none;
+  padding: 0;
+}
+::selection {
+  background: var(--brand);
+  color: var(--ink);
+}
+:focus-visible {
+  outline: 2px solid var(--accent-fg);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* ───────────────────────── Utilities ───────────────────────── */
+.container {
+  width: 100%;
+  max-width: var(--max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+.mono {
+  font-family: var(--font-sans);
+  font-size: var(--step--1);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+.muted {
+  color: var(--muted);
+}
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  color: var(--muted);
+}
+.label::before {
+  content: '';
+  width: 0.5em;
+  height: 0.5em;
+  background: var(--accent-fg);
+  border-radius: 1px;
+  transform: rotate(45deg);
+}
+.display {
+  font-weight: 800;
+  font-stretch: 112%;
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+}
+.h2 {
+  font-size: var(--step-4);
+  font-weight: 750;
+  font-stretch: 110%;
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+}
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.accent {
+  color: var(--accent-fg);
+}
+.section {
+  padding-block: clamp(6rem, 14vw, 13rem);
+  position: relative;
+}
+.section-head {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--gutter);
+  align-items: end;
+  margin-bottom: clamp(3rem, 7vw, 6rem);
+}
+.section-head .label {
+  grid-column: 1 / span 3;
+}
+.section-head .h2 {
+  grid-column: 4 / -1;
+}
+@media (max-width: 800px) {
+  .section-head {
+    grid-template-columns: 1fr;
+  }
+  .section-head .label,
+  .section-head .h2 {
+    grid-column: 1;
+  }
+}
+
+/* Link with sliding underline */
+.link {
+  position: relative;
+  display: inline-block;
+}
+.link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.1em;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.6s var(--ease-out);
+}
+.link:hover::after,
+.link[aria-current='page']::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Rolling text on hover (two stacked copies) */
+.roll {
+  display: inline-flex;
+  overflow: hidden;
+  position: relative;
+  line-height: 1.2;
+}
+.roll > span {
+  display: block;
+  transition: transform 0.55s var(--ease-out);
+}
+.roll > span:last-child {
+  position: absolute;
+  inset: 0;
+  transform: translateY(100%);
+}
+:is(a, button):hover > .roll > span:first-child,
+.roll:hover > span:first-child {
+  transform: translateY(-100%);
+}
+:is(a, button):hover > .roll > span:last-child,
+.roll:hover > span:last-child {
+  transform: translateY(0);
+}
+
+/* Pill button */
+.btn {
+  --btn-bg: var(--fg);
+  --btn-fg: var(--bg);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75em;
+  padding: 1em 1.6em;
+  border-radius: 999px;
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  isolation: isolate;
+}
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--brand);
+  border-radius: inherit;
+  transform: translateY(101%);
+  transition: transform 0.55s var(--ease-out);
+  z-index: -1;
+}
+.btn:hover {
+  color: var(--ink);
+}
+.btn:hover::before {
+  transform: translateY(0);
+}
+.btn--ghost {
+  --btn-bg: transparent;
+  --btn-fg: var(--fg);
+  box-shadow: inset 0 0 0 1px var(--faint);
+}
+
+/* Split text masks: extra room so diacritics (Ú, Ž, Ď) and descenders aren't clipped */
+.split-line-mask {
+  padding-block: 0.16em 0.1em;
+  margin-block: -0.16em -0.1em;
+}
+.split-char-mask {
+  padding: 0.16em 0.06em 0.06em;
+  margin: -0.16em -0.06em -0.06em;
+}
+
+/* ───────────────────────── Grain ───────────────────────── */
+.grain {
+  position: fixed;
+  inset: -50%;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 1.2s steps(6) infinite;
+}
+[data-theme='light'] .grain {
+  opacity: 0.05;
+}
+/* Na dotykových zariadeniach statický šum (pohyblivá vrstva cez celú obrazovku sekala) */
+@media (hover: none), (pointer: coarse) {
+  .grain {
+    inset: 0;
+    animation: none;
+  }
+}
+@keyframes grain {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-3%, 2%); }
+  40% { transform: translate(2%, -3%); }
+  60% { transform: translate(-2%, -1%); }
+  80% { transform: translate(3%, 3%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ───────────────────────── Motion preferences ───────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Elements animated by JS start hidden only when JS is running */
+.js [data-reveal] {
+  opacity: 0;
+}
+
+/* Intro elements wait for JS (prevents flash before the reveal) */
+.js [data-intro],
+.js [data-hero-row],
+.js [data-intro-title] {
+  visibility: hidden;
+}
+
+/* Custom cursor: hide native cursor where the label replaces it */
+.has-cursor [data-cursor] {
+  cursor: none;
+}
+
+/* Theme switch: circular reveal via View Transitions */
+.theme-vt *,
+.theme-vt *::before,
+.theme-vt *::after {
+  transition: none !important;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
