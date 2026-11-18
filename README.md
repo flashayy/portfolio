@@ -5,7 +5,19 @@ Astro + GSAP (ScrollTrigger, SplitText) + Lenis. SK/EN, tmavá a svetlá téma.
 ```bash
 npm run dev      # vývoj na http://localhost:4321
 npm run build    # produkčný build do dist/
-npm run deploy   # nasadenie na Vercel (produkcia)
+npm run deploy   # ručné nasadenie na Vercel (záloha)
+```
+
+## Nasadenie
+
+Repozitár je prepojený s Vercelom: každý `git push` do vetvy `main` web automaticky
+nasadí na https://portfolio-beta-self-68.vercel.app. Push do inej vetvy vytvorí
+náhľadovú verziu s vlastným odkazom, produkcie sa nedotkne.
+
+```bash
+git add -A
+git commit -m "Popis zmeny"
+git push
 ```
 
 Web beží na **https://portfolio-beta-self-68.vercel.app**. Kým je v `src/data/site.ts`
