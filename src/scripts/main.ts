@@ -123,7 +123,10 @@ function finishTransitionInstantly() {
 function runPreloader(): Promise<void> {
   const pre = qs('[data-preloader]');
   const logo = qs('[data-preloader-logo]', pre ?? document);
-  if (!pre || !logo) return Promise.resolve();
+  const inner = qs('[data-preloader-inner]', pre ?? document);
+  if (!pre || !logo || !inner) return Promise.resolve();
+  const words = qsa('[data-preloader-word]', pre);
+  gsap.set(words, { y: 0, yPercent: 115 }); // y: 0 zruší posun z CSS, ktorý GSAP načíta v pixeloch
   lenis?.stop();
 
   const paths = qsa<HTMLElement>('path', logo) as unknown as SVGPathElement[];
@@ -147,8 +150,10 @@ function runPreloader(): Promise<void> {
       // 2. logo sa vyplní a obrys zmizne
       .to(paths, { fillOpacity: 1, duration: 0.45, stagger: 0.08, ease: 'power1.out' }, '-=0.3')
       .to(paths, { strokeOpacity: 0, duration: 0.4 }, '<0.15')
-      // 3. logo odíde nahor a obrazovka sa odhalí
-      .to(logo, { yPercent: -40, autoAlpha: 0, duration: 0.45, ease: 'power2.in' }, '+=0.2')
+      // 3. pod logom vyjde meno
+      .to(words, { yPercent: 0, duration: 0.8, stagger: 0.1, ease: EASE }, '-=0.15')
+      // 4. logo s menom odídu nahor a obrazovka sa odhalí
+      .to(inner, { yPercent: -18, autoAlpha: 0, duration: 0.45, ease: 'power2.in' }, '+=0.35')
       .to(pre, { clipPath: 'inset(0% 0% 100% 0%)', duration: 0.9, ease: 'expo.inOut' }, '-=0.15')
       .call(resolve, [], '-=0.55');
   });

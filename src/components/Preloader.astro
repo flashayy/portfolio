@@ -1,15 +1,23 @@
 ---
 import Logo from './Logo.astro';
+import { site } from '../data/site';
 ---
 
 <!--
   Logo reveal pri otvorení stránky:
-  obrys loga sa nakreslí, logo sa vyplní a obrazovka sa odhalí smerom nahor.
+  obrys loga sa nakreslí, logo sa vyplní, pod ním vyjde meno
+  a obrazovka sa odhalí smerom nahor.
   Animácia je v src/scripts/main.ts (runPreloader).
 -->
 <div class="preloader" data-preloader aria-hidden="true">
-  <div class="preloader__logo" data-preloader-logo>
-    <Logo />
+  <div class="preloader__inner" data-preloader-inner>
+    <div class="preloader__logo" data-preloader-logo>
+      <Logo />
+    </div>
+    <p class="preloader__name">
+      <span class="preloader__mask"><span data-preloader-word>{site.firstName}</span></span>
+      <span class="preloader__mask"><span data-preloader-word>{site.lastName}</span></span>
+    </p>
   </div>
 </div>
 
@@ -26,8 +34,35 @@ import Logo from './Logo.astro';
   :global(.is-first) .preloader {
     display: grid;
   }
+  .preloader__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(1.25rem, 2.5vw, 2rem);
+  }
   .preloader__logo {
     width: clamp(84px, 10vw, 140px);
+  }
+  .preloader__name {
+    display: flex;
+    gap: 0.3em;
+    font-size: clamp(1.5rem, 3.2vw, 2.75rem);
+    font-weight: 800;
+    font-stretch: 115%;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+  /* Maska: slová vyjdú zospodu, priestor navyše pre diakritiku */
+  .preloader__mask {
+    display: inline-block;
+    overflow: hidden;
+    padding: 0.14em 0.04em 0.06em;
+    margin: -0.14em -0.04em -0.06em;
+  }
+  .preloader__mask > span {
+    display: inline-block;
+    transform: translateY(115%);
   }
   /* Štartovný stav: iba neviditeľný obrys, výplň a kreslenie dorieši GSAP */
   .preloader__logo :global(path) {
