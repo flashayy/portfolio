@@ -17,9 +17,9 @@ const c = t(lang);
   </div>
 
   <div class="hero__inner container">
-    <h1 class="hero__name display" data-hero-name>
-      <span class="hero__row hero__row--1" data-hero-row>{site.firstName}</span>
-      <span class="hero__row hero__row--2" data-hero-row>{site.lastName}</span>
+    <h1 class="hero__name display" data-hero-name aria-label={`${site.firstName} ${site.lastName}`}>
+      <span class="hero__row hero__row--1" data-hero-row aria-hidden="true">{site.firstName}</span>
+      <span class="hero__row hero__row--2" data-hero-row aria-hidden="true">{site.lastName}</span>
     </h1>
 
     <div class="hero__bottom">

@@ -60,8 +60,12 @@ const altUrl = new URL(alternate, Astro.site);
           const system = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
           d.dataset.theme = saved === 'light' || saved === 'dark' ? saved : system;
           if (sessionStorage.getItem('pt')) d.classList.add('is-transitioning');
-          // Logo reveal pri každom otvorení/obnovení stránky, nie pri prechode medzi stránkami
-          else if (preloader) d.classList.add('is-first');
+          // Logo reveal pri každom otvorení/obnovení stránky, nie pri prechode medzi stránkami.
+          // Prvá návšteva v relácii = plný reveal, ďalšie = skrátený.
+          else if (preloader) {
+            d.classList.add('is-first');
+            if (sessionStorage.getItem('visited')) d.classList.add('reveal-quick');
+          }
         } catch (e) {}
       })();
     </script>

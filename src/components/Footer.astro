@@ -86,7 +86,8 @@ const year = new Date().getFullYear();
   .footer__panel {
     background: var(--brand);
     color: var(--ink);
-    --muted: color-mix(in srgb, var(--ink) 62%, transparent);
+    /* Na farebnej ploche musí byť aj „tlmený“ text plne tmavý, inak nesplní kontrast 4.5:1 */
+    --muted: var(--ink);
     --faint: color-mix(in srgb, var(--ink) 18%, transparent);
     --accent-fg: var(--ink);
     border-radius: var(--radius) var(--radius) 0 0;

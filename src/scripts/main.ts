@@ -136,14 +136,29 @@ function runPreloader(): Promise<void> {
     gsap.set(p, { strokeDasharray: len, strokeDashoffset: len });
   });
 
-  return new Promise((resolve) => {
-    const tl = gsap.timeline({
-      onComplete: () => {
-        pre.remove();
-        root.classList.remove('is-first');
-        lenis?.start();
-      },
+  const done = () => {
+    pre.remove();
+    root.classList.remove('is-first', 'reveal-quick');
+    lenis?.start();
+  };
+
+  // Opakovaná návšteva v relácii: skrátený reveal (~1 s), logo a meno sa iba objavia
+  if (root.classList.contains('reveal-quick')) {
+    gsap.set(paths, { strokeOpacity: 0 });
+    return new Promise((resolve) => {
+      gsap
+        .timeline({ onComplete: done })
+        .fromTo(logo, { scale: 0.94 }, { scale: 1, duration: 0.6, ease: 'power2.out' }, 0)
+        .to(paths, { fillOpacity: 1, duration: 0.3, stagger: 0.04, ease: 'power1.out' }, 0)
+        .to(words, { yPercent: 0, duration: 0.4, stagger: 0.06, ease: EASE }, 0.05)
+        .to(inner, { yPercent: -18, autoAlpha: 0, duration: 0.25, ease: 'power2.in' }, 0.55)
+        .to(pre, { clipPath: 'inset(0% 0% 100% 0%)', duration: 0.55, ease: 'expo.inOut' }, 0.6)
+        .call(resolve, [], 0.8);
     });
+  }
+
+  return new Promise((resolve) => {
+    const tl = gsap.timeline({ onComplete: done });
     tl.fromTo(logo, { scale: 0.9 }, { scale: 1, duration: 1.6, ease: 'power2.out' }, 0)
       // 1. obrys sa nakreslí (každá časť loga postupne)
       .to(paths, { strokeDashoffset: 0, duration: 0.95, stagger: 0.14, ease: 'power2.inOut' }, 0.1)
@@ -505,7 +520,7 @@ function prepareIntro() {
 
   const rows = qsa('[data-hero-row]');
   if (rows.length) {
-    const split = new SplitText(rows, { type: 'chars', mask: 'chars', charsClass: 'split-char' });
+    const split = new SplitText(rows, { type: 'chars', mask: 'chars', charsClass: 'split-char', aria: 'none' });
     gsap.set(rows, { autoAlpha: 1 });
     intro.from(split.chars, { yPercent: 160, duration: 1.5, stagger: 0.04 }, 0);
   }
@@ -587,6 +602,7 @@ function splitLines() {
     SplitText.create(el, {
       type: 'lines',
       mask: 'lines',
+      aria: 'none',
       linesClass: 'split-line',
       autoSplit: true,
       onSplit: (self) =>
@@ -603,10 +619,10 @@ function splitLines() {
 
 function scrubWords() {
   qsa('[data-scrub-words]').forEach((el) => {
-    const split = new SplitText(el, { type: 'words' });
+    const split = new SplitText(el, { type: 'words', aria: 'none' });
     gsap.fromTo(
       split.words,
-      { opacity: 0.12 },
+      { opacity: 0.5 },
       {
         opacity: 1,
         stagger: 0.12,
@@ -617,6 +633,7 @@ function scrubWords() {
   });
 }
 
+/* Odhalenia menia iba priehľadnosť (nie visibility), aby prvky ostali dostupné z klávesnice */
 function reveals() {
   ScrollTrigger.batch('[data-reveal]', {
     start: 'top 90%',
@@ -624,15 +641,15 @@ function reveals() {
     onEnter: (batch) =>
       gsap.fromTo(
         batch,
-        { y: 40, autoAlpha: 0 },
-        { y: 0, autoAlpha: 1, duration: 1.2, stagger: 0.08, ease: EASE, overwrite: true },
+        { y: 40, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1.2, stagger: 0.08, ease: EASE, overwrite: true },
       ),
   });
 
   qsa('[data-stagger]').forEach((list) => {
     gsap.from(list.children, {
       y: 20,
-      autoAlpha: 0,
+      opacity: 0,
       duration: 1,
       stagger: 0.06,
       ease: EASE,
@@ -716,7 +733,7 @@ function workGallery() {
     qsa('[data-work-card]', track).forEach((card) => {
       gsap.from(card, {
         y: 60,
-        autoAlpha: 0,
+        opacity: 0,
         duration: 1,
         ease: EASE,
         scrollTrigger: { trigger: card, start: 'top 88%', once: true },

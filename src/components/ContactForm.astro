@@ -206,6 +206,12 @@ const [greetBefore, greetAfter] = f.greeting.split('{name}');
     border-bottom-color: var(--ink);
     background: color-mix(in srgb, var(--ink) 6%, transparent);
   }
+  .grow > input:focus-visible,
+  .grow > textarea:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 4px;
+    border-radius: 2px;
+  }
   .grow > [aria-invalid='true'] {
     border-bottom-style: dashed;
     border-bottom-color: var(--ink);
