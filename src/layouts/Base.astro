@@ -16,11 +16,11 @@ interface Props {
   title?: string;
   description?: string;
   isHome?: boolean;
-  /** Stránka obsahuje preloader (iba úvod) */
+  /** Logo reveal pri otvorení stránky (predvolene na všetkých stránkach) */
   preloader?: boolean;
 }
 
-const { lang, alternate, title, description, isHome = false, preloader = false } = Astro.props;
+const { lang, alternate, title, description, isHome = false, preloader = true } = Astro.props;
 const c = t(lang);
 const pageTitle = title ? `${title} | ${fullName}` : `${fullName} | ${c.meta.title}`;
 const desc = description ?? c.meta.description;
@@ -60,7 +60,8 @@ const altUrl = new URL(alternate, Astro.site);
           const system = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
           d.dataset.theme = saved === 'light' || saved === 'dark' ? saved : system;
           if (sessionStorage.getItem('pt')) d.classList.add('is-transitioning');
-          else if (preloader && !sessionStorage.getItem('visited')) d.classList.add('is-first');
+          // Logo reveal pri každom otvorení/obnovení stránky, nie pri prechode medzi stránkami
+          else if (preloader) d.classList.add('is-first');
         } catch (e) {}
       })();
     </script>

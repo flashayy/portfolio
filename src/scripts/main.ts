@@ -68,7 +68,7 @@ function setupLenis() {
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add((time) => lenis?.raf(time * 1000));
   gsap.ticker.lagSmoothing(0);
-  if (import.meta.env.DEV) Object.assign(window, { __lenis: lenis, __st: ScrollTrigger });
+  if (import.meta.env.DEV) Object.assign(window, { __lenis: lenis, __st: ScrollTrigger, __gsap: gsap });
 }
 
 function scrollTo(target: HTMLElement | number, immediate = false, offset = 0) {
@@ -122,12 +122,16 @@ function finishTransitionInstantly() {
 
 function runPreloader(): Promise<void> {
   const pre = qs('[data-preloader]');
-  if (!pre) return Promise.resolve();
+  const logo = qs('[data-preloader-logo]', pre ?? document);
+  if (!pre || !logo) return Promise.resolve();
   lenis?.stop();
 
-  const paths = qsa<HTMLElement>('path', pre);
-  const counter = qs('[data-preloader-count]', pre);
-  const progress = { v: 0 };
+  const paths = qsa<HTMLElement>('path', logo) as unknown as SVGPathElement[];
+  // Presná dĺžka každej časti loga, aby sa obrys kreslil od začiatku po koniec
+  paths.forEach((p) => {
+    const len = p.getTotalLength();
+    gsap.set(p, { strokeDasharray: len, strokeDashoffset: len });
+  });
 
   return new Promise((resolve) => {
     const tl = gsap.timeline({
@@ -137,30 +141,16 @@ function runPreloader(): Promise<void> {
         lenis?.start();
       },
     });
-    tl.from(paths, {
-      autoAlpha: 0,
-      scale: 0.4,
-      y: (i) => [-60, 60, -60][i] ?? 0,
-      duration: 1.1,
-      stagger: 0.12,
-      ease: EASE,
-    })
-      .to(
-        progress,
-        {
-          v: 100,
-          duration: 1.5,
-          ease: 'power3.inOut',
-          onUpdate: () => {
-            if (counter) counter.textContent = String(Math.round(progress.v));
-          },
-        },
-        0,
-      )
-      .to(qs('.preloader__logo', pre), { scale: 0.8, autoAlpha: 0, duration: 0.45, ease: 'power2.in' }, '+=0.05')
-      .to(qs('.preloader__bar', pre), { autoAlpha: 0, duration: 0.3 }, '<')
-      .to(pre, { clipPath: 'inset(0% 0% 100% 0%)', duration: 1.1, ease: 'expo.inOut' }, '-=0.15')
-      .call(resolve, [], '-=0.65');
+    tl.fromTo(logo, { scale: 0.9 }, { scale: 1, duration: 1.6, ease: 'power2.out' }, 0)
+      // 1. obrys sa nakreslí (každá časť loga postupne)
+      .to(paths, { strokeDashoffset: 0, duration: 0.95, stagger: 0.14, ease: 'power2.inOut' }, 0.1)
+      // 2. logo sa vyplní a obrys zmizne
+      .to(paths, { fillOpacity: 1, duration: 0.45, stagger: 0.08, ease: 'power1.out' }, '-=0.3')
+      .to(paths, { strokeOpacity: 0, duration: 0.4 }, '<0.15')
+      // 3. logo odíde nahor a obrazovka sa odhalí
+      .to(logo, { yPercent: -40, autoAlpha: 0, duration: 0.45, ease: 'power2.in' }, '+=0.2')
+      .to(pre, { clipPath: 'inset(0% 0% 100% 0%)', duration: 0.9, ease: 'expo.inOut' }, '-=0.15')
+      .call(resolve, [], '-=0.55');
   });
 }
 

@@ -2,13 +2,14 @@
 import Logo from './Logo.astro';
 ---
 
+<!--
+  Logo reveal pri otvorení stránky:
+  obrys loga sa nakreslí, logo sa vyplní a obrazovka sa odhalí smerom nahor.
+  Animácia je v src/scripts/main.ts (runPreloader).
+-->
 <div class="preloader" data-preloader aria-hidden="true">
-  <div class="preloader__logo">
+  <div class="preloader__logo" data-preloader-logo>
     <Logo />
-  </div>
-  <div class="preloader__bar container mono">
-    <span>Portfolio ©{new Date().getFullYear()}</span>
-    <span><span data-preloader-count>0</span>%</span>
   </div>
 </div>
 
@@ -26,23 +27,16 @@ import Logo from './Logo.astro';
     display: grid;
   }
   .preloader__logo {
-    width: clamp(70px, 9vw, 120px);
+    width: clamp(84px, 10vw, 140px);
   }
+  /* Štartovný stav: iba neviditeľný obrys, výplň a kreslenie dorieši GSAP */
   .preloader__logo :global(path) {
-    transform-box: fill-box;
-    transform-origin: center;
-  }
-  .preloader__bar {
-    position: absolute;
-    inset: auto 0 2rem;
-    display: flex;
-    justify-content: space-between;
-    color: color-mix(in srgb, var(--paper) 60%, transparent);
-  }
-  .preloader__bar [data-preloader-count] {
-    color: var(--brand);
-    display: inline-block;
-    min-width: 3ch;
-    text-align: right;
+    fill: currentColor;
+    fill-opacity: 0;
+    stroke: var(--brand);
+    stroke-width: 7;
+    stroke-linejoin: round;
+    stroke-dasharray: 2000;
+    stroke-dashoffset: 2000;
   }
 </style>
