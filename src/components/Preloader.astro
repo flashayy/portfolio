@@ -3,12 +3,7 @@ import Logo from './Logo.astro';
 import { site } from '../data/site';
 ---
 
-<!--
-  Logo reveal pri otvorení stránky:
-  obrys loga sa nakreslí, logo sa vyplní, pod ním vyjde meno
-  a obrazovka sa odhalí smerom nahor.
-  Animácia je v src/scripts/main.ts (runPreloader).
--->
+<!-- Logo reveal (animácia: runPreloader v main.ts) -->
 <div class="preloader" data-preloader aria-hidden="true">
   <div class="preloader__inner" data-preloader-inner>
     <div class="preloader__logo" data-preloader-logo>
@@ -53,7 +48,7 @@ import { site } from '../data/site';
     line-height: 1;
     text-transform: uppercase;
   }
-  /* Maska: slová vyjdú zospodu, priestor navyše pre diakritiku */
+  /* Maska mena */
   .preloader__mask {
     display: inline-block;
     overflow: hidden;
@@ -64,7 +59,7 @@ import { site } from '../data/site';
     display: inline-block;
     transform: translateY(115%);
   }
-  /* Štartovný stav: iba neviditeľný obrys, výplň a kreslenie dorieši GSAP */
+  /* Počiatočný stav loga */
   .preloader__logo :global(path) {
     fill: currentColor;
     fill-opacity: 0;

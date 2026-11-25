@@ -13,7 +13,6 @@ const { lang, alternate, isHome = false } = Astro.props;
 const c = t(lang);
 const home = paths.home(lang);
 const anchor = (id: string) => (isHome ? `#${id}` : `${home}#${id}`);
-// Poradie zodpovedá poradiu sekcií na úvodnej stránke
 const links = [
   { href: anchor('about'), label: c.nav.about },
   { href: anchor('work'), label: c.nav.work },
@@ -99,7 +98,7 @@ const other = otherLang(lang);
     backdrop-filter: blur(14px) saturate(1.4);
     -webkit-backdrop-filter: blur(14px) saturate(1.4);
   }
-  /* Na mobile bez rozmazania pozadia, je to pri scrolle drahé */
+  /* Mobil: bez rozmazania pozadia */
   @media (hover: none), (pointer: coarse) {
     .header.is-scrolled {
       background: color-mix(in srgb, var(--bg) 94%, transparent);
@@ -173,7 +172,7 @@ const other = otherLang(lang);
   :global([data-theme='light']) .theme-toggle svg {
     transform: rotate(180deg);
   }
-  /* Hamburger: dve čiary, ktoré sa po otvorení zmenia na krížik */
+  /* Hamburger */
   .burger {
     display: none;
     position: relative;

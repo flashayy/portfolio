@@ -11,12 +11,12 @@ import { htmlLang, otherLang, type Lang } from '../i18n/utils';
 
 interface Props {
   lang: Lang;
-  /** URL tej istej stránky v druhom jazyku */
+  /** URL v druhom jazyku */
   alternate: string;
   title?: string;
   description?: string;
   isHome?: boolean;
-  /** Logo reveal pri otvorení stránky (predvolene na všetkých stránkach) */
+  /** Logo reveal */
   preloader?: boolean;
 }
 
@@ -54,14 +54,13 @@ const altUrl = new URL(alternate, Astro.site);
         d.classList.add('js');
         if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
         try {
-          // Téma: ručná voľba (ak ju používateľ zmenil), inak podľa systému
-          localStorage.removeItem('theme'); // starý kľúč, ukladal sa aj bez voľby
+          // Téma
+          localStorage.removeItem('theme');
           const saved = localStorage.getItem('theme-choice');
           const system = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
           d.dataset.theme = saved === 'light' || saved === 'dark' ? saved : system;
           if (sessionStorage.getItem('pt')) d.classList.add('is-transitioning');
-          // Logo reveal pri každom otvorení/obnovení stránky, nie pri prechode medzi stránkami.
-          // Prvá návšteva v relácii = plný reveal, ďalšie = skrátený.
+          // Logo reveal
           else if (preloader) {
             d.classList.add('is-first');
             if (sessionStorage.getItem('visited')) d.classList.add('reveal-quick');
@@ -127,7 +126,7 @@ const altUrl = new URL(alternate, Astro.site);
   :global(.is-transitioning) .curtain {
     transform: translateY(0);
   }
-  /* Tlačidlo späť hore, viditeľné všade po odscrollovaní z hero */
+  /* Tlačidlo späť hore */
   .to-top {
     position: fixed;
     right: max(1rem, env(safe-area-inset-right));

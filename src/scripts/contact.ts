@@ -6,13 +6,7 @@ type ScrollFn = (target: HTMLElement, offset?: number) => void;
 const EASE = 'expo.out';
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-/**
- * Interaktívny kontaktný formulár:
- * - polia rastú s textom (vetný formulár)
- * - validácia s „zatrasením“ chybného poľa
- * - odoslanie cez Web3Forms (fetch), bez kľúča fallback na mailto
- * - animovaný stav odosielania a poďakovania
- */
+/** Kontaktný formulár: validácia, odoslanie cez Web3Forms, poďakovanie. */
 export function setupContact(scrollTo: ScrollFn, reduceMotion: boolean) {
   const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
   const success = document.querySelector<HTMLElement>('[data-form-success]');
@@ -23,7 +17,7 @@ export function setupContact(scrollTo: ScrollFn, reduceMotion: boolean) {
   const submitText = label.textContent ?? '';
   const d = form.dataset;
 
-  /* ── Auto-grow ── */
+  // Polia rastú s textom
   form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('.grow > input, .grow > textarea').forEach((field) => {
     const wrap = field.parentElement as HTMLElement;
     const sync = () => (wrap.dataset.grow = field.value || field.placeholder);
@@ -34,7 +28,7 @@ export function setupContact(scrollTo: ScrollFn, reduceMotion: boolean) {
     sync();
   });
 
-  /* ── Chips: malé „pop“ pri označení ── */
+  // Animácia pri označení služby
   form.querySelectorAll<HTMLInputElement>('.chip input').forEach((input) => {
     input.addEventListener('change', () => {
       if (reduceMotion || !input.checked) return;
@@ -42,7 +36,7 @@ export function setupContact(scrollTo: ScrollFn, reduceMotion: boolean) {
     });
   });
 
-  /* ── Tlačidlá „Mám záujem“ v službách → predvyplnenie ── */
+  // „Mám záujem“ predvyplní službu
   document.querySelectorAll<HTMLElement>('[data-prefill-service]').forEach((btn) => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -56,7 +50,7 @@ export function setupContact(scrollTo: ScrollFn, reduceMotion: boolean) {
     });
   });
 
-  /* ── Validácia ── */
+  // Validácia
   function isValid(field: HTMLInputElement | HTMLTextAreaElement) {
     const v = field.value.trim();
     if (field.name === 'email') return EMAIL_RE.test(v);
@@ -91,13 +85,13 @@ export function setupContact(scrollTo: ScrollFn, reduceMotion: boolean) {
     return false;
   }
 
-  /* ── Odoslanie ── */
+  // Odoslanie
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (form.dataset.state === 'sending' || !validate()) return;
 
     const data = new FormData(form);
-    if (data.get('botcheck')) return; // spam bot
+    if (data.get('botcheck')) return;
 
     const name = String(data.get('name') ?? '').trim();
     const payload: Record<string, string> = {};
@@ -107,7 +101,7 @@ export function setupContact(scrollTo: ScrollFn, reduceMotion: boolean) {
     });
     payload.subject = `${d.subject}: ${name}`;
 
-    // Bez nastaveného kľúča: otvor e-mailového klienta s pripravenou správou
+    // Bez kľúča: mailto
     if (!d.endpoint) {
       const body = [
         payload.message,
@@ -144,7 +138,7 @@ export function setupContact(scrollTo: ScrollFn, reduceMotion: boolean) {
     }
   });
 
-  /* ── Poďakovanie ── */
+  // Poďakovanie
   function showSuccess(name: string) {
     const title = success!.querySelector<HTMLElement>('[data-success-title]')!;
     title.textContent = (title.dataset.template ?? '').replace('{name}', name.split(' ')[0]);
@@ -154,7 +148,6 @@ export function setupContact(scrollTo: ScrollFn, reduceMotion: boolean) {
       form!.dataset.state = 'sent';
       success!.hidden = false;
       success!.focus({ preventScroll: true });
-      // Posuň stránku k poďakovaniu (inak by ostala na mieste tlačidla, kde je teraz prázdno)
       scrollTo(success!, -120);
       ScrollTrigger.refresh();
       if (reduceMotion) return;
@@ -177,7 +170,7 @@ export function setupContact(scrollTo: ScrollFn, reduceMotion: boolean) {
     gsap.to(form, { autoAlpha: 0, y: -30, duration: 0.5, ease: 'power2.in', onComplete: reveal });
   }
 
-  /* ── Napísať ďalšiu ── */
+  // Napísať ďalšiu správu
   success.querySelector('[data-form-reset]')?.addEventListener('click', () => {
     form.reset();
     form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('.grow > input, .grow > textarea').forEach((f) =>

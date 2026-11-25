@@ -2,7 +2,7 @@ export const langs = ['sk', 'en'] as const;
 export type Lang = (typeof langs)[number];
 export const defaultLang: Lang = 'sk';
 
-/** Názov sekcie s projektmi v URL pre každý jazyk */
+/** URL sekcie projektov */
 const workSegment: Record<Lang, string> = { sk: 'projekty', en: 'work' };
 
 const prefix = (lang: Lang) => (lang === defaultLang ? '' : `/${lang}`);

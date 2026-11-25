@@ -21,7 +21,7 @@ const DESKTOP = '(min-width: 901px) and (prefers-reduced-motion: no-preference)'
 let lenis: Lenis | null = null;
 let intro: gsap.core.Timeline | null = null;
 
-/* ───────────────────────── Boot ───────────────────────── */
+/* Spustenie */
 
 export async function boot() {
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
@@ -61,7 +61,7 @@ export async function boot() {
   window.addEventListener('load', () => ScrollTrigger.refresh());
 }
 
-/* ───────────────────────── Smooth scroll ───────────────────────── */
+/* Plynulý scroll */
 
 function setupLenis() {
   lenis = new Lenis({ lerp: 0.12, wheelMultiplier: 1, smoothWheel: true });
@@ -83,7 +83,7 @@ function scrollToHash(immediate = false) {
   if (el) requestAnimationFrame(() => scrollTo(el, immediate));
 }
 
-/* ───────────────────────── Page enter / leave ───────────────────────── */
+/* Príchod a odchod zo stránky */
 
 async function enterPage() {
   try {
@@ -126,11 +126,10 @@ function runPreloader(): Promise<void> {
   const inner = qs('[data-preloader-inner]', pre ?? document);
   if (!pre || !logo || !inner) return Promise.resolve();
   const words = qsa('[data-preloader-word]', pre);
-  gsap.set(words, { y: 0, yPercent: 115 }); // y: 0 zruší posun z CSS, ktorý GSAP načíta v pixeloch
+  gsap.set(words, { y: 0, yPercent: 115 });
   lenis?.stop();
 
   const paths = qsa<HTMLElement>('path', logo) as unknown as SVGPathElement[];
-  // Presná dĺžka každej časti loga, aby sa obrys kreslil od začiatku po koniec
   paths.forEach((p) => {
     const len = p.getTotalLength();
     gsap.set(p, { strokeDasharray: len, strokeDashoffset: len });
@@ -142,7 +141,7 @@ function runPreloader(): Promise<void> {
     lenis?.start();
   };
 
-  // Opakovaná návšteva v relácii: skrátený reveal (~1 s), logo a meno sa iba objavia
+  // Skrátený reveal pri opakovanej návšteve
   if (root.classList.contains('reveal-quick')) {
     gsap.set(paths, { strokeOpacity: 0 });
     return new Promise((resolve) => {
@@ -160,14 +159,14 @@ function runPreloader(): Promise<void> {
   return new Promise((resolve) => {
     const tl = gsap.timeline({ onComplete: done });
     tl.fromTo(logo, { scale: 0.9 }, { scale: 1, duration: 1.6, ease: 'power2.out' }, 0)
-      // 1. obrys sa nakreslí (každá časť loga postupne)
+      // Kreslenie obrysu
       .to(paths, { strokeDashoffset: 0, duration: 0.95, stagger: 0.14, ease: 'power2.inOut' }, 0.1)
-      // 2. logo sa vyplní a obrys zmizne
+      // Výplň loga
       .to(paths, { fillOpacity: 1, duration: 0.45, stagger: 0.08, ease: 'power1.out' }, '-=0.3')
       .to(paths, { strokeOpacity: 0, duration: 0.4 }, '<0.15')
-      // 3. pod logom vyjde meno
+      // Meno
       .to(words, { yPercent: 0, duration: 0.8, stagger: 0.1, ease: EASE }, '-=0.15')
-      // 4. logo s menom odídu nahor a obrazovka sa odhalí
+      // Odhalenie stránky
       .to(inner, { yPercent: -18, autoAlpha: 0, duration: 0.45, ease: 'power2.in' }, '+=0.35')
       .to(pre, { clipPath: 'inset(0% 0% 100% 0%)', duration: 0.9, ease: 'expo.inOut' }, '-=0.15')
       .call(resolve, [], '-=0.55');
@@ -205,7 +204,7 @@ function setupNavigation() {
     const url = new URL(a.href, location.href);
     if (url.origin !== location.origin) return;
 
-    // Kotva na tej istej stránke → plynulý scroll
+    // Kotva na tej istej stránke
     if (url.pathname === location.pathname && url.hash) {
       const el = document.getElementById(decodeURIComponent(url.hash.slice(1)));
       if (el) {
@@ -225,7 +224,7 @@ function setupNavigation() {
     leaveTo(url.href);
   });
 
-  // Návrat cez tlačidlo späť (bfcache): odkry stránku
+  // Návrat cez tlačidlo späť
   window.addEventListener('pageshow', (e) => {
     if (!e.persisted) return;
     const curtain = qs('[data-curtain]');
@@ -237,7 +236,7 @@ function setupNavigation() {
   qsa('[data-scroll-top]').forEach((btn) => btn.addEventListener('click', () => scrollTo(0)));
 }
 
-/* ───────────────────────── Header & menu ───────────────────────── */
+/* Hlavička a menu */
 
 function setupHeader() {
   const header = qs('[data-header]');
@@ -290,7 +289,7 @@ function setupMenu() {
   matchMedia('(min-width: 901px)').addEventListener('change', (e) => e.matches && open && set(false));
 }
 
-/* ───────────────────────── Theme ───────────────────────── */
+/* Téma */
 
 function setupTheme() {
   const btn = qs('[data-theme-toggle]');
@@ -314,7 +313,7 @@ function setupTheme() {
     meta?.setAttribute('content', getComputedStyle(root).getPropertyValue('--bg').trim() || '#000000');
   };
 
-  /** Ručná voľba sa uloží; ak sa zhoduje so systémom, zmaže sa a téma znova sleduje systém. */
+  /** Uloží ručnú voľbu témy */
   const choose = (theme: Theme) => {
     apply(theme);
     try {
@@ -325,7 +324,7 @@ function setupTheme() {
 
   apply(root.dataset.theme === 'light' ? 'light' : 'dark');
 
-  // Keď sa zmení systémové nastavenie a používateľ nemá vlastnú voľbu, prispôsob sa
+  // Zmena systémovej témy
   systemQuery.addEventListener('change', () => {
     if (!savedTheme()) apply(systemTheme());
   });
@@ -351,7 +350,7 @@ function setupTheme() {
   });
 }
 
-/* ───────────────────────── Small UI ───────────────────────── */
+/* Drobné prvky UI */
 
 function setupCopy() {
   qsa('[data-copy]').forEach((btn) => {
@@ -400,7 +399,7 @@ function setupCursor() {
     cursor.classList.toggle('has-label', !!text);
     labelEl.classList.toggle('has-label', !!text);
     cursor.classList.toggle('is-hover', !!target && !text);
-    // Plochy vo farbe značky: kontakt, tlačidlá s výplňou, „Všetky projekty“, karta služieb
+    // Plochy vo farbe značky
     const onBrand = !!(e.target as Element | null)?.closest(
       '[data-footer-panel], .work__more, .btn, .to-top, .card--brand',
     );
@@ -443,7 +442,7 @@ function setupHeroPointer() {
   );
 }
 
-/* ───────────────────────── Work index ───────────────────────── */
+/* Zoznam projektov */
 
 function setupIndexFilter() {
   const list = qs('[data-index-list]');
@@ -513,7 +512,7 @@ function setupIndexPreview() {
   });
 }
 
-/* ───────────────────────── Intro (on page enter) ───────────────────────── */
+/* Úvodná animácia stránky */
 
 function prepareIntro() {
   intro = gsap.timeline({ paused: true, defaults: { ease: EASE } });
@@ -536,7 +535,7 @@ function prepareIntro() {
   if (items.length) intro.from(items, { y: 24, autoAlpha: 0, duration: 1.2, stagger: 0.07 }, 0.4);
 }
 
-/* ───────────────────────── Scroll animations ───────────────────────── */
+/* Animácie pri scrolle */
 
 function setupScrollAnimations() {
   heroScroll();
@@ -559,7 +558,7 @@ function heroScroll() {
   const blobs = qsa('[data-blob]', hero);
   const mm = gsap.matchMedia();
 
-  // Desktop: meno sa pri scrolle zužuje (mení sa šírka písma)
+  // Desktop
   mm.add(DESKTOP, () => {
     const tl = gsap.timeline({
       defaults: { ease: 'none' },
@@ -572,7 +571,7 @@ function heroScroll() {
     tl.to(blobs, { yPercent: (i) => -50 - i * 40 }, 0);
   });
 
-  // Mobil: iba posuny (transform), žiadne prepočítavanie textu
+  // Mobil
   mm.add('(max-width: 900px) and (prefers-reduced-motion: no-preference)', () => {
     const tl = gsap.timeline({
       defaults: { ease: 'none' },
@@ -584,7 +583,7 @@ function heroScroll() {
   });
 }
 
-/** Jemný posun prvkov s data-parallax="yPercent" pri scrolle (iba transform). */
+/** Parallax pre [data-parallax] */
 function parallax() {
   qsa('[data-parallax]').forEach((el) => {
     const amount = Number(el.dataset.parallax) || -20;
@@ -633,7 +632,6 @@ function scrubWords() {
   });
 }
 
-/* Odhalenia menia iba priehľadnosť (nie visibility), aby prvky ostali dostupné z klávesnice */
 function reveals() {
   ScrollTrigger.batch('[data-reveal]', {
     start: 'top 90%',
@@ -782,7 +780,7 @@ function projectCover() {
     });
   });
 
-  // Mobil: jednorazové odhalenie bez prekresľovania pri každom pohybe
+  // Mobil
   mm.add('(max-width: 900px) and (prefers-reduced-motion: no-preference)', () => {
     [frame, ...qsa('.prose img')].forEach((el) =>
       gsap.from(el, {

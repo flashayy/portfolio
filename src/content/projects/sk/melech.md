@@ -24,8 +24,3 @@ Pôvodný web už nezodpovedal kvalite práce, ktorú firma odvádza. Cieľom bo
 ## Riešenie
 
 Web som navrhol nanovo s dôrazom na čistý vizuál, výraznú typografiu a veľké fotografie realizácií. Obsah je rozdelený do prehľadných sekcií (služby, remeslo a dizajn, realizácie, o nás) a výzva na nezáväznú konzultáciu je vždy po ruke. Web beží na WordPresse, takže sa jeho obsah dá jednoducho aktualizovať.
-
-<!--
-Ďalšie obrázky vlož do src/assets/projects/melech/ a sem ako:
-![Popis obrázka](../../../assets/projects/melech/nazov.jpg)
--->

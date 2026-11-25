@@ -86,7 +86,6 @@ const year = new Date().getFullYear();
   .footer__panel {
     background: var(--brand);
     color: var(--ink);
-    /* Na farebnej ploche musí byť aj „tlmený“ text plne tmavý, inak nesplní kontrast 4.5:1 */
     --muted: var(--ink);
     --faint: color-mix(in srgb, var(--ink) 18%, transparent);
     --accent-fg: var(--ink);
@@ -154,7 +153,6 @@ const year = new Date().getFullYear();
     display: inline-flex;
     align-items: center;
     gap: 0.4em;
-    /* E-mail vždy v jednom riadku, veľkosť sa prispôsobí šírke stĺpca */
     font-size: clamp(1rem, 1.45vw, 1.5rem);
     font-weight: 700;
     letter-spacing: -0.02em;
@@ -212,7 +210,7 @@ const year = new Date().getFullYear();
   .footer__bottom {
     margin-top: auto;
     padding-top: 1.5rem;
-    padding-right: 68px; /* miesto pre plávajúce tlačidlo späť hore */
+    padding-right: 68px;
     border-top: 1px solid var(--faint);
     display: flex;
     flex-wrap: wrap;

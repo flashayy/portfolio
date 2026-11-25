@@ -24,8 +24,3 @@ The original website no longer reflected the quality of the company's work. The 
 ## The approach
 
 I redesigned the site from the ground up with a focus on clean visuals, bold typography and large photos of finished projects. The content is organised into clear sections (services, craft and design, projects, about) and the call to book a free consultation is always within reach. The site runs on WordPress, so its content is easy to keep up to date.
-
-<!--
-Add more images to src/assets/projects/melech/ and reference them here:
-![Image description](../../../assets/projects/melech/name.jpg)
--->

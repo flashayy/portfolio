@@ -46,7 +46,7 @@ const c = t(lang);
     pointer-events: none;
     mix-blend-mode: var(--glow-blend);
   }
-  /* Mäkký okraj cez masku namiesto filter: blur(), ktorý je na mobile veľmi náročný */
+  /* Žiara */
   .hero__blob {
     position: absolute;
     border-radius: 50%;
@@ -146,7 +146,7 @@ const c = t(lang);
       left: -45vw;
       bottom: -30vw;
     }
-    /* Na mobile bez neustáleho pohybu žiary, šetrí batériu aj výkon */
+    /* Mobil: žiara bez pohybu */
     .hero__blob {
       animation: none !important;
     }

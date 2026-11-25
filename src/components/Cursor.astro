@@ -1,9 +1,4 @@
-<!--
-  Kurzor má dve samostatné vrstvy:
-  - bodka invertuje farbu pod sebou (mix-blend-mode na celej vrstve),
-    takže na bielej je čierna a na čiernej biela
-  - štítok (napr. „Pozrieť“) má vlastnú farbu a neinvertuje sa
--->
+<!-- Kurzor: invertujúca bodka a štítok -->
 <div class="cursor" data-cursor-el aria-hidden="true">
   <div class="cursor__dot"></div>
 </div>
@@ -28,8 +23,7 @@
   .cursor {
     mix-blend-mode: difference;
   }
-  /* Na plochách vo farbe značky (napr. magenta) by inverzia dala inú farbu,
-     preto tam má bodka farbu pozadia stránky */
+  /* Bodka na ploche vo farbe značky */
   .cursor.on-brand {
     mix-blend-mode: normal;
   }

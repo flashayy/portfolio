@@ -1,9 +1,6 @@
 import type { Lang } from '../i18n/utils';
 
-/**
- * Všetky texty webu v oboch jazykoch.
- * Upravuj voľne, len štruktúra musí ostať rovnaká pre `sk` aj `en`.
- */
+/** Texty webu (SK a EN) */
 const sk = {
   meta: {
     title: 'Web developer & grafický dizajnér',

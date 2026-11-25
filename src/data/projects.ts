@@ -3,7 +3,7 @@ import type { Lang } from '../i18n/utils';
 
 export type Project = CollectionEntry<'projects'> & { slug: string };
 
-/** Projekty v danom jazyku, zoradené podľa `order`, potom podľa roku. */
+/** Projekty jazyka, zoradené podľa poradia a roku. */
 export async function getProjects(lang: Lang): Promise<Project[]> {
   const entries = await getCollection(
     'projects',

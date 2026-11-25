@@ -1,13 +1,7 @@
 ---
-/**
- * Farebná žiara na pozadí sekcie (farby z aktívnej palety, light aj dark režim).
- * Rodič musí mať `position: relative`, obsah sekcie tiež, aby bol nad žiarou.
- *
- * - mäkký okraj cez masku (nie filter: blur, ten je na mobile náročný)
- * - pri scrolle sa jemne posúva cez transform (data-parallax)
- */
+/** Farebná žiara na pozadí sekcie (rodič: position: relative) */
 interface Props {
-  /** Rozloženie žiary: `head` vpravo hore, `body` po stranách textu, `soft` jemná v strede */
+  /** Rozloženie žiary */
   variant: 'head' | 'body' | 'soft';
   parallax?: boolean;
 }
@@ -41,7 +35,7 @@ const { variant, parallax = true } = Astro.props;
     opacity: var(--glow-second-opacity, var(--glow-opacity));
   }
 
-  /* Hlavička: fialová vpravo hore, zelená vľavo pod nadpisom */
+  /* Hlavička */
   .glow--head .glow__blob--main {
     width: 62vw;
     height: 62vw;
@@ -55,7 +49,7 @@ const { variant, parallax = true } = Astro.props;
     top: 52%;
   }
 
-  /* Text projektu: žiara po stranách, aby nebola priamo pod textom */
+  /* Text projektu */
   .glow--body .glow__blob--main {
     width: 52vw;
     height: 52vw;
@@ -69,7 +63,7 @@ const { variant, parallax = true } = Astro.props;
     top: 34%;
   }
 
-  /* Jemná žiara (napr. odkaz na ďalší projekt) */
+  /* Jemná žiara */
   .glow--soft {
     opacity: 0.7;
   }
@@ -87,7 +81,7 @@ const { variant, parallax = true } = Astro.props;
     bottom: -14vw;
   }
 
-  /* Mobil: väčšie žiary pri okrajoch, pod textom slabšie */
+  /* Mobil */
   @media (max-width: 900px) {
     .glow--head .glow__blob--main {
       width: 130vw;

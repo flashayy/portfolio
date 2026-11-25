@@ -1,24 +1,11 @@
-/*
- * Farebné palety. Aktívnu vyberieš v src/data/site.ts → `palette`.
- *
- * Každá paleta musí nastaviť rovnaké tokeny:
- *   --ink         najtmavšia farba (pozadie v tmavom režime, text vo svetlom)
- *   --paper       najsvetlejšia farba (text v tmavom režime, pozadie vo svetlom)
- *   --brand       hlavná plocha (pätička, karta, opona, kurzor), text na nej je --ink
- *   --brand-deep  tmavý akcent (hover tlačidla, chybová hláška), text na nej je --paper
- *   --neutral     neutrálna karta v službách, text na nej je --paper
- * a pre každý režim zvlášť:
- *   --muted, --surface, --accent-fg, --accent-2-fg, --glow-*
- *   (--glow-main-opacity / --glow-second-opacity sú voliteľné, inak platí --glow-opacity)
- *   --gradient, --gradient-blend, --gradient-base, --on-gradient  (tretia karta v službách)
- */
+/* Farebné palety (výber: palette v site.ts) */
 
-/* ───────────────────────── Oranžová ───────────────────────── */
+/* Oranžová */
 [data-palette='orange'] {
   --ink: #000000;
   --paper: #f9f9f9;
-  --brand: #e85002; /* Branding Orange, čierny text 5.6:1 */
-  --brand-deep: #c10801; /* červená, biely text 6:1 */
+  --brand: #e85002;
+  --brand-deep: #c10801;
   --neutral: #333333;
   --gradient: linear-gradient(20deg, #000000 0%, #c10801 42%, #f16001 72%, #d9c3ab 100%);
   --gradient-blend: normal;
@@ -28,7 +15,7 @@
   /* tmavý režim */
   --muted: #a7a7a7;
   --surface: #121212;
-  --accent-fg: #f16001; /* 6.4:1 na čiernej */
+  --accent-fg: #f16001;
   --accent-2-fg: #d9c3ab;
   --glow-main: radial-gradient(circle at 38% 34%, #d9c3ab 0%, #f16001 28%, #e85002 48%, #c10801 78%);
   --glow-second: #c10801;
@@ -38,7 +25,7 @@
 [data-palette='orange'][data-theme='light'] {
   --muted: #646464;
   --surface: #ededed;
-  --accent-fg: #c24000; /* 4.95:1 na bielej */
+  --accent-fg: #c24000;
   --accent-2-fg: #c10801;
   --glow-main: radial-gradient(circle at 40% 36%, #f16001 0%, #e85002 34%, #c10801 72%);
   --glow-second: radial-gradient(circle, #e85002 0%, #c10801 70%);
@@ -46,16 +33,15 @@
   --glow-blend: multiply;
 }
 
-/* ───────────────────────── Fialová + limetková ───────────────────────── */
+/* Fialová a limetková */
 [data-palette='violet'] {
   --ink: #000000;
   --paper: #f5f5f5;
-  --brand: #c6ff34; /* limetková, čierny text 17.8:1 */
-  --brand-deep: #7f3aed; /* fialová, biely text 5.2:1 */
-  --neutral: #7f3aed; /* fialová karta v službách */
+  --brand: #c6ff34;
+  --brand-deep: #7f3aed;
+  --neutral: #7f3aed;
 
-  /* Tretia karta, tmavý režim: farby sa sčítavajú ako svetlo (screen),
-     takže prekrytie limetkovej a fialovej sa rozžiari namiesto sivej. */
+  /* Tretia karta služieb */
   --gradient:
     radial-gradient(42% 58% at 96% 6%, rgb(198 255 52 / 0.95) 0%, rgb(198 255 52 / 0.45) 30%, rgb(198 255 52 / 0) 70%),
     radial-gradient(70% 95% at 78% 100%, rgb(155 107 255 / 0.95) 0%, rgb(127 58 237 / 0.75) 32%, rgb(91 33 196 / 0.3) 62%, rgb(59 17 128 / 0) 88%),
@@ -66,29 +52,28 @@
   --on-gradient: #f5f5f5;
 
   /* tmavý režim */
-  --muted: #a3a3a3; /* 8.3:1 */
+  --muted: #a3a3a3;
   --surface: #111111;
-  --accent-fg: #c6ff34; /* 17.8:1 */
-  --accent-2-fg: #a77bf3; /* zosvetlená fialová, 6.8:1 */
+  --accent-fg: #c6ff34;
+  --accent-2-fg: #a77bf3;
   --glow-main: radial-gradient(circle at 40% 35%, #b18cf5 0%, #7f3aed 40%, #3b1180 80%);
   --glow-second: radial-gradient(circle, rgb(198 255 52 / 0.5) 0%, rgb(198 255 52 / 0) 70%);
   --glow-opacity: 0.7;
   --glow-blend: normal;
 }
 [data-palette='violet'][data-theme='light'] {
-  --muted: #5c5c5c; /* 6.1:1 */
+  --muted: #5c5c5c;
   --surface: #ebebeb;
-  --accent-fg: #7f3aed; /* 5.2:1 na bielej */
-  --accent-2-fg: #4e6b00; /* tmavá limetková, 5.6:1 */
+  --accent-fg: #7f3aed;
+  --accent-2-fg: #4e6b00;
   --glow-main: radial-gradient(circle at 40% 35%, #b18cf5 0%, #7f3aed 45%, #5b21c4 80%);
-  /* Zelená je vo svetlom režime sýtejšia a má plné krytie, fialová ostáva jemnejšia */
+  /* Žiara */
   --glow-second: radial-gradient(circle, #b4f01c 0%, rgb(180 240 28 / 0.85) 38%, rgb(198 255 52 / 0) 72%);
   --glow-main-opacity: 0.6;
   --glow-second-opacity: 1;
   --glow-blend: multiply;
 
-  /* Tretia karta, svetlý režim: svetlá fialová s tmavým textom,
-     limetková a fialová sú od seba oddelené, aby sa nemiešali do sivej. */
+  /* Tretia karta služieb */
   --gradient:
     radial-gradient(44% 60% at 97% 4%, rgb(198 255 52 / 1) 0%, rgb(198 255 52 / 0.6) 34%, rgb(198 255 52 / 0) 74%),
     radial-gradient(75% 100% at 74% 108%, rgb(127 58 237 / 0.95) 0%, rgb(155 107 255 / 0.55) 38%, rgb(177 140 245 / 0) 80%),
@@ -98,41 +83,41 @@
   --on-gradient: #000000;
 }
 
-/* ───────────────────────── Magenta + charcoal (čistá, bez gradientov) ───────────────────────── */
+/* Magenta a charcoal */
 [data-palette='magenta'] {
-  --ink: #1a1a1a; /* Charcoal */
+  --ink: #1a1a1a;
   --paper: #f5f5f5;
-  --brand: #ff007f; /* Magenta, tmavý text 4.6:1 */
-  --brand-deep: #c70063; /* tmavšia magenta, biely text 5.3:1 */
+  --brand: #ff007f;
+  --brand-deep: #c70063;
   --neutral: #2a2a2a;
 
   /* tmavý režim */
-  --muted: #a3a3a3; /* 6.9:1 */
+  --muted: #a3a3a3;
   --surface: #222222;
-  --accent-fg: #ff4da6; /* zosvetlená magenta, 5.7:1 */
+  --accent-fg: #ff4da6;
   --accent-2-fg: #ff99cc;
   --glow-main: none;
   --glow-second: none;
   --glow-opacity: 0;
   --glow-blend: normal;
 
-  /* Tretia karta v službách: plná svetlá plocha namiesto gradientu */
+  /* Tretia karta služieb */
   --gradient: #f5f5f5;
   --gradient-blend: normal;
   --gradient-base: #f5f5f5;
   --on-gradient: #1a1a1a;
 }
 [data-palette='magenta'][data-theme='light'] {
-  --muted: #5c5c5c; /* 6.1:1 */
+  --muted: #5c5c5c;
   --surface: #ebebeb;
-  --accent-fg: #c70063; /* 5.3:1 na bielej */
+  --accent-fg: #c70063;
   --accent-2-fg: #b8005b;
   --neutral: #2a2a2a;
   --gradient: #1a1a1a;
   --gradient-base: #1a1a1a;
   --on-gradient: #f5f5f5;
 }
-/* Čistý vzhľad: bez farebných žiar na pozadí */
+/* Bez žiar na pozadí */
 [data-palette='magenta'] .hero__glow,
 [data-palette='magenta'] .about__glow,
 [data-palette='magenta'] .glow {

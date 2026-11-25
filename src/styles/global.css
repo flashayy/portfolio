@@ -1,8 +1,7 @@
 @import '@fontsource-variable/archivo/wdth.css';
 @import './palettes.css';
 
-/* ───────────────────────── Tokens ───────────────────────── */
-/* Farby sú v palettes.css, tu je len rozloženie a typografia. */
+/* Tokeny (farby sú v palettes.css) */
 :root {
   --font-sans: 'Archivo Variable', ui-sans-serif, system-ui, sans-serif;
 
@@ -40,7 +39,7 @@
   color-scheme: light;
 }
 
-/* ───────────────────────── Reset ───────────────────────── */
+/* Reset */
 *,
 *::before,
 *::after {
@@ -113,7 +112,7 @@ ul {
   border-radius: 4px;
 }
 
-/* ───────────────────────── Utilities ───────────────────────── */
+/* Pomocné triedy */
 .container {
   width: 100%;
   max-width: var(--max);
@@ -197,7 +196,7 @@ ul {
   }
 }
 
-/* Link with sliding underline */
+/* Odkaz s podčiarknutím */
 .link {
   position: relative;
   display: inline-block;
@@ -220,7 +219,7 @@ ul {
   transform-origin: left;
 }
 
-/* Rolling text on hover (two stacked copies) */
+/* Rolujúci text pri hoveri */
 .roll {
   display: inline-flex;
   overflow: hidden;
@@ -245,7 +244,7 @@ ul {
   transform: translateY(0);
 }
 
-/* Pill button */
+/* Tlačidlo */
 .btn {
   --btn-bg: var(--fg);
   --btn-fg: var(--bg);
@@ -284,7 +283,7 @@ ul {
   box-shadow: inset 0 0 0 1px var(--faint);
 }
 
-/* Split text masks: extra room so diacritics (Ú, Ž, Ď) and descenders aren't clipped */
+/* Masky rozdeleného textu */
 .split-line-mask {
   padding-block: 0.16em 0.1em;
   margin-block: -0.16em -0.1em;
@@ -294,7 +293,7 @@ ul {
   margin: -0.16em -0.06em -0.06em;
 }
 
-/* ───────────────────────── Grain ───────────────────────── */
+/* Zrnitý šum */
 .grain {
   position: fixed;
   inset: -50%;
@@ -307,7 +306,7 @@ ul {
 [data-theme='light'] .grain {
   opacity: 0.05;
 }
-/* Na dotykových zariadeniach statický šum (pohyblivá vrstva cez celú obrazovku sekala) */
+/* Dotykové zariadenia: statický šum */
 @media (hover: none), (pointer: coarse) {
   .grain {
     inset: 0;
@@ -323,7 +322,7 @@ ul {
   100% { transform: translate(0, 0); }
 }
 
-/* ───────────────────────── Motion preferences ───────────────────────── */
+/* Obmedzené animácie */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -334,24 +333,24 @@ ul {
   }
 }
 
-/* Elements animated by JS start hidden only when JS is running */
+/* Prvky odhaľované cez JS */
 .js [data-reveal] {
   opacity: 0;
 }
 
-/* Intro elements wait for JS (prevents flash before the reveal) */
+/* Prvky úvodnej animácie */
 .js [data-intro],
 .js [data-hero-row],
 .js [data-intro-title] {
   visibility: hidden;
 }
 
-/* Custom cursor: hide native cursor where the label replaces it */
+/* Kurzor */
 .has-cursor [data-cursor] {
   cursor: none;
 }
 
-/* Theme switch: circular reveal via View Transitions */
+/* Prepnutie témy */
 .theme-vt *,
 .theme-vt *::before,
 .theme-vt *::after {
