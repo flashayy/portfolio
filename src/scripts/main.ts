@@ -527,7 +527,7 @@ function prepareIntro() {
 
   const title = qs('[data-intro-title]');
   if (title) {
-    const split = new SplitText(title, { type: 'lines,chars', mask: 'lines', linesClass: 'split-line' });
+    const split = new SplitText(title, { type: 'lines,words,chars', mask: 'lines', linesClass: 'split-line' });
     gsap.set(title, { autoAlpha: 1 });
     intro.from(split.chars, { yPercent: 160, duration: 1.3, stagger: 0.025 }, 0);
   }
