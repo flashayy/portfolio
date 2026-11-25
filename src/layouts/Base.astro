@@ -18,15 +18,20 @@ interface Props {
   isHome?: boolean;
   /** Logo reveal */
   preloader?: boolean;
+  /** Obrázok náhľadu pri zdieľaní (1200 × 630) */
+  image?: string;
+  imageAlt?: string;
 }
 
-const { lang, alternate, title, description, isHome = false, preloader = true } = Astro.props;
+const { lang, alternate, title, description, isHome = false, preloader = true, image, imageAlt } = Astro.props;
 const c = t(lang);
 const pageTitle = title ? `${title} | ${fullName}` : `${fullName} | ${c.meta.title}`;
 const desc = description ?? c.meta.description;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const themeColor = { orange: '#000000', violet: '#000000', magenta: '#1A1A1A' };
 const altUrl = new URL(alternate, Astro.site);
+const ogImage = new URL(image ?? `/og-${lang}.png`, Astro.site);
+const ogAlt = imageAlt ?? `${fullName}, ${c.meta.title}`;
 ---
 
 <!doctype html>
@@ -47,6 +52,15 @@ const altUrl = new URL(alternate, Astro.site);
     <meta property="og:description" content={desc} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content={lang === 'sk' ? 'sk_SK' : 'en_US'} />
+    <meta property="og:site_name" content={fullName} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={desc} />
+    <meta name="twitter:image" content={ogImage} />
 
     <script is:inline define:vars={{ preloader }}>
       (() => {

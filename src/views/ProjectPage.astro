@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import { render } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Glow from '../components/Glow.astro';
@@ -16,6 +16,8 @@ const { lang, project, next } = Astro.props;
 const c = t(lang);
 const d = project.data;
 const { Content } = await render(project);
+// Náhľad pri zdieľaní: mockup projektu
+const ogImage = await getImage({ src: d.cover, width: 1200, height: 630, fit: 'cover', format: 'jpg', quality: 82 });
 
 const other = otherLang(lang);
 const translated = (await getProjects(other)).some((p) => p.slug === project.slug);
@@ -29,7 +31,7 @@ const meta = [
 ].filter(Boolean) as { label: string; value: string }[];
 ---
 
-<Base lang={lang} alternate={alternate} title={d.title} description={d.summary}>
+<Base lang={lang} alternate={alternate} title={d.title} description={d.summary} image={ogImage.src} imageAlt={d.coverAlt}>
   <article class:list={['project', `project--${d.accent}`]}>
     <div class="project__zone">
     <Glow variant="head" />
